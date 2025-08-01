@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="acik">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Üye Ol</title>
+  <link rel="stylesheet" href="/static/fontawesome-free-6.4.0-web/css/all.min.css">
+  <!-- Tema CSS'leri -->
+  <link rel="stylesheet" href="/static/css/themes/light.css">
+  <link rel="stylesheet" href="/static/css/themes/dark.css">
+  <link rel="stylesheet" href="/static/css/themes/dawn.css">
+  <link rel="stylesheet" href="/static/css/themes/blue.css">
+  <link rel="stylesheet" href="/static/css/themes/pink.css">
+  <link rel="stylesheet" href="/static/css/themes/sky.css">
+  <!-- Register CSS'i -->
+  <link rel="stylesheet" href="/static/css/register.css">
+</head>
+<body>
+  <div class="register-container">
+    <div class="register-panel">
+      <h2 class="register-title">Üye Ol</h2>
+      
+      <!-- Hata ve Başarı Mesajları -->
+      {% if error %}
+      <div class="error-message">{{ error }}</div>
+      {% endif %}
+      {% if success %}
+      <div class="success-message">{{ success }}</div>
+      {% endif %}
+      
+      <form id="registerForm" method="POST" action="/auth/register" autocomplete="off">
+        <div class="form-row">
+          <div class="input-group">
+            <label for="firstName">Ad</label>
+            <input type="text" id="firstName" name="first_name" placeholder="Adınız" required>
+          </div>
+          <div class="input-group">
+            <label for="lastName">Soyad</label>
+            <input type="text" id="lastName" name="last_name" placeholder="Soyadınız" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="input-group">
+            <label for="phone">Telefon (isteğe bağlı)</label>
+            <input type="tel" id="phone" name="phone" placeholder="05xx xxx xx xx">
+          </div>
+          <div class="input-group">
+            <label for="birthDate">Doğum Tarihi</label>
+            <input type="date" id="birthDate" name="birth_date" required>
+          </div>
+        </div>
+        <div class="input-group">
+          <label for="email">E-posta</label>
+          <input type="email" id="email" name="email" placeholder="E-posta adresiniz" required>
+        </div>
+        <div class="form-row">
+          <div class="input-group password-group">
+            <label for="password">Şifre</label>
+            <input type="password" id="password" name="password" placeholder="Şifrenizi girin" required>
+            <i class="fa-solid fa-lock toggle-password" id="togglePassword" data-target="password"></i>
+          </div>
+          <div class="input-group password-group">
+            <label for="confirmPassword">Şifre Tekrar</label>
+            <input type="password" id="confirmPassword" name="confirm_password" placeholder="Şifrenizi tekrar girin" required>
+            <i class="fa-solid fa-lock toggle-password" id="toggleConfirmPassword" data-target="confirmPassword"></i>
+          </div>
+        </div>
+        
+        <!-- Captcha -->
+        <div class="input-group">
+          <label for="captcha">Güvenlik Sorusu</label>
+          <div class="captcha-container">
+            <span class="captcha-question">{{ captcha_question or "5 + 3 = ?" }}</span>
+            <input type="text" id="captcha" name="captcha_answer" placeholder="Cevabınızı girin" required>
+          </div>
+        </div>
+        
+        <div class="checkbox-group">
+          <div class="input-group">
+            <input type="checkbox" id="kvkkPolicy" name="kvkk_accepted" class="required-check" required>
+            <label for="kvkkPolicy">
+              <a href="#" class="policy-link" data-policy="kvkk">KVKK ve Gizlilik Politikası</a>'nı okudum ve kabul ediyorum.
+            </label>
+          </div>
+          <div class="input-group">
+            <input type="checkbox" id="deviceConsentPolicy" name="uyelik_accepted" class="required-check" required>
+            <label for="deviceConsentPolicy">
+              <a href="#" class="policy-link" data-policy="terms">Üyelik ve Kullanım Koşulları</a>'nı kabul ediyorum.
+            </label>
+          </div>
+          <div class="input-group">
+            <input type="checkbox" id="deviceSessionPolicy" name="device_consent_accepted" class="required-check" required>
+            <label for="deviceSessionPolicy">
+              <a href="#" class="policy-link" data-policy="device-consent">Cihaz ve Oturum Bilgileri İzni</a> veriyorum.
+            </label>
+          </div>
+          <div class="input-group">
+            <input type="checkbox" id="commercialPolicy" name="commercial_accepted">
+            <label for="commercialPolicy">
+              <a href="#" class="policy-link" data-policy="commercial">Ticari Elektronik İleti ve Bildirim Onayı</a> veriyorum.
+            </label>
+          </div>
+        </div>
+        
+        <div class="form-buttons">
+          <button type="submit" class="submit-btn" id="submitBtn" disabled>Üye Ol</button>
+          <button type="button" class="register-back-btn" onclick="window.location.href='/'">Girişe Dön</button>
+        </div>
+        <div class="form-message" id="register-message"></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Policy Modal - DÜZELTİLMİŞ -->
+  <div id="policyModal" class="policy-modal">
+    <div class="policy-modal-content">
+      <div class="policy-modal-header">
+        <h3 class="policy-modal-title" id="policyModalTitle">KVKK ve Gizlilik Politikası</h3>
+        <button class="policy-modal-close" id="policyModalClose">
+          <i class="fa-solid fa-times"></i>
+        </button>
+      </div>
+      <div class="policy-modal-body" id="policyModalBody">
+        <!-- İçerik JavaScript ile doldurulacak -->
+      </div>
+      <div class="policy-modal-actions">
+        <button id="pdfDownloadBtn">
+          <i class="fa-solid fa-download"></i>
+          PDF İndir
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/js/register.js"></script>
+  <script src="/static/js/policy-modal.js"></script>
+  <script>
+    // Tema kontrolü
+    document.addEventListener('DOMContentLoaded', function() {
+      try {
+        const savedTheme = localStorage.getItem('selectedTheme') || 'acik';
+        console.log('Yüklenen tema:', savedTheme);
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      } catch (error) {
+        console.error('Tema yükleme hatası:', error);
+        document.documentElement.setAttribute('data-theme', 'acik');
+      }
+    });
+  </script>
+</body>
+</html>
