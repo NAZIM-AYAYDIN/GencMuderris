@@ -1,0 +1,260 @@
+GENÇ MÜDERRİS PROJE PLANI
+=====================================
+
+PROJE EKİBİ
+-----------
+• Proje Geliştirici: [SEN] - Proje yönetimi, kararlar, test, içerik
+• Kod Yazıcı: [BEN] - Teknik implementasyon, kod yazma
+• Deneyim Seviyesi: En üst seviye
+• Çalışma Modeli: Arayüz öncelikli geliştirme
+
+GENEL YAKLAŞIM
+--------------
+• Önce arayüzler tasarlanacak
+• Sonra tema sistemi
+• Daha sonra etkileşimli özellikler
+• En son backend entegrasyonu
+• Toplam süre: 4 ay
+
+FAZ 1 - ARAYÜZ TASARIMI (1. AY)
+================================
+
+HEDEF: Tüm sayfaların görsel tasarımının tamamlanması
+
+1. HAFTA - TEMEL SAYFALAR
+-------------------------
+• Ana sayfa tasarımı
+  - Header (logo, menü, giriş butonu)
+  - Hero section (tanıtım)
+  - Özellikler bölümü
+  - Footer
+
+• Giriş sayfası tasarımı
+  - Üye girişi sekmesi
+  - Müderris girişi sekmesi
+  - Form validasyonu görsel tasarımı
+  - CAPTCHA alanı
+
+• Kayıt sayfası tasarımı
+  - Ebeveyn kayıt formu
+  - KVKK onay kutuları
+  - Şifre güçlülük göstergesi
+  - Doğrulama mesajları
+
+2. HAFTA - ANA UYGULAMA ARAYÜZÜ
+-------------------------------
+• Sidebar tasarımı
+  - Logo ve başlık
+  - Sohbet geçmişi listesi
+  - Arama kutusu
+  - Yeni sohbet butonu
+  - Ayarlar
+  - Kullanıcı profil alanı
+
+• Chat paneli tasarımı
+  - Mesaj balonları (kullanıcı/AI)
+  - TTS kontrolleri (ses, kopyala, zaman)
+  - Input alanı (yazı, mikrofon, gönder)
+  - Ataç butonu
+  - Mesaj geçmişi scroll
+
+3. HAFTA - AYARLAR VE TAKVİM
+----------------------------
+• Ayarlar paneli tasarımı
+  - Modal yapısı
+  - Sekme sistemi (Genel, Ses, Bildirimler, Güvenlik)
+  - Form elemanları
+  - Toggle switch'ler
+  - Slider'lar
+
+4. HAFTA - DESTEK SAYFALARI
+---------------------------
+• Şifremi unuttum sayfası
+• Şifre sıfırlama sayfası
+• Hata sayfaları (404, 500)
+• Yükleme animasyonları
+• Başarı/hata mesajları
+
+FAZ 2 - TEMA SİSTEMİ (2. AY)
+=============================
+
+HEDEF: 6 farklı temanın tam implementasyonu
+
+1. HAFTA - TEMA ALTYAPISI
+-------------------------
+• CSS değişken sistemi kurulumu
+• Tema geçiş mekanizması
+• JavaScript tema kontrolü
+• LocalStorage tema kaydetme
+
+2. HAFTA - KOYU VE AÇIK TEMA
+----------------------------
+• Koyu tema implementasyonu
+  - Ana renkler: #212121, #181818, #343541
+  - Yazı renkleri: #ececf1, #8e8ea0
+  - Hover efektleri: #2a2b32
+
+• Açık tema implementasyonu
+  - Ana renkler: #f4f4f4, #ffffff, #e8e8e8
+  - Yazı renkleri: #1e1e1e, #777777
+  - Hover efektleri: #eeeeee
+
+3. HAFTA - RENKLİ TEMALAR
+-------------------------
+• Pembe tema (#ffe4e6, #fff0f3, #ffcad4)
+• Mavi tema (#dbeafe, #e0f2fe, #bfdbfe)
+• Gökyüzü teması (#e0f7fa, #b2ebf2, #a7ffeb)
+• Şafak teması (#3b0a32, #4b113c, #702963)
+
+4. HAFTA - TEMA TESTİ VE İYİLEŞTİRME
+------------------------------------
+• Tüm sayfalarda tema testi
+• Responsive tema uyumluluğu
+• Tema geçiş animasyonları
+• Performans optimizasyonu
+
+FAZ 3 - ETKİLEŞİMLİ ÖZELLİKLER (3. AY)
+=======================================
+
+HEDEF: Dinamik ve etkileşimli özelliklerin eklenmesi
+
+1. HAFTA - TTS VE SES SİSTEMİ
+-----------------------------
+• TTS animasyonları
+  - Ses çalma animasyonu
+  - Mikrofon dinleme animasyonu
+  - Ses seviyesi göstergesi
+• Mikrofon izin sistemi
+• Ses kontrol butonları
+
+2. HAFTA - ANİMASYON VE EFEKTLER
+-------------------------------
+• Simge yağmuru efekti
+  - Doğru cevap animasyonu
+  - Havai fişek efekti
+  - Kalp şekli animasyonu
+• Sayfa geçiş animasyonları
+• Loading animasyonları
+• Hover efektleri
+
+3. HAFTA - GAMIFICATION ARAYÜZÜ
+------------------------------
+• Puan sistemi görsel tasarımı
+• Rozet sistemi
+• Günlük görevler arayüzü
+• İlerleme çubukları
+• Başarı mesajları
+
+4. HAFTA - BİLDİRİM VE UYARI SİSTEMİ
+-----------------------------------
+• Push notification arayüzü
+• Toast mesajları
+• Modal uyarıları
+• Form validasyon mesajları
+• Başarı/hata bildirimleri
+
+FAZ 4 - BACKEND ENTEGRASYONU (4. AY)
+====================================
+
+HEDEF: Tüm arayüzlerin backend ile entegrasyonu
+
+1. HAFTA - API ALTYAPISI
+------------------------
+• FastAPI kurulumu
+• Veritabanı bağlantısı
+• JWT authentication
+• CORS ayarları
+• Rate limiting
+
+2. HAFTA - KULLANICI SİSTEMİ
+----------------------------
+• Kayıt API'si
+• Giriş API'si
+• Şifre sıfırlama
+• Profil güncelleme
+• KVKK onayları
+
+3. HAFTA - CHAT VE TTS ENTEGRASYONU
+----------------------------------
+• AI sohbet API'si
+• TTS entegrasyonu
+• Mesaj kaydetme
+• Sohbet geçmişi
+• Dosya yükleme
+
+4. HAFTA - TEST VE OPTİMİZASYON
+-------------------------------
+• Kapsamlı test
+• Hata düzeltme
+• Performans optimizasyonu
+• Güvenlik testleri
+• Yayına hazırlık
+
+TEKNİK DETAYLAR
+===============
+
+KULLANILACAK TEKNOLOJİLER
+-------------------------
+Frontend:
+• HTML5, CSS3, JavaScript (Vanilla)
+• Responsive tasarım
+• Progressive Web App (PWA)
+• LocalStorage
+
+Backend:
+• FastAPI (Python)
+• SQLAlchemy (ORM)
+• SQLite (geliştirme) / PostgreSQL (prod)
+• JWT authentication
+• TTS entegrasyonu
+
+Güvenlik:
+• HTTPS
+• CORS
+• Rate limiting
+• Input validation
+• XSS protection
+
+KALİTE STANDARTLARI
+-------------------
+• Responsive tasarım (mobil uyumlu)
+• Erişilebilirlik (a11y) standartları
+• SEO uyumlu
+• Hızlı yükleme süreleri
+• Cross-browser uyumluluk
+
+TEST STRATEJİSİ
+---------------
+• Manuel test (her faz sonunda)
+• Cross-browser test
+• Mobil cihaz testi
+• Performans testi
+• Güvenlik testi
+
+DOKÜMANTASYON
+-------------
+• Kod dokümantasyonu
+• API dokümantasyonu
+• Kullanıcı kılavuzu
+• Geliştirici kılavuzu
+• Deployment kılavuzu
+
+SONRAKI AŞAMALAR
+================
+• Web sitesi yayını
+• Kullanıcı geri bildirimleri
+• APK geliştirme (2-3 ay)
+• İçerik genişletme
+• Özellik ekleme
+
+NOTLAR
+======
+• Her faz sonunda demo yapılacak
+• Değişiklikler için onay alınacak
+• Düzenli iletişim kurulacak
+• Test süreçleri titizlikle yapılacak
+• Performans sürekli izlenecek
+
+=====================================
+PLAN SON GÜNCELLEME: [BUGÜNÜN TARİHİ]
+===================================== 

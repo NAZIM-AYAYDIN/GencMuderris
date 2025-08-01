@@ -1,0 +1,318 @@
+/* TAKVİM MODAL STİLLERİ */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.7 );
+    z-index: 5000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.calendar-modal-content {
+    background: #232323;
+    border-radius: 14px;
+    width: 480px;
+    height: 500px;
+    max-width: 99vw;
+    box-shadow: 0 4px 42px #4076fa;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.calendar-tabs-bar {
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid #40507a;
+    background: #232323;
+    padding: 0 14px;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.calendar-tab {
+    background: none;
+    border: none;
+    color: #fff; /* Aktif olmayan sekme*/
+    font-size: 1.07rem;
+    font-weight: 600;
+    padding: 19px 23px 10px 23px;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    transition: border 0.18s, color 0.18s;
+}
+
+.calendar-tab.active {
+    color: #4076fa; /* Aktif sekme:  */
+    background: #212d3f;
+    border-bottom: 3px solid #4076fa; /* Alt çizgi  */
+}
+
+.calendar-close {
+    margin-left: auto;
+    background:none;  
+    border: none;
+    color: #fff;
+    font-size: 1.7rem;
+    cursor: pointer;
+}
+
+.calendar-main-content {
+    padding: 0 24px 20px 24px; /* ALT PADDING AZALTILDI: 26px -> 20px */
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+/* TAKVİM PANELİ - DİKEYDE TAM SIĞMASI İÇİN DÜZELTİLDİ */
+.calendar-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.calendar-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin: 16px 0 6px 0; /* MARGIN AZALTILDI: 22px 0 8px 0 -> 16px 0 6px 0 */
+    flex-shrink: 0;
+}
+
+.calendar-nav {
+    background: none;
+    border: none;
+    color: #8dbdff;
+    font-size: 1.32rem;
+    cursor: pointer;
+    padding: 4px 13px;
+    border-radius: 6px;
+    transition: background 0.18s;
+}
+
+.calendar-nav:hover {
+    background: #253861;
+}
+
+#calendarMonthYear {
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.25rem;
+    min-width: 138px;
+    text-align: center;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px; /* GAP AZALTILDI: 8px -> 4px */
+    margin-bottom: 8px; /* MARGIN AZALTILDI: 12px -> 8px */
+    flex-shrink: 0;
+}
+
+.calendar-cell, .calendar-day-header {
+    aspect-ratio: 1/1;
+    width: 41px;
+    min-width: 34px;
+    background: #20232a;
+    color: #fff;
+    border: 1.5px solid #323b4d;
+    border-radius: 8px; /* BORDER RADIUS AZALTILDI: 11px -> 8px */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem; /* FONT SİZE AZALTILDI: 1.13rem -> 1.1rem */
+    cursor: pointer;
+    position: relative;
+    transition: border .13s, background .13s;
+}
+
+.calendar-day-header {
+    font-weight: 700;
+    background: none;
+    border: none;
+    color: #89a9de;
+    cursor: default;
+    font-size: 0.95rem; /* FONT SİZE AZALTILDI: 1.01rem -> 0.95rem */
+    aspect-ratio: unset;
+    width: unset;
+}
+
+.calendar-cell.empty {
+    background: none;
+    border: none;
+    cursor: default;
+}
+
+.calendar-cell:hover:not(.empty) {
+    background: #2a2f3a;
+    border-color: #4a5a6d;
+}
+
+.calendar-cell.selected {
+    border: 2px solid #3381e6;
+    background: #162847;
+}
+
+.calendar-cell.has-note::after,
+.calendar-cell.has-special::after {
+    content: '';
+    display: block;
+    width: 5px; height: 5px; /* BOYUT AZALTILDI: 6px -> 5px */
+    border-radius: 50%;
+    background: #1ca1fd;
+    position: absolute;
+    bottom: 5px; left: 50%; /* BOTTOM AZALTILDI: 7px -> 5px */
+    transform: translateX(-50%);
+}
+
+.calendar-cell.has-special::after {
+    background: #fde21c;
+}
+
+.calendar-day-info {
+    min-height: 90px; /* YÜKSEKLİK */
+    background:  #212d3f;
+    color: #d0e5ff;
+    border-radius: 8px; /* BORDER RADIUS AZALTILDI: 10px -> 8px */
+    margin-top: -31px; /* MARGIN AZALTILDI: 4px -> 2px */
+    padding: 12px 14px; /* PADDING AZALTILDI: 15px 14px -> 12px 14px */
+    font-size: 1rem; /* FONT SİZE AZALTILDI: 1.03rem -> 1rem */
+    flex-shrink: 0;
+}
+
+/* ÖZEL GÜNLER PANELİ */
+.calendar-special-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.calendar-special-list li {
+    display: flex;
+    justify-content: space-between;
+    background: #1b2231;
+    color: #d0e5ff;
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    border-left: 4px solid #4076fa;
+}
+
+.calendar-special-list li:hover {
+    background: #253861;
+}
+
+/* NOTLAR PANELİ */
+.calendar-notes-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.calendar-notes-list li {
+    display: flex;
+    justify-content: space-between;
+    background: #1b2231;
+    color: #d0e5ff;
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    border-left: 4px solid #4CAF50;
+}
+
+.calendar-notes-list li:hover {
+    background: #253861;
+}
+
+.calendar-notes-list li > div {
+    flex: 1;
+}
+
+/* NOT EKLEME FORM */
+#noteAddForm {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+    flex-shrink: 0;
+}
+
+#noteAddForm input[type="date"] {
+    background: #1b2231;
+    border: 1px solid #40507a;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    flex: 1;
+}
+
+#noteAddForm input[type="text"] {
+    background: #1b2231;
+    border: 1px solid #40507a;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    flex: 2;
+}
+
+#noteAddForm button {
+    background: #4076fa;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.18s;
+}
+
+#noteAddForm button:hover {
+    background: #2d5bb8;
+}
+
+/* RESPONSIVE TASARIM */
+@media (max-width: 600px) {
+    .calendar-modal-content {
+        width: 95vw;
+        height: 80vh;
+    }
+    
+    #noteAddForm {
+        flex-direction: column;
+    }
+    
+    #noteAddForm input[type="date"],
+    #noteAddForm input[type="text"] {
+        width: 100%;
+    }
+}
+
+@media (max-width: 520px) {
+    .calendar-modal-content {
+        width: 98vw;
+        height: 85vh;
+    }
+    
+    .calendar-main-content {
+        padding: 0 16px 16px 16px;
+    }
+    
+    .calendar-tabs-bar {
+        padding: 0 8px;
+    }
+    
+    .calendar-tab {
+        padding: 15px 12px 8px 12px;
+        font-size: 0.95rem;
+    }
+}

@@ -1,0 +1,2334 @@
+/* Ayarlar menü */
+.settings-menu {
+  display: grid;
+  gap: 0.5rem;
+  justify-items: flex-start !important; /* Sola hizalama */
+  align-items: flex-start !important; /* Üstten hizalama */
+  width: 100% !important;
+  text-align: left !important; /* Sola hizalama */
+}
+
+/* Ayarlar content'i için özel hizalama */
+#ayarlar-content {
+  text-align: left !important; /* Sola hizalama */
+  align-items: flex-start !important; /* Sola hizalama */
+  justify-content: flex-start !important; /* Sola hizalama */
+}
+
+/* Ayarlar menüsü için özel hizalama */
+#ayarlar-menu {
+  text-align: left !important; /* Sola hizalama */
+  align-items: flex-start !important; /* Sola hizalama */
+  justify-content: flex-start !important; /* Sola hizalama */
+  width: 100% !important;
+}
+
+#ayarlar-menu.sidebar-menu {
+  text-align: left !important; /* Sola hizalama */
+  align-items: flex-start !important; /* Sola hizalama */
+  justify-content: flex-start !important; /* Sola hizalama */
+  width: 100% !important;
+}
+
+/* Ayarlar menü butonları için özel hizalama */
+#ayarlar-menu .sidebar-menu-btn {
+  text-align: left !important; /* Sola hizalama */
+  justify-content: flex-start !important; /* Sola hizalama */
+  width: 100% !important;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--bg-main);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease !important; /* Hover efekti için geri eklendi */
+  text-decoration: none;
+  color: var(--text-main);
+  position: relative;
+  overflow: hidden;
+  width: 100% !important; /* Tam genişlik */
+  box-sizing: border-box !important;
+}
+
+.menu-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(142, 142, 160, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.menu-item:hover::before {
+  left: 100%;
+}
+
+.menu-item:hover {
+  background: var(--bg-hover) !important;
+  transform: translateY(-1px) !important; /* Hover efekti geri eklendi */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important; /* Hover efekti geri eklendi */
+  border-color: var(--accent-color) !important;
+}
+
+.menu-item i {
+  font-size: 1.2rem;
+  color: var(--icon-color);
+  width: 24px;
+  text-align: center;
+  transition: color 0.2s ease !important; /* Hover efekti geri eklendi */
+}
+
+.menu-item:hover i {
+  color: var(--accent-color) !important;
+}
+
+.menu-item span {
+  font-weight: 500;
+  flex: 1;
+}
+
+.menu-item .arrow {
+  margin-left: auto;
+  color: var(--text-muted);
+  transition: all 0.2s ease !important; /* Hover efekti geri eklendi */
+}
+
+.menu-item:hover .arrow {
+  transform: translateX(4px) !important; /* Hover efekti geri eklendi */
+  color: var(--accent-color) !important;
+}
+
+/* Ayarlar bölümleri */
+.settings-section {
+  background: var(--bg-main);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: none !important; /* all 0.2s ease yerine none */
+}
+
+.settings-section:hover {
+  border-color: var(--accent-color);
+  box-shadow: none !important; /* 0 2px 8px rgba(0, 0, 0, 0.1) yerine none */
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.section-title i {
+  color: var(--accent-color);
+  font-size: 1.2rem;
+}
+
+/* Ayar öğeleri */
+/* Genel setting-item kuralları - profil sayfası hariç */
+.setting-item:not(#profil-content .setting-item) {
+  display: flex;
+  justify-content: space-between; /* flex-start yerine space-between */
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+  gap: 0.5rem; /* 1rem yerine 0.5rem */
+}
+
+/* Profil sayfasında tüm setting-item'larda çizgileri kaldır */
+#profil-content .setting-item,
+#profil-content .setting-item * {
+  border-bottom: none !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* Form-row için özel kural */
+#profil-content .form-row,
+#profil-content .form-row * {
+  border: none !important;
+  border-bottom: none !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.setting-item:last-child {
+  border-bottom: none;
+}
+
+.setting-item:hover {
+  background: none !important; /* var(--bg-hover) yerine none */
+  transform: none !important;
+  box-shadow: none !important;
+  border-color: var(--border-color) !important;
+}
+
+#ayarlar-content .setting-item label,
+#gizlilik-content .setting-item label,
+#guvenlik-content .setting-item label {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.25rem !important;
+  align-items: flex-start !important;
+  text-align: left !important;
+  justify-content: flex-start !important;
+  width: 50% !important; /* 80% yerine 50% */
+  margin-right: 0 !important;
+  flex: none !important;
+  font-size: 0.7rem !important;
+}
+
+
+.setting-item:hover label {
+  color: var(--text-main) !important; /* accent-color yerine text-main */
+  transform: none !important;
+}
+
+.setting-item input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent-color);
+  cursor: pointer;
+}
+
+.setting-item select {
+  background: var(--bg-input);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.setting-item select:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 2px rgba(142, 142, 160, 0.2);
+}
+
+/* Özel ayarlar */
+.optional-setting {
+  opacity: 0.8;
+  position: relative;
+}
+
+.optional-setting label {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.25rem !important;
+  align-items: flex-start !important;
+  text-align: left !important;
+  justify-content: flex-start !important;
+  width: 80% !important;
+  margin-right: 0 !important;
+  flex: none !important;
+  font-size: 0.6rem !important;
+  max-width: 300px !important;
+}
+
+.setting-description {
+  font-size: 0.65rem; /* Açıklama yazısını da küçült */
+  color: var(--text-muted);
+  font-style: italic;
+  margin-top: 0.25rem;
+  display: block;
+  line-height: 1.2;
+  text-align: left;
+}
+
+/* Aksiyon butonları */
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem; /* Eski değer */
+  padding: 0.4rem 0.8rem; /* Eski değer */
+  background: var(--bg-input);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 0.7rem; /* Eski değer */
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  font-weight: 500;
+  width: 120px; /* 80px yerine 120px - daha geniş */
+  justify-content: center;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.action-btn:hover {
+  background: var(--accent-hover) !important;
+  transform: none !important; /* translateY(-1px) yerine none */
+  box-shadow: none !important; /* 0 4px 12px rgba(0, 0, 0, 0.2) yerine none */
+}
+
+.action-btn.danger {
+  background: var(--error-color);
+  color: white;
+  border-color: var(--error-color);
+}
+
+.action-btn.danger:hover {
+  background: #ff5252 !important;
+  transform: none !important; /* translateY(-1px) yerine none */
+  box-shadow: none !important; /* 0 4px 12px rgba(255, 82, 82, 0.3) yerine none */
+}
+
+.action-btn.success {
+  background: var(--success-color);
+  color: white;
+  border-color: var(--success-color);
+}
+
+.action-btn.success:hover {
+  background: var(--success-color) !important;
+  transform: none !important; /* translateY(-1px) yerine none */
+  box-shadow: none !important; /* 0 4px 12px rgba(81, 207, 102, 0.3) yerine none */
+}
+
+/* Güvenlik sekmesi özel stilleri */
+#guvenlik-content {
+  padding: 1rem;
+  overflow-y: auto;
+  max-height: calc(100vh - 120px);
+}
+
+#guvenlik-content .settings-section {
+  background: var(--bg-sidebar);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+#guvenlik-content .setting-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+#guvenlik-content .setting-item:last-child {
+  border-bottom: none;
+}
+
+#guvenlik-content .setting-item label {
+  font-size: 0.9rem;
+  color: var(--text-main);
+  cursor: pointer;
+}
+
+#guvenlik-content .setting-item select {
+  background: var(--bg-input);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.85rem;
+}
+
+#guvenlik-content .setting-item input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent-color);
+}
+
+#guvenlik-content .action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#guvenlik-content .action-btn:hover {
+  background: var(--accent-hover) !important;
+  transform: none !important; /* translateY(-1px) yerine none */
+  box-shadow: none !important; /* 0 4px 12px rgba(0, 0, 0, 0.2) yerine none */
+}
+
+/* Güvenlik sekmesinde danger butonları için özel kural */
+#guvenlik-content .action-btn.danger {
+  background: var(--error-color) !important;
+  color: white !important;
+  border-color: var(--error-color) !important;
+}
+
+#guvenlik-content .action-btn.danger:hover {
+  background: #ff5252 !important;
+  transform: none !important; /* translateY(-1px) yerine none */
+  box-shadow: none !important; /* 0 4px 12px rgba(255, 82, 82, 0.3) yerine none */
+}
+
+/* Profil resmi stilleri - SABİT BOYUT */
+.profile-image-wrapper {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  margin-bottom: 2rem !important;
+  width: 100% !important;
+  text-align: center !important;
+  flex-shrink: 0 !important;
+  flex-grow: 0 !important;
+}
+
+.profile-image-container {
+  position: relative !important;
+  display: inline-block !important;
+  cursor: pointer !important;
+  border-radius: 50% !important;
+  overflow: hidden !important;
+  width: 80px !important;
+  height: 80px !important;
+  min-width: 80px !important;
+  min-height: 80px !important;
+  max-width: 80px !important;
+  max-height: 80px !important;
+  border: 3px solid var(--border-color) !important;
+  transition: border-color 0.3s ease !important;
+  margin: 0 auto !important;
+  text-align: center !important;
+  flex-shrink: 0 !important;
+  flex-grow: 0 !important;
+  box-sizing: border-box !important;
+  /* Transform efektlerini tamamen engelle */
+  transform: none !important;
+  transform-origin: center !important;
+}
+
+.profile-image-container:hover {
+  border-color: var(--accent-color) !important;
+  /* Transform efektlerini tamamen engelle */
+  transform: none !important;
+}
+
+.profile-image-preview {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 50% !important;
+  max-width: 80px !important;
+  max-height: 80px !important;
+  min-width: 80px !important;
+  min-height: 80px !important;
+  flex-shrink: 0 !important;
+  flex-grow: 0 !important;
+  box-sizing: border-box !important;
+  display: block !important;
+  /* Transform efektlerini tamamen engelle */
+  transform: none !important;
+}
+
+.profile-image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  color: white;
+  font-size: 0.7rem;
+  text-align: center;
+  padding: 0.5rem;
+}
+
+.profile-image-container:hover .profile-image-overlay {
+  opacity: 1;
+}
+
+.profile-image-overlay i {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Form row için stil */
+.form-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.form-row .setting-item {
+  flex: 1;
+  margin-bottom: 0;
+  min-width: 0;
+}
+
+.form-row .setting-item input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Readonly input stilleri */
+.setting-item input[readonly] {
+  background-color: var(--bg-input);
+  color: var(--text-muted);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.setting-item input[readonly]:focus {
+  border-color: var(--border-color);
+  box-shadow: none;
+}
+
+/* Profil sayfası özel stilleri */
+#profil-content {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important; /* sağa hizalama */
+  justify-content: flex-start !important;
+  min-height: 100% !important;
+  padding: 2rem 0 !important; /* sağ ve sol padding kaldırıldı */
+  width: 500px !important;
+  max-width: 500px !important;
+  min-width: 500px !important;
+  box-sizing: border-box !important;
+  margin-right: 0 !important; /* sağ margin sıfırlandı */
+  position: relative !important;
+  right: 0 !important; /* sağa yasla */
+}
+
+/* Profil sayfasında geri butonunu sola hizala - ses sekmesi gibi */
+#profil-content .subsection-header {
+  align-self: flex-start !important;
+  width: 100% !important;
+  justify-content: flex-start !important;
+}
+
+#profil-content .back-btn {
+  align-self: flex-start !important;
+  justify-self: flex-start !important;
+}
+
+/* Subsection content için özel kural */
+.subsection-content#profil-content {
+  align-items: flex-end !important;
+  justify-content: flex-start !important;
+  padding-right: 0 !important;
+  margin-right: 0 !important;
+  right: 0 !important;
+}
+
+#profil-content .form-row {
+  display: flex !important;
+  gap: 1rem;
+  margin-bottom: 1.5rem; /* 1rem'den 1.5rem'e artırıldı - daha fazla boşluk */
+  width: 100%;
+  max-width: 500px;
+  justify-content: flex-end !important; /* sağa hizalama */
+  margin-right: 0 !important; /* sağ margin sıfırlandı */
+}
+
+#profil-content .form-row .setting-item {
+  flex: 1;
+  margin-bottom: 0;
+  min-width: 0;
+  border-bottom: none !important; /* çizgileri kaldır */
+  border-top: none !important; /* üst çizgileri de kaldır */
+  border-left: none !important; /* sol çizgileri de kaldır */
+  border-right: none !important; /* sağ çizgileri de kaldır */
+  padding: 0.8rem 0; /* 0.5rem'den 0.8rem'e artırıldı - daha fazla iç boşluk */
+  box-shadow: none !important; /* gölgeleri de kaldır */
+}
+
+#profil-content .form-row .setting-item input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Profil sayfasında tüm kutuları sağa hizala (profil resmi hariç) */
+#profil-content .setting-item:not(.profile-image-wrapper) {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 0 1.5rem 0; /* 1rem'den 1.5rem'e artırıldı - daha fazla kutular arası boşluk */
+  border-bottom: none !important; /* çizgileri kaldır */
+  border-top: none !important; /* üst çizgileri de kaldır */
+  border-left: none !important; /* sol çizgileri de kaldır */
+  border-right: none !important; /* sağ çizgileri de kaldır */
+  padding: 0.8rem 0; /* 0.5rem'den 0.8rem'e artırıldı - daha fazla iç boşluk */
+  box-shadow: none !important; /* gölgeleri de kaldır */
+  margin-right: 0 !important; /* sağ margin sıfırlandı */
+}
+
+#profil-content .setting-item label {
+  align-self: flex-start;
+  margin-bottom: 0.8rem; /* 0.5rem'den 0.8rem'e artırıldı - label ile input arası daha fazla boşluk */
+  font-weight: 600; /* 500'den 600'e artırıldı */
+  color: var(--text-main);
+  font-size: 0.9rem; /* font boyutu artırıldı */
+  text-transform: uppercase; /* büyük harf */
+  letter-spacing: 0.5px; /* harf aralığı */
+  margin-right: 0 !important; /* sağ margin sıfırlandı */
+}
+
+#profil-content .setting-item input,
+#profil-content .setting-item select,
+#profil-content .setting-item button {
+  width: auto !important; /* 100% yerine auto */
+  max-width: none !important; /* 300px kaldırıldı */
+  align-self: flex-end;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 6px;
+  padding: 0.6rem 1rem; /* yatay padding artırıldı */
+  background: var(--bg-input);
+  font-size: 0.85rem; /* font boyutu ayarlandı */
+  transition: all 0.2s ease;
+  cursor: pointer;
+  font-weight: 500;
+  margin-right: 0 !important; /* sağ margin sıfırlandı */
+}
+
+#profil-content .setting-item button:hover {
+  background: var(--accent-color) !important;
+  color: white !important;
+  border-color: var(--accent-color) !important;
+  transform: none !important; /* translateY(-1px) yerine none */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+#profil-content .setting-item input,
+#profil-content .setting-item select {
+  width: 100%;
+  max-width: 300px;
+  align-self: flex-end;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 6px;
+  padding: 0.6rem;
+  background: var(--bg-input);
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  margin-right: 0 !important; /* sağ margin sıfırlandı */
+}
+
+#profil-content .setting-item input:focus,
+#profil-content .setting-item select:focus {
+  border-color: var(--accent-color) !important;
+  box-shadow: 0 0 0 2px rgba(142, 142, 160, 0.2) !important;
+  outline: none !important;
+}
+
+#profil-content .profile-image-wrapper {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  margin-bottom: 2rem !important;
+  width: 100% !important;
+  text-align: center !important;
+  padding: 0 1rem !important;
+  flex-direction: column !important;
+  flex-shrink: 0 !important;
+  flex-grow: 0 !important;
+  box-sizing: border-box !important;
+  /* Sabit genişlik */
+  max-width: 500px !important;
+  width: 500px !important;
+}
+
+#profil-content .profile-image-container {
+  position: relative !important;
+  display: block !important;
+  cursor: pointer !important;
+  border-radius: 12px !important; /* 50% yerine 12px - daha az yuvarlak */
+  overflow: hidden !important;
+  width: 120px !important; /* 80px'den 120px'e büyütüldü */
+  height: 120px !important; /* 80px'den 120px'e büyütüldü */
+  min-width: 120px !important;
+  min-height: 120px !important;
+  max-width: 120px !important;
+  max-height: 120px !important;
+  border: 3px solid var(--border-color) !important;
+  transition: all 0.3s ease !important;
+  margin: 0 !important; /* auto yerine 0 - sağa hizalama */
+  text-align: center !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important; /* gölge artırıldı */
+  flex-shrink: 0 !important;
+  flex-grow: 0 !important;
+  box-sizing: border-box !important;
+  /* Transform efektlerini tamamen engelle */
+  transform: none !important;
+  transform-origin: center !important;
+}
+
+#profil-content .profile-image-container:hover {
+  border-color: var(--accent-color) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3) !important; /* gölge artırıldı */
+  /* Transform efektlerini tamamen engelle */
+  transform: none !important;
+}
+
+/* EN GÜÇLÜ PROFİL RESMİ KURALLARI - EN SONA EKLENİYOR */
+.profile-image-container,
+#profil-content .profile-image-container,
+.profile-image-wrapper,
+#profil-content .profile-image-wrapper,
+.profile-image-preview,
+#profil-content .profile-image-preview {
+  width: 120px !important; /* 80px'den 120px'e büyütüldü */
+  height: 120px !important; /* 80px'den 120px'e büyütüldü */
+  min-width: 120px !important;
+  min-height: 120px !important;
+  max-width: 120px !important;
+  max-height: 120px !important;
+  flex-shrink: 0 !important;
+  flex-grow: 0 !important;
+  box-sizing: border-box !important;
+  /* Transform efektlerini tamamen engelle */
+  transform: none !important;
+  transform-origin: center !important;
+}
+
+/* JavaScript'ten gelen transform efektlerini engelle */
+.profile-image-container[style*="transform"],
+#profil-content .profile-image-container[style*="transform"],
+.profile-image-preview[style*="transform"],
+#profil-content .profile-image-preview[style*="transform"] {
+  transform: none !important;
+}
+
+/* Tüm transform efektlerini engelle */
+.profile-image-container *,
+#profil-content .profile-image-container * {
+  transform: none !important;
+}
+
+.profile-image-preview,
+#profil-content .profile-image-preview {
+  object-fit: cover !important;
+  border-radius: 12px !important; /* 50% yerine 12px - daha az yuvarlak */
+  display: block !important;
+  /* Transform efektlerini tamamen engelle */
+  transform: none !important;
+}
+
+/* Profil resmi wrapper'ı için özel kural */
+#profil-content .profile-image-wrapper {
+  width: 500px !important;
+  max-width: 500px !important;
+  min-width: 500px !important;
+  flex-shrink: 0 !important;
+  flex-grow: 0 !important;
+  display: flex !important;
+  justify-content: flex-end !important; /* sağa hizalama */
+  align-items: center !important;
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+  right: 0 !important;
+}
+
+/* Sidebar profile wrapper için özel kural */
+#profil-content .sidebar-profile-wrapper {
+  justify-content: flex-end !important;
+  align-items: center !important;
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  display: flex !important;
+}
+
+/* YALNIZCA profil sekmesindeki YATAY ÇİZGİLERİ KALDIR ve ARALARI DARALT */
+#profil-content .setting-item {
+  border: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+  margin-bottom: 0.3rem !important;
+  padding-bottom: 0.3rem !important;
+  margin-right: 0 !important; /* sağ margin sıfırlandı */
+  align-items: flex-end !important; /* sağa hizalama */
+}
+
+#profil-content .form-row {
+  margin-bottom: 0.3rem !important;
+  padding-bottom: 0 !important;
+  margin-right: 0 !important; /* sağ margin sıfırlandı */
+  justify-content: flex-end !important; /* sağa hizalama */
+}
+
+/* GÜÇLÜ SAĞA HİZALAMA KURALLARI */
+#profil-content * {
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+}
+
+#profil-content .setting-item,
+#profil-content .form-row,
+#profil-content .profile-image-wrapper,
+#profil-content .sidebar-profile-wrapper {
+  align-items: flex-end !important;
+  justify-content: flex-end !important;
+  text-align: right !important;
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+  right: 0 !important;
+}
+
+/* EN GÜÇLÜ SAĞA HİZALAMA - TÜM ELEMENTLER */
+#profil-content,
+#profil-content *,
+#profil-content .setting-item,
+#profil-content .form-row,
+#profil-content .profile-image-wrapper,
+#profil-content .sidebar-profile-wrapper,
+#profil-content .sidebar-profile-photo {
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+  right: 0 !important;
+  align-items: flex-end !important;
+  justify-content: flex-end !important;
+  text-align: right !important;
+  float: right !important;
+}
+
+/* PROFİL RESMİ ÇERÇEVE VE DÜZENLEME - GÜNCELLENMİŞ */
+#profil-content .sidebar-profile-wrapper {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  margin-bottom: 2rem !important;
+  width: 100% !important;
+  text-align: center !important;
+  padding: 0 1rem !important;
+  flex-direction: column !important;
+  flex-shrink: 0 !important;
+  flex-grow: 0 !important;
+  box-sizing: border-box !important;
+  /* Ortaya hizalama */
+  margin-right: auto !important;
+  margin-left: auto !important;
+}
+
+#profil-content .sidebar-profile-photo {
+  position: relative !important;
+  display: block !important;
+  cursor: pointer !important;
+  border-radius: 20px !important; /* Daha yumuşak köşeler */
+  overflow: hidden !important;
+  width: 140px !important; /* Boyut artırıldı */
+  height: 140px !important; /* Boyut artırıldı */
+  min-width: 140px !important;
+  min-height: 140px !important;
+  max-width: 140px !important;
+  max-height: 140px !important;
+  border: 4px solid var(--border-color) !important; /* Daha kalın çerçeve */
+  transition: all 0.3s ease !important;
+  margin: 0 auto !important; /* Ortaya hizala */
+  text-align: center !important;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4) !important; /* Daha belirgin gölge */
+  flex-shrink: 0 !important;
+  flex-grow: 0 !important;
+  box-sizing: border-box !important;
+  background: var(--bg-input) !important; /* Arka plan rengi */
+  /* Gradient border efekti */
+  background: linear-gradient(145deg, var(--bg-input), var(--border-color)) !important;
+}
+
+#profil-content .sidebar-profile-photo:hover {
+  border-color: var(--accent-color) !important;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5) !important; /* Hover'da daha belirgin gölge */
+  /* transform: scale(1.05) !important; ← KALDIRILDI */
+  /* Gradient border hover efekti */
+  background: linear-gradient(145deg, var(--accent-color), var(--accent-hover)) !important;
+}
+
+#profil-content .sidebar-profile-img-fix {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 16px !important; /* İç resim için daha yumuşak köşeler */
+  display: block !important;
+  transition: all 0.3s ease !important;
+}
+
+/* Profil resmi için overlay efekti */
+#profil-content .sidebar-profile-photo::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05)) !important;
+  border-radius: 20px !important;
+  opacity: 0 !important;
+  transition: opacity 0.3s ease !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+
+#profil-content .sidebar-profile-photo:hover::before {
+  opacity: 1 !important;
+}
+
+/* Profil resmi içindeki img elementi için özel stil */
+#profil-content .sidebar-profile-photo img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 16px !important;
+  display: block !important;
+  transition: all 0.3s ease !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+/* Profil resmi wrapper'ı için özel kural */
+#profil-content .profile-image-wrapper {
+  width: 500px !important;
+  max-width: 500px !important;
+  min-width: 500px !important;
+  flex-shrink: 0 !important;
+  flex-grow: 0 !important;
+  display: flex !important;
+  justify-content: center !important; /* Ortaya hizalama */
+  align-items: center !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+}
+
+/* Profil resmi başlığı için stil */
+#profil-content .profile-image-title {
+  font-size: 0.9rem !important;
+  color: var(--text-secondary) !important;
+  margin-bottom: 1rem !important;
+  font-weight: 500 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  text-align: center !important;
+}
+
+/* Profil resmi container'ı için ek efektler */
+#profil-content .sidebar-profile-photo::after {
+  content: '' !important;
+  position: absolute !important;
+  top: -2px !important;
+  left: -2px !important;
+  right: -2px !important;
+  bottom: -2px !important;
+  background: linear-gradient(45deg, var(--accent-color), var(--accent-hover), var(--accent-color)) !important;
+  border-radius: 22px !important;
+  opacity: 0 !important;
+  transition: opacity 0.3s ease !important;
+  z-index: -1 !important;
+}
+
+#profil-content .sidebar-profile-photo:hover::after {
+  opacity: 0.3 !important;
+}
+
+/* PROFİL FORMU DÜZENLEME */
+#profil-content form {
+  width: 100% !important;
+  max-width: 500px !important;
+  margin: 0 auto !important; /* Ortaya hizala */
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1.5rem !important;
+}
+
+#profil-content .form-row {
+  display: flex !important;
+  gap: 1rem !important;
+  margin-bottom: 0 !important; /* Gap kullanıyoruz */
+  width: 100% !important;
+  justify-content: center !important; /* Ortaya hizala */
+  align-items: flex-start !important;
+}
+
+#profil-content .form-row .setting-item {
+  flex: 1 !important;
+  margin-bottom: 0 !important;
+  min-width: 0 !important;
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important; /* Sola hizala */
+  text-align: left !important;
+}
+
+#profil-content .form-row .setting-item label {
+  display: none !important; /* Form row içindeki label'ları da gizle */
+}
+
+#profil-content .form-row .setting-item input {
+  width: 100% !important;
+  max-width: none !important;
+  align-self: stretch !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 8px !important; /* Daha yumuşak köşeler */
+  padding: 0.75rem !important;
+  background: var(--bg-input) !important;
+  font-size: 0.9rem !important;
+  transition: all 0.2s ease !important;
+  margin-right: 0 !important;
+  box-sizing: border-box !important;
+}
+
+#profil-content .form-row .setting-item input:focus {
+  border-color: var(--accent-color) !important;
+  box-shadow: 0 0 0 3px rgba(142, 142, 160, 0.1) !important;
+  outline: none !important;
+}
+
+/* TEK SATIR INPUT'LAR */
+#profil-content .setting-item:not(.form-row .setting-item) {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important; /* Sola hizala */
+  text-align: left !important;
+  width: 100% !important;
+  max-width: 500px !important;
+  margin: 0 auto 1.5rem auto !important; /* Ortaya hizala */
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+
+#profil-content .setting-item:not(.form-row .setting-item) label {
+  align-self: flex-start !important;
+  margin-bottom: 0.5rem !important;
+  font-weight: 600 !important;
+  color: var(--text-main) !important;
+  font-size: 0.85rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  margin-right: 0 !important;
+}
+
+#profil-content .setting-item:not(.form-row .setting-item) input,
+#profil-content .setting-item:not(.form-row .setting-item) select {
+  width: 100% !important;
+  max-width: none !important;
+  align-self: stretch !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 8px !important; /* Daha yumuşak köşeler */
+  padding: 0.75rem !important;
+  background: var(--bg-input) !important;
+  font-size: 0.9rem !important;
+  transition: all 0.2s ease !important;
+  margin-right: 0 !important;
+  box-sizing: border-box !important;
+}
+
+#profil-content .setting-item:not(.form-row .setting-item) input:focus,
+#profil-content .setting-item:not(.form-row .setting-item) select:focus {
+  border-color: var(--accent-color) !important;
+  box-shadow: 0 0 0 3px rgba(142, 142, 160, 0.1) !important;
+  outline: none !important;
+}
+
+/* BUTONLAR */
+#profil-content .setting-item button {
+  width: auto !important;
+  max-width: none !important;
+  align-self: flex-start !important; /* Sola hizala */
+  border: 1px solid var(--border-color) !important;
+  border-radius: 8px !important; /* Daha yumuşak köşeler */
+  padding: 0.75rem 1.5rem !important;
+  background: var(--bg-input) !important;
+  font-size: 0.9rem !important;
+  transition: all 0.2s ease !important;
+  cursor: pointer !important;
+  font-weight: 500 !important;
+  margin-right: 0 !important;
+  box-sizing: border-box !important;
+}
+
+#profil-content .setting-item button[type="submit"] {
+  background: var(--accent-color) !important;
+  color: white !important;
+  border-color: var(--accent-color) !important;
+  font-weight: 600 !important;
+  padding: 0.75rem 2rem !important;
+}
+
+#profil-content .setting-item button:hover {
+  background: var(--accent-hover) !important;
+  color: white !important;
+  border-color: var(--accent-hover) !important;
+  transform: none !important; /* translateY(-2px) yerine none */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* MESAJ ALANI */
+#profileMessage {
+  width: 100% !important;
+  max-width: 500px !important;
+  margin: 1rem auto !important; /* Ortaya hizala */
+  padding: 1rem !important;
+  border-radius: 8px !important; /* Daha yumuşak köşeler */
+  text-align: center !important;
+  font-weight: 500 !important;
+  box-sizing: border-box !important;
+}
+
+/* READONLY INPUT'LAR */
+#profil-content .setting-item input[readonly] {
+  background-color: var(--bg-sidebar) !important;
+  color: var(--text-muted) !important;
+  cursor: not-allowed !important;
+  opacity: 0.7 !important;
+  border-color: var(--border-color) !important;
+}
+
+#profil-content .setting-item input[readonly]:focus {
+  border-color: var(--border-color) !important;
+  box-shadow: none !important;
+}
+
+/* MÜDERRİS FORMU STİLLERİ - DÜZENLENMİŞ */
+.muderris-form-container {
+  padding: 0 !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  margin-top: 0 !important;
+  border: none !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.muderris-form {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1rem !important; /* 0.5rem yerine 1rem - daha iyi boşluk */
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Form row'ları düzelt - alt alta yap */
+.muderris-form .form-row {
+  display: flex !important;
+  flex-direction: column !important; /* row yerine column - alt alta */
+  gap: 1rem !important;
+  margin-bottom: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.muderris-form .form-row .setting-item {
+  flex: none !important; /* 1 yerine none - tam genişlik */
+  margin-bottom: 0 !important;
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  display: flex !important;
+  flex-direction: column !important; /* column - alt alta */
+  align-items: flex-start !important;
+  text-align: left !important;
+  width: 100% !important;
+  gap: 0.5rem !important;
+  justify-content: flex-start !important;
+}
+
+.muderris-form .setting-item {
+  display: flex !important;
+  flex-direction: column !important; /* row yerine column - alt alta */
+  align-items: flex-start !important; /* center yerine flex-start */
+  text-align: left !important; /* right yerine left */
+  gap: 0.5rem !important;
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  margin-bottom: 1rem !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  justify-content: flex-start !important; /* flex-end yerine flex-start */
+  box-sizing: border-box !important;
+}
+
+.muderris-form .setting-item label {
+  display: block !important; /* none yerine block - label'ları göster */
+  font-weight: 500 !important;
+  color: var(--text-main) !important;
+  margin-bottom: 0 !important; /* 0.25rem yerine 0 */
+  min-width: 120px !important; /* Sabit genişlik */
+  flex-shrink: 0 !important; /* Küçülmesin */
+}
+
+.muderris-form .form-row .setting-item label {
+  display: block !important; /* none yerine block - label'ları göster */
+  font-weight: 500 !important;
+  color: var(--text-main) !important;
+  margin-bottom: 0 !important; /* 0.25rem yerine 0 */
+  min-width: 120px !important; /* Sabit genişlik */
+  flex-shrink: 0 !important; /* Küçülmesin */
+}
+
+/* İlgi alanları hariç - alt alta kalacak */
+.muderris-form .setting-item:has(textarea) {
+  flex-direction: column !important; /* textarea olanlar alt alta */
+  align-items: flex-start !important;
+}
+
+.muderris-form .setting-item:has(textarea) label {
+  min-width: auto !important; /* textarea için min-width kaldır */
+  margin-bottom: 0.25rem !important;
+}
+
+/* Kaydet butonu - ŞAFAK TEMAYA UYUMLU */
+.muderris-form-container .form-buttons .save-muderris-btn {
+  background: var(--bg-input) !important;
+  color: var(--text-main) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 6px !important;
+  padding: 0.75rem 1rem !important;
+  font-size: 0.9rem !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.5rem !important;
+  width: 100% !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.muderris-form-container .form-buttons .save-muderris-btn:hover {
+  background: var(--bg-hover) !important;
+  color: var(--icon-active) !important;
+  border-color: var(--text-muted) !important;
+  transform: none !important;
+}
+
+.muderris-form-container .form-buttons .save-muderris-btn:disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+  background: var(--bg-input) !important;
+  color: var(--text-muted) !important;
+}
+
+/* Sil butonu - ŞAFAK TEMAYA UYUMLU */
+.muderris-form-container .form-buttons .delete-muderris-btn {
+  background: var(--bg-input) !important;
+  color: var(--error-color) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 6px !important;
+  padding: 0.75rem 1rem !important;
+  font-size: 0.9rem !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.5rem !important;
+  width: 100% !important;
+}
+
+.muderris-form-container .form-buttons .delete-muderris-btn:hover {
+  background: var(--bg-hover) !important;
+  color: var(--error-color) !important;
+  border-color: var(--error-color) !important;
+  transform: none !important;
+}
+
+/* Form butonları */
+.form-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem; /* 1rem yerine 0.5rem */
+  padding-top: 0.5rem; /* 1rem yerine 0.5rem */
+  border-top: 1px solid var(--border-color);
+}
+
+/* Responsive tasarım */
+@media (max-width: 768px) {
+  .muderris-form .setting-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .muderris-form .setting-item label {
+    min-width: auto;
+  }
+  
+  .form-buttons {
+    flex-direction: row; /* column yerine row */
+    gap: 0.5rem; /* Mobilde daha az boşluk */
+  }
+  
+  /* Mobilde butonların genişliğini ayarla */
+  .form-buttons .save-muderris-btn,
+  .form-buttons .delete-muderris-btn {
+    flex: 1; /* Eşit genişlik */
+    min-width: 0; /* Taşmayı önle */
+  }
+  
+  .muderris-form-container {
+    padding: 1rem;
+  }
+}
+
+/* Zorunlu alan işareti - KALDIRILDI */
+/* .muderris-form .setting-item label[for*="ad"]::after,
+.muderris-form .setting-item label[for*="soyad"]::after,
+.muderris-form .setting-item label[for*="username"]::after,
+.muderris-form .setting-item label[for*="password"]::after,
+.muderris-form .setting-item label[for*="password-confirm"]::after {
+  content: ' *';
+  color: var(--error-color);
+  font-size: 0.8rem;
+} */
+
+/* ÇİFT * SORUNUNU ÇÖZMEK İÇİN - TÜM ::after KURALLARINI KALDIR */
+.muderris-form .setting-item label::after {
+  content: none !important; /* Tüm ::after içeriklerini kaldır */
+}
+
+/* Loading durumu */
+.save-muderris-btn.loading {
+  position: relative;
+  color: transparent;
+}
+
+.save-muderris-btn.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 18px;
+  height: 18px;
+  border: 2px solid transparent;
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* KULLANICILAR MENÜSÜ İÇİN HOVER TRANSFORM KALDIR - EN GÜÇLÜ OVERRIDE */
+#kullanıcılar-menu .sidebar-menu-btn:hover {
+  background: var(--bg-hover) !important;
+  transform: none !important; /* translateX(5px) yerine none */
+}
+
+/* KULLANICILAR MENÜSÜ İÇİN ACTIVE TRANSFORM KALDIR */
+#kullanıcılar-menu .sidebar-menu-btn.active {
+  background: var(--bg-hover) !important;
+  color: var(--icon-active) !important;
+  transform: none !important; /* translateX(0) yerine none */
+}
+
+/* KULLANICILAR MENÜSÜ İÇİN TÜM TRANSFORM KALDIR */
+#kullanıcılar-menu .sidebar-menu-btn,
+#kullanıcılar-menu .sidebar-menu-btn:hover,
+#kullanıcılar-menu .sidebar-menu-btn:active,
+#kullanıcılar-menu .sidebar-menu-btn:focus,
+#kullanıcılar-menu .sidebar-menu-btn.active {
+  transform: none !important;
+  transition: none !important;
+}
+
+/* MÜDERRİS FORMU SELECT STİLLERİ */
+.muderris-form .setting-item select {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--bg-input);
+  color: var(--text-main);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.muderris-form .setting-item select:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px rgba(142, 142, 160, 0.1);
+}
+
+.muderris-form .setting-item select option {
+  background: var(--bg-input);
+  color: var(--text-main);
+}
+
+/* KULLANICILAR MENÜSÜ İÇİN MENU-ITEM HOVER KALDIR */
+#kullanıcılar-menu .menu-item:hover {
+  background: var(--bg-hover) !important;
+  transform: none !important; /* translateY(-1px) yerine none */
+  box-shadow: none !important;
+  border-color: var(--border-color) !important;
+}
+
+#kullanıcılar-menu .menu-item:hover i {
+  color: var(--icon-color) !important; /* accent-color yerine icon-color */
+}
+
+#kullanıcılar-menu .menu-item:hover .arrow {
+  transform: none !important; /* translateX(4px) yerine none */
+  color: var(--text-muted) !important; /* accent-color yerine text-muted */
+}
+
+/* KULLANICILAR MENÜSÜ İÇİN TÜM HOVER KALDIR */
+#kullanıcılar-menu .menu-item,
+#kullanıcılar-menu .menu-item:hover,
+#kullanıcılar-menu .menu-item:active,
+#kullanıcılar-menu .menu-item:focus {
+  transform: none !important;
+  transition: none !important;
+}
+
+/* MÜDERRİS FORMU VE PROFİL SAYFASI İÇİN TÜM HOVER TRANSFORM KALDIR */
+.muderris-form *:hover,
+#profil-content *:hover,
+#kullanıcılar-menu *:hover {
+  transform: none !important;
+  transition: none !important;
+}
+
+/* MÜDERRİS FORMU VE PROFİL SAYFASI İÇİN INPUT FOCUS SCALE KALDIR */
+.muderris-form input:focus,
+.muderris-form select:focus,
+.muderris-form textarea:focus,
+#profil-content input:focus,
+#profil-content select:focus,
+#profil-content textarea:focus {
+  /* transform: scale(1.02); ← KALDIRILDI */
+  /* transition: all 0.2s ease-in-out; ← KALDIRILDI */
+}
+
+/* MÜDERRİS FORMU VE PROFİL SAYFASI İÇİN LABEL HOVER KALDIR */
+.muderris-form label:hover,
+#profil-content label:hover {
+  /* transform: translateX(3px); ← KALDIRILDI */
+  /* transition: transform 0.2s; ← KALDIRILDI */
+}
+
+/* KULLANICILAR SEKMESİNDEKİ PROFİL SAYFASI İÇİN FORM-ROW DÜZENLEME */
+#kullanici-profil-content .form-row {
+  display: flex !important;
+  flex-direction: column !important; /* row yerine column - alt alta */
+  gap: 1rem !important; /* Ad ve Soyad arası boşluk - 16px */
+  margin-bottom: 1rem !important;
+  width: 100% !important;
+  max-width: 100% !important; /* 1200px yerine 100% - sidebar'a uygun */
+  min-width: auto !important; /* 1200px yerine auto - sınırı kaldır */
+  justify-content: flex-end !important; /* flex-start yerine flex-end - sağa yasla */
+  align-items: flex-end !important; /* flex-start yerine flex-end - sağa yasla */
+  box-sizing: border-box !important;
+}
+
+#kullanici-profil-content .form-row .setting-item {
+  flex: 1 1 100% !important; /* 1 yerine 1 1 100% - tam genişlik */
+  margin-bottom: 0.3rem !important; /* 1rem yerine 0.3rem */
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  display: flex !important;
+  flex-direction: row !important; /* column yerine row - yan yana */
+  align-items: center !important; /* flex-start yerine center - dikey ortala */
+  text-align: right !important; /* left yerine right - sağa yasla */
+  width: 100% !important; /* Tam genişlik */
+  min-width: auto !important; /* 1200px yerine auto - sınırı kaldır */
+  gap: 1rem !important; /* Label ile input arası boşluk */
+  justify-content: flex-end !important; /* Sağa yasla */
+}
+
+#kullanici-profil-content .form-row .setting-item label {
+  align-self: center !important; /* flex-start yerine center */
+  margin-bottom: 0 !important; /* 0.3rem yerine 0 */
+  font-weight: 400 !important; /* 500 yerine 400 - daha ince */
+  color: var(--text-main) !important;
+  font-size: 0.7rem !important; /* 0.8rem yerine 0.7rem - daha küçük */
+  text-transform: none !important; /* uppercase yerine none - büyük harf yapma */
+  letter-spacing: 0.2px !important; /* 0.3px yerine 0.2px */
+  margin-right: 0 !important;
+  min-width: 60px !important; /* 50px'den 60px'e genişletildi */
+  flex-shrink: 0 !important; /* Label'ın küçülmesini engelle */
+}
+
+#kullanici-profil-content .form-row .setting-item input {
+  width: 100% !important;
+  max-width: none !important;
+  min-width: auto !important; /* 1100px yerine auto - sınırı kaldır */
+  align-self: center !important; /* stretch yerine center */
+  border: 1px solid var(--border-color) !important;
+  border-radius: 4px !important; /* 6px yerine 4px - daha az yuvarlak */
+  padding: 0.5rem 1rem !important; /* 0.8rem yerine 1rem - yatay padding artırıldı */
+  background: var(--bg-input) !important;
+  font-size: 0.85rem !important; /* 0.8rem'den 0.85rem'e büyütüldü */
+  transition: all 0.2s ease !important;
+  margin-right: 0 !important;
+  box-sizing: border-box !important;
+  flex: 1 !important; /* Input'un kalan alanı kaplaması */
+  height: 36px !important; /* 32px'den 36px'e yükseltildi */
+}
+
+#kullanici-profil-content .form-row .setting-item input:focus {
+  border-color: var(--accent-color) !important;
+  box-shadow: 0 0 0 2px rgba(142, 142, 160, 0.1) !important;
+  outline: none !important;
+}
+
+/* KULLANICILAR SEKMESİNDEKİ PROFİL SAYFASI İÇİN TEK KUTULAR (E-posta, Telefon) */
+#kullanici-profil-content .setting-item:not(.form-row .setting-item) {
+  display: flex !important;
+  flex-direction: row !important; /* column yerine row - yan yana */
+  align-items: center !important; /* flex-start yerine center - dikey ortala */
+  text-align: right !important; /* left yerine right - sağa yasla */
+  width: 100% !important;
+  max-width: 100% !important; /* 1200px yerine 100% - sidebar'a uygun */
+  min-width: auto !important; /* 1200px yerine auto - sınırı kaldır */
+  gap: 1rem !important; /* Label ile input arası boşluk */
+  margin-bottom: 1rem !important;
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  box-sizing: border-box !important;
+  justify-content: flex-end !important; /* Sağa yasla */
+}
+
+#kullanici-profil-content .setting-item:not(.form-row .setting-item) label {
+  align-self: center !important;
+  margin-bottom: 0 !important;
+  font-weight: 400 !important;
+  color: var(--text-main) !important;
+  font-size: 0.7rem !important;
+  text-transform: none !important;
+  letter-spacing: 0.2px !important;
+  margin-right: 0 !important;
+  min-width: 60px !important; /* 50px'den 60px'e genişletildi */
+  flex-shrink: 0 !important;
+}
+
+#kullanici-profil-content .setting-item:not(.form-row .setting-item) input {
+  width: 100% !important;
+  max-width: none !important;
+  min-width: auto !important; /* 1100px yerine auto - sınırı kaldır */
+  align-self: center !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 4px !important;
+  padding: 0.5rem 1rem !important; /* 0.8rem yerine 1rem - yatay padding artırıldı */
+  background: var(--bg-input) !important;
+  font-size: 0.85rem !important; /* 0.8rem'den 0.85rem'e büyütüldü */
+  transition: all 0.2s ease !important;
+  margin-right: 0 !important;
+  box-sizing: border-box !important;
+  flex: 1 !important;
+  height: 36px !important; /* 32px'den 36px'e yükseltildi */
+}
+
+#kullanici-profil-content .setting-item:not(.form-row .setting-item) input:focus {
+  border-color: var(--accent-color) !important;
+  box-shadow: 0 0 0 2px rgba(142, 142, 160, 0.1) !important;
+  outline: none !important;
+}
+
+.muderris-form .setting-item input,
+.muderris-form .setting-item input::placeholder {
+  text-align: left !important;
+}
+
+input,
+textarea,
+select,
+::placeholder {
+  text-align: left !important;
+}
+
+.muderris-form .setting-item input,
+.muderris-form .setting-item textarea,
+.muderris-form .setting-item select,
+.muderris-form .setting-item input::placeholder {
+  text-align: left !important;
+  text-align-last: left !important;
+  direction: ltr !important;
+}
+
+body * input, body * textarea, body * select, body * ::placeholder {
+  text-align: left !important;
+}
+
+/* Şifre güçlülük mesajı için özel stil */
+.password-strength {
+  position: static !important;
+  float: none !important;
+  display: block !important;
+  margin: 0.5rem 0 1rem 0 !important;
+  padding: 0.3rem 0.5rem !important;
+  border-radius: 4px !important;
+  font-size: 0.7rem !important;
+  font-weight: 500 !important;
+  text-align: left !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  clear: both !important;
+  left: auto !important;
+  right: auto !important;
+  top: auto !important;
+  bottom: auto !important;
+}
+
+/* Şifre güçlülük mesajı - form dışında */
+.password-strength {
+  position: static !important;
+  display: block !important;
+  margin: 0.5rem 0 1rem 0 !important;
+  padding: 0.5rem 0.8rem !important;
+  border-radius: 4px !important;
+  font-size: 0.75rem !important;
+  font-weight: 500 !important;
+  text-align: left !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Şifre container'ı için */
+.password-input-container {
+  position: relative !important;
+}
+
+/* Şifre güçlülük mesajını container dışına çıkar */
+.password-strength {
+  position: static !important;
+  margin-top: 0.5rem !important;
+}
+
+/* Okul kutusunu da yukarı taşı */
+.muderris-form .setting-item:has(input[name="school"]) {
+  margin-top: 0.5rem !important; /* Şifre mesajı ile arasında boşluk */
+}
+
+/* Form row içindeki setting-item'lar için */
+.muderris-form .form-row .setting-item {
+  position: relative !important;
+}
+
+/* Şifre güçlülük mesajı - EN GÜÇLÜ SEÇİCİ */
+.muderris-form .form-row .setting-item .password-strength {
+  position: absolute !important;
+  top: 100% !important;
+  left: 0 !important;
+  right: 0 !important;
+  margin-top: 0.3rem !important;
+  width: 100% !important;
+  z-index: 10 !important;
+}
+
+/* Şifre mesajı için renk kodları */
+.password-strength.weak {
+  background: rgba(239, 68, 68, 0.1) !important;
+  color: #dc2626 !important;
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
+}
+
+.password-strength.medium {
+  background: rgba(251, 191, 36, 0.1) !important;
+  color: #d97706 !important;
+  border: 1px solid rgba(251, 191, 36, 0.3) !important;
+}
+
+.password-strength.strong {
+  background: rgba(34, 197, 94, 0.1) !important;
+  color: #16a34a !important;
+  border: 1px solid rgba(34, 197, 94, 0.3) !important;
+}
+
+/* Şifre uyarı kutusu */
+.password-warning {
+  background-color: #2a0000;        /* koyu kırmızı zemin */
+  border: 1px solid #ff4d4d;        /* açık kırmızı kenar */
+  color: #ff4d4d;                   /* yazı rengi */
+  padding: 8px 12px;                /* iç boşluk */
+  margin-top: 8px;                  /* üstte şifre tekrar kutusundan boşluk */
+  margin-bottom: 16px;              /* altta okul kutusuna mesafe */
+  font-size: 0.8rem;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: fadeIn 0.3s ease;
+}
+
+.password-warning i {
+  font-size: 0.9rem;
+}
+
+.password-warning.medium {
+  background-color: #2a1a00;        /* koyu turuncu zemin */
+  border-color: #ff9d4d;            /* turuncu kenar */
+  color: #ff9d4d;                   /* turuncu yazı */
+}
+
+.password-warning.strong {
+  background-color: #002a00;        /* koyu yeşil zemin */
+  border-color: #4dff4d;            /* yeşil kenar */
+  color: #4dff4d;                   /* yeşil yazı */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Şifre uyarı mesajları için renk kodları */
+.password-warning.weak {
+  background: rgba(255, 193, 7, 0.1) !important; /* Sarı arka plan */
+  color: #ffc107 !important; /* Sarı yazı */
+  border: 1px solid #ffc107 !important; /* Sarı kenar */
+}
+
+.password-warning.medium {
+  background: rgba(255, 152, 0, 0.1) !important; /* Turuncu arka plan */
+  color: #ff9800 !important; /* Turuncu yazı */
+  border: 1px solid #ff9800 !important; /* Turuncu kenar */
+}
+
+.password-warning.strong {
+  background: rgba(76, 175, 80, 0.1) !important; /* Yeşil arka plan */
+  color: #4caf50 !important; /* Yeşil yazı */
+  border: 1px solid #4caf50 !important; /* Yeşil kenar */
+}
+
+.password-warning.mismatch {
+  background: rgba(244, 67, 54, 0.1) !important; /* Kırmızı arka plan */
+  color: #f44336 !important; /* Kırmızı yazı */
+  border: 1px solid #f44336 !important; /* Kırmızı kenar */
+}
+
+/* Müderris form setting item'ları - LABEL VE KUTU YAN YANA */
+.muderris-form .setting-item {
+  display: flex !important;
+  flex-direction: row !important; /* column yerine row - yan yana */
+  align-items: center !important; /* flex-start yerine center - dikey ortala */
+  text-align: left !important;
+  gap: 1rem !important; /* 0.5rem yerine 1rem - daha fazla boşluk */
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  margin-bottom: 1rem !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  justify-content: flex-start !important;
+  box-sizing: border-box !important;
+}
+
+.muderris-form .setting-item label {
+  display: block !important;
+  font-weight: 500 !important;
+  color: var(--text-main) !important;
+  margin-bottom: 0 !important; /* 0.25rem yerine 0 */
+  min-width: 120px !important; /* Sabit genişlik */
+  flex-shrink: 0 !important; /* Küçülmesin */
+}
+
+/* İlgi alanları hariç - alt alta kalacak */
+.muderris-form .setting-item:has(textarea) {
+  flex-direction: column !important; /* textarea olanlar alt alta */
+  align-items: flex-start !important;
+}
+
+.muderris-form .setting-item:has(textarea) label {
+  min-width: auto !important; /* textarea için min-width kaldır */
+  margin-bottom: 0.25rem !important;
+}
+
+/* Şifre kutuları - TEMAYA UYUMLU */
+.muderris-form .setting-item .password-input-container {
+  display: flex !important;
+  align-items: center !important;
+  width: 100% !important;
+  position: relative !important;
+  flex: 1 !important;
+}
+
+.muderris-form .setting-item .password-input-container input {
+  width: 100% !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 4px !important;
+  padding: 0.4rem 0.5rem !important;
+  background: var(--bg-input) !important;
+  color: var(--text-main) !important;
+  font-size: 0.85rem !important;
+  box-sizing: border-box !important;
+  transition: all 0.2s ease !important;
+}
+
+.muderris-form .setting-item .password-input-container input:focus {
+  border-color: var(--accent-color) !important;
+  box-shadow: 0 0 0 2px rgba(142, 142, 160, 0.1) !important;
+  outline: none !important;
+}
+
+.muderris-form .setting-item .password-input-container .password-toggle {
+  position: absolute !important;
+  right: 0.5rem !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  background: transparent !important;
+  border: none !important;
+  color: var(--text-muted) !important;
+  cursor: pointer !important;
+  padding: 0.25rem !important;
+  border-radius: 3px !important;
+  transition: all 0.2s ease !important;
+}
+
+.muderris-form .setting-item .password-input-container .password-toggle:hover {
+  background: var(--bg-hover) !important;
+  color: var(--text-main) !important;
+}
+
+.muderris-form .setting-item .password-input-container .password-toggle i {
+  font-size: 0.8rem !important;
+}
+
+/* Müderris form setting item'ları - LABEL KÜÇÜLTÜLMÜŞ VE DÜZELTİLMİŞ */
+.muderris-form .setting-item {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  text-align: left !important;
+  gap: 0.75rem !important; /* 1rem yerine 0.75rem - daha az boşluk */
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  margin-bottom: 1rem !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  justify-content: flex-start !important;
+  box-sizing: border-box !important;
+}
+
+.muderris-form .setting-item label {
+  display: block !important;
+  font-weight: 500 !important;
+  color: var(--text-main) !important;
+  margin-bottom: 0 !important;
+  min-width: 100px !important; /* 120px yerine 100px - daha küçük */
+  flex-shrink: 0 !important;
+  font-size: 0.85rem !important; /* Font boyutu küçültüldü */
+}
+
+/* Form row içindeki setting item'lar için de aynı stil */
+.muderris-form .form-row .setting-item {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  text-align: left !important;
+  gap: 0.75rem !important;
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  margin-bottom: 0 !important;
+  width: 100% !important;
+  justify-content: flex-start !important;
+  box-sizing: border-box !important;
+  flex: 1 !important; /* Eşit genişlik */
+}
+
+.muderris-form .form-row .setting-item label {
+  display: block !important;
+  font-weight: 500 !important;
+  color: var(--text-main) !important;
+  margin-bottom: 0 !important;
+  min-width: 100px !important;
+  flex-shrink: 0 !important;
+  font-size: 0.85rem !important;
+}
+
+/* Input'lar için genel stil */
+.muderris-form .setting-item input,
+.muderris-form .setting-item textarea,
+.muderris-form .setting-item select {
+  width: 100% !important;
+  max-width: none !important;
+  min-width: auto !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 4px !important;
+  padding: 0.4rem 0.5rem !important;
+  background: var(--bg-input) !important;
+  color: var(--text-main) !important;
+  font-size: 0.85rem !important;
+  box-sizing: border-box !important;
+  transition: all 0.2s ease !important;
+  flex: 1 !important; /* Kalan alanı doldur */
+}
+
+/* İlgi alanları hariç - alt alta kalacak */
+.muderris-form .setting-item:has(textarea) {
+  flex-direction: column !important;
+  align-items: flex-start !important;
+}
+
+.muderris-form .setting-item:has(textarea) label {
+  min-width: auto !important;
+  margin-bottom: 0.25rem !important;
+}
+
+/* Müderris form setting item'ları - LABEL ALANI DARALTILDI */
+.muderris-form .setting-item {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  text-align: left !important;
+  gap: 0.5rem !important; /* 0.75rem yerine 0.5rem - daha az boşluk */
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  margin-bottom: 1rem !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  justify-content: flex-start !important;
+  box-sizing: border-box !important;
+}
+
+.muderris-form .setting-item label {
+  display: block !important;
+  font-weight: 500 !important;
+  color: var(--text-main) !important;
+  margin-bottom: 0 !important;
+  min-width: 80px !important; /* 100px yerine 80px - daha dar */
+  max-width: 80px !important; /* Maksimum genişlik sınırı */
+  flex-shrink: 0 !important;
+  font-size: 0.8rem !important; /* 0.85rem yerine 0.8rem - daha küçük font */
+  white-space: nowrap !important; /* Satır atlamasın */
+  overflow: hidden !important; /* Taşan kısmı gizle */
+  text-overflow: ellipsis !important; /* ... ile göster */
+}
+
+/* Form row içindeki setting item'lar için de aynı stil */
+.muderris-form .form-row .setting-item {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  text-align: left !important;
+  gap: 0.5rem !important;
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  margin-bottom: 0 !important;
+  width: 100% !important;
+  justify-content: flex-start !important;
+  box-sizing: border-box !important;
+  flex: 1 !important;
+}
+
+.muderris-form .form-row .setting-item label {
+  display: block !important;
+  font-weight: 500 !important;
+  color: var(--text-main) !important;
+  margin-bottom: 0 !important;
+  min-width: 80px !important;
+  max-width: 80px !important;
+  flex-shrink: 0 !important;
+  font-size: 0.8rem !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+/* Input'lar için daha fazla alan */
+.muderris-form .setting-item input,
+.muderris-form .setting-item textarea,
+.muderris-form .setting-item select {
+  width: 100% !important;
+  max-width: none !important;
+  min-width: auto !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 4px !important;
+  padding: 0.4rem 0.5rem !important;
+  background: var(--bg-input) !important;
+  color: var(--text-main) !important;
+  font-size: 0.85rem !important;
+  box-sizing: border-box !important;
+  transition: all 0.2s ease !important;
+  flex: 1 !important; /* Kalan tüm alanı doldur */
+}
+
+/* Müderris form setting item'ları - LABEL ALANI DAHA DA DARALTILDI */
+.muderris-form .setting-item {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  text-align: left !important;
+  gap: 0.4rem !important; /* 0.5rem yerine 0.4rem - daha az boşluk */
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  margin-bottom: 1rem !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  justify-content: flex-start !important;
+  box-sizing: border-box !important;
+}
+
+.muderris-form .setting-item label {
+  display: block !important;
+  font-weight: 500 !important;
+  color: var(--text-main) !important;
+  margin-bottom: 0 !important;
+  min-width: 60px !important; /* 80px yerine 60px - daha dar */
+  max-width: 60px !important; /* Maksimum genişlik sınırı */
+  flex-shrink: 0 !important;
+  font-size: 0.75rem !important; /* 0.8rem yerine 0.75rem - daha küçük font */
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+/* Form row içindeki setting item'lar için de aynı stil */
+.muderris-form .form-row .setting-item {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  text-align: left !important;
+  gap: 0.4rem !important;
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  margin-bottom: 0 !important;
+  width: 100% !important;
+  justify-content: flex-start !important;
+  box-sizing: border-box !important;
+  flex: 1 !important;
+}
+
+.muderris-form .form-row .setting-item label {
+  display: block !important;
+  font-weight: 500 !important;
+  color: var(--text-main) !important;
+  margin-bottom: 0 !important;
+  min-width: 60px !important;
+  max-width: 60px !important;
+  flex-shrink: 0 !important;
+  font-size: 0.75rem !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+/* Müderris form setting item'ları - LABEL 2 SATIR VE İLGİ ALANLARI GENİŞLETİLDİ */
+.muderris-form .setting-item {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-start !important; /* center yerine flex-start - üstten hizala */
+  text-align: left !important;
+  gap: 0.4rem !important;
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  margin-bottom: 1rem !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  justify-content: flex-start !important;
+  box-sizing: border-box !important;
+}
+
+.muderris-form .setting-item label {
+  display: block !important;
+  font-weight: 500 !important;
+  color: var(--text-main) !important;
+  margin-bottom: 0 !important;
+  min-width: 60px !important;
+  max-width: 60px !important;
+  flex-shrink: 0 !important;
+  font-size: 0.75rem !important;
+  white-space: normal !important; /* nowrap yerine normal - 2 satır olabilir */
+  overflow: visible !important; /* hidden yerine visible */
+  text-overflow: clip !important; /* ellipsis yerine clip */
+  line-height: 1.2 !important; /* Satır yüksekliği */
+  padding-top: 0.4rem !important; /* Input ile aynı hizada */
+}
+
+/* İlgi alanları için genişletilmiş label */
+.muderris-form .setting-item:has(textarea) label {
+  min-width: 100px !important; /* 60px yerine 100px - daha geniş */
+  max-width: 100px !important;
+  font-size: 0.8rem !important; /* 0.75rem yerine 0.8rem - biraz daha büyük */
+}
+
+/* Form row içindeki setting item'lar için de aynı stil */
+.muderris-form .form-row .setting-item {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-start !important;
+  text-align: left !important;
+  gap: 0.4rem !important;
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  margin-bottom: 0 !important;
+  width: 100% !important;
+  justify-content: flex-start !important;
+  box-sizing: border-box !important;
+  flex: 1 !important;
+}
+
+.muderris-form .form-row .setting-item label {
+  display: block !important;
+  font-weight: 500 !important;
+  color: var(--text-main) !important;
+  margin-bottom: 0 !important;
+  min-width: 60px !important;
+  max-width: 60px !important;
+  flex-shrink: 0 !important;
+  font-size: 0.75rem !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  line-height: 1.2 !important;
+  padding-top: 0.4rem !important;
+}
+
+/* Müderris form setting item'ları - BOŞLUKLAR EŞİTLENDİ VE DARALTILDI */
+.muderris-form .setting-item {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-start !important;
+  text-align: left !important;
+  gap: 0.3rem !important; /* 0.4rem yerine 0.3rem - daha dar */
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  margin-bottom: 0.75rem !important; /* 1rem yerine 0.75rem - daha dar */
+  width: 100% !important;
+  max-width: 100% !important;
+  justify-content: flex-start !important;
+  box-sizing: border-box !important;
+}
+
+.muderris-form .setting-item label {
+  display: block !important;
+  font-weight: 500 !important;
+  color: var(--text-main) !important;
+  margin-bottom: 0 !important;
+  min-width: 60px !important;
+  max-width: 60px !important;
+  flex-shrink: 0 !important;
+  font-size: 0.75rem !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  line-height: 1.2 !important;
+  padding-top: 0.4rem !important;
+}
+
+/* İlgi alanları için genişletilmiş label */
+.muderris-form .setting-item:has(textarea) label {
+  min-width: 100px !important;
+  max-width: 100px !important;
+  font-size: 0.8rem !important;
+}
+
+/* Form row içindeki setting item'lar için de aynı stil */
+.muderris-form .form-row .setting-item {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-start !important;
+  text-align: left !important;
+  gap: 0.3rem !important; /* 0.4rem yerine 0.3rem */
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  margin-bottom: 0.75rem !important; /* 0 yerine 0.75rem - eşit boşluk */
+  width: 100% !important;
+  justify-content: flex-start !important;
+  box-sizing: border-box !important;
+  flex: 1 !important;
+}
+
+.muderris-form .form-row .setting-item label {
+  display: block !important;
+  font-weight: 500 !important;
+  color: var(--text-main) !important;
+  margin-bottom: 0 !important;
+  min-width: 60px !important;
+  max-width: 60px !important;
+  flex-shrink: 0 !important;
+  font-size: 0.75rem !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  line-height: 1.2 !important;
+  padding-top: 0.4rem !important;
+}
+
+/* Form row'lar arası boşluk */
+.muderris-form .form-row {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.75rem !important; /* 1rem yerine 0.75rem - daha dar */
+  margin-bottom: 0.75rem !important; /* Eşit boşluk */
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Müderris form setting item'ları - BOŞLUKLAR DARALTILDI */
+.muderris-form .setting-item {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-start !important;
+  text-align: left !important;
+  gap: 0.3rem !important;
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  margin-bottom: 0.25rem !important; /* 0.5rem yerine 0.25rem - çok daha dar */
+  width: 100% !important;
+  max-width: 100% !important;
+  justify-content: flex-start !important;
+  box-sizing: border-box !important;
+}
+
+/* Form row içindeki setting item'lar için de aynı stil */
+.muderris-form .form-row .setting-item {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-start !important;
+  text-align: left !important;
+  gap: 0.3rem !important;
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  margin-bottom: 0.25rem !important; /* 0.5rem yerine 0.25rem */
+  width: 100% !important;
+  justify-content: flex-start !important;
+  box-sizing: border-box !important;
+  flex: 1 !important;
+}
+
+/* Form row'lar arası boşluk */
+.muderris-form .form-row {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.25rem !important; /* 0.5rem yerine 0.25rem - çok daha dar */
+  margin-bottom: 0.25rem !important; /* 0.5rem yerine 0.25rem */
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Butonlar - DİKEYDE EŞİT, YATAYDA FARKLI */
+.form-buttons {
+  display: flex !important;
+  gap: 0.5rem !important;
+  margin-top: 1rem !important;
+  width: 100% !important;
+}
+
+/* Kaydet butonu - UZUN */
+.muderris-form-container .form-buttons .save-muderris-btn {
+  background: var(--bg-input) !important;
+  color: var(--text-main) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 6px !important;
+  padding: 0.75rem 1rem !important;
+  font-size: 0.9rem !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.5rem !important;
+  flex: 2 !important; /* 2 birim genişlik */
+  height: 40px !important; /* Sabit yükseklik */
+  margin-bottom: 0 !important;
+}
+
+/* Sil butonu - KISA */
+.muderris-form-container .form-buttons .delete-muderris-btn {
+  background: var(--bg-input) !important;
+  color: var(--error-color) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 6px !important;
+  padding: 0.75rem 0.5rem !important; /* 1rem yerine 0.5rem - daha dar */
+  font-size: 0.9rem !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.5rem !important;
+  flex: 1 !important; /* 1 birim genişlik */
+  height: 40px !important; /* Sabit yükseklik */
+}
+
+/* KULLANICILAR SEKMESİNDEKİ PROFİL SAYFASI İÇİN FORM-ROW DÜZENLEME */
+#kullanici-profil-content .form-row .setting-item label {
+  align-self: center !important;
+  margin-bottom: 0 !important;
+  font-weight: 400 !important;
+  color: var(--text-main) !important;
+  font-size: 0.7rem !important;
+  text-transform: none !important;
+  letter-spacing: 0.2px !important;
+  margin-right: 0 !important;
+  min-width: 40px !important; /* 60px yerine 40px - daha dar */
+  max-width: 40px !important; /* Maksimum genişlik sınırı */
+  flex-shrink: 0 !important;
+  white-space: nowrap !important; /* Satır atlamasın */
+  overflow: hidden !important; /* Taşan kısmı gizle */
+  text-overflow: ellipsis !important; /* ... ile göster */
+}
+
+/* KULLANICILAR SEKMESİNDEKİ PROFİL SAYFASI İÇİN TEK KUTULAR (E-posta, Telefon) */
+#kullanici-profil-content .setting-item:not(.form-row .setting-item) label {
+  align-self: center !important;
+  margin-bottom: 0 !important;
+  font-weight: 400 !important;
+  color: var(--text-main) !important;
+  font-size: 0.7rem !important;
+  text-transform: none !important;
+  letter-spacing: 0.2px !important;
+  margin-right: 0 !important;
+  min-width: 40px !important; /* 60px yerine 40px - daha dar */
+  max-width: 40px !important; /* Maksimum genişlik sınırı */
+  flex-shrink: 0 !important;
+  white-space: nowrap !important; /* Satır atlamasın */
+  overflow: hidden !important; /* Taşan kısmı gizle */
+  text-overflow: ellipsis !important; /* ... ile göster */
+}

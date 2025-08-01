@@ -1,0 +1,23 @@
+/* Gökyüzü tema değişkenleri - DÜZELTİLMİŞ */
+[data-theme="gokyuzu"] {
+  --bg-main: #364d63;
+  --bg-sidebar: #476785;
+  --bg-hover: #5a7a97;
+  --bg-input: #4a6c8c;
+  --bg-chat-bubble: #5a7fa0;
+  --text-main: #e7f3fd;
+  --text-muted: #b8d1e6;
+  --border-color: #6c8aab;
+  --icon-color: #adcce4;
+  --icon-active: #ffffff;
+  --accent-color: #2c4a6b; /* Koyu mavi */
+  --accent-hover: #1a2f4a; /* Daha koyu mavi */
+  --error-color: #dc3545;
+  --success-color: #28a745;
+  --warning-color: #ffc107;
+  --divider-color: #6c8aab;
+  --secondary-text: #a1bed7;
+  --text-primary: #e7f3fd;
+  --text-secondary: #b8d1e6;
+  --input-hover: #6c8fb1;
+} 

@@ -1,0 +1,10 @@
+/* CSS Import'ları - Düzeltilmiş sıra */
+@import 'base.css';           /* 1. Temel değişkenler ve reset */
+@import 'themes/dark.css';    /* 2. Tema değişkenleri */
+@import 'layout.css';         /* 3. Genel layout */
+@import 'components.css';     /* 4. Bileşenler */
+@import 'utilities.css';      /* 5. Yardımcı sınıflar */
+@import 'style.css';          /* 6. Ana stil dosyası (değişkenleri ezmez) */
+@import 'profile-sidebar.css'; /* 7. Profil sidebar */
+@import 'settings-sidebar.css'; /* 8. Ayarlar sidebar */
+@import 'settings.css';       /* 9. Ayarlar */ 

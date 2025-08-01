@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="acik">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Genç Müderris</title>
+  <!-- Favicon ekle -->
+  <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+  <link rel="stylesheet" href="/static/fontawesome-free-6.4.0-web/css/all.min.css">
+  <!-- Geçici olarak eski dosyayı kullan -->
+  <link rel="stylesheet" href="/static/css/style.css">
+  <!-- Müderris form stilleri için settings.css ekle -->
+  <link rel="stylesheet" href="/static/css/settings.css">
+  <!-- Tema dosyaları -->
+  <link rel="stylesheet" href="/static/css/themes/dark.css" id="theme-css">
+</head>
+<body>
+<div class="main-container">
+  <!-- Tek menü toggle butonu -->
+  <button class="mobile-menu-toggle" id="mobileMenuToggle">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+
+  <aside class="sidebar" id="sidebar">
+    <!-- Sidebar Header -->
+    <div class="sidebar-header">
+      <div class="header-buttons">
+        <button class="sidebar-main-btn active" data-section="sohbetler" title="Sohbetler">
+          <i class="fa-solid fa-comments"></i>
+        </button>
+        <button class="sidebar-main-btn" data-section="ayarlar" title="Ayarlar">
+          <i class="fa-solid fa-gear"></i>
+        </button>
+        <button class="sidebar-main-btn" data-section="kullanıcılar" title="Kullanıcılar">
+          <i class="fa-solid fa-users"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Sohbetler İçeriği (Varsayılan) -->
+    <div class="sidebar-content" id="sohbetler-content">
+    <div class="sidebar-actions-row">
+      <button class="icon-btn new-chat-btn" title="Yeni Sohbet">
+        <i class="fa-solid fa-plus"></i>
+      </button>
+      <div class="sidebar-search">
+        <input type="text" id="searchChats" placeholder="Sohbetleri Ara" autocomplete="off">
+        </div>
+      </div>
+      <div class="chat-list" id="chatList"></div>
+    </div>
+
+    <!-- Ayarlar İçeriği -->
+    <div class="sidebar-content hidden" id="ayarlar-content">
+      <div class="sidebar-menu" id="ayarlar-menu">
+        <button class="sidebar-menu-btn" data-subsection="genel">
+          <span>Genel</span>
+        </button>
+        <button class="sidebar-menu-btn" data-subsection="ses">
+          <span>Ses</span>
+        </button>
+        <button class="sidebar-menu-btn" data-subsection="bildirim">
+          <span>Bildirimler</span>
+        </button>
+        <button class="sidebar-menu-btn" data-subsection="guvenlik">
+          <span>Güvenlik</span>
+        </button>
+        <button class="sidebar-menu-btn" data-subsection="cihaz">
+          <span>Cihazlarım</span>
+        </button>
+        <button class="sidebar-menu-btn" data-subsection="gizlilik">
+          <span>Veri & Gizlilik</span>
+        </button>
+        <button class="sidebar-menu-btn" data-subsection="iletisim">
+          <span>İletişim</span>
+        </button>
+      </div>
+      
+      <!-- Alt menü içerikleri -->
+      <div class="subsection-content hidden" id="genel-content">
+        <div class="subsection-header">
+          <button class="back-btn" data-back-to="ayarlar-menu">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Genel</span>
+          </button>
+        </div>
+        <div class="setting-item">
+          <label>Tema:</label>
+          <select id="themeSelect">
+            <option value="koyu">Koyu Tema</option>
+            <option value="acik">Açık Tema</option>
+            <option value="pembe">Pembe</option>
+            <option value="gokyuzu">Gökyüzü</option>
+            <option value="mavi">Mavi</option>
+            <option value="safak">Şafak</option>
+          </select>
+        </div>
+        <div class="setting-item">
+          <label>Dil:</label>
+          <select id="languageSelect" disabled>
+            <option value="tr" selected>Türkçe</option>
+            <option value="en">English</option>
+            <option value="ar">العربية</option>
+          </select>
+        </div>
+        <div class="setting-item">
+          <label>Gece Modu Aktif:</label>
+          <input type="checkbox" id="nightMode" checked>
+        </div>
+        <div class="setting-item">
+          <label>Başlangıç Saati:</label>
+          <input type="time" id="nightStart" value="22:00">
+        </div>
+        <div class="setting-item">
+          <label>Bitiş Saati:</label>
+          <input type="time" id="nightEnd" value="07:00">
+        </div>
+        <div class="setting-item">
+          <label>Animasyonları Kapat:</label>
+          <input type="checkbox" id="disableAnimations">
+        </div>
+        <div class="setting-item">
+          <label>Asistan Sesli Konuşsun:</label>
+          <input type="checkbox" id="assistantSpeak" checked>
+        </div>
+      </div>
+      
+      <div class="subsection-content hidden" id="ses-content">
+        <div class="subsection-header">
+          <button class="back-btn" data-back-to="ayarlar-menu">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Ses</span>
+          </button>
+        </div>
+        
+        <!-- TTS Motoru -->
+        <div class="setting-item">
+          <label>TTS Motoru:</label>
+          <select id="ttsEngine">
+            <option value="browser">Tarayıcı Varsayılan</option>
+            <option value="google">Google TTS</option>
+            <option value="microsoft">Microsoft Azure</option>
+            <option value="amazon">Amazon Polly</option>
+            <option value="custom">Özel API</option>
+          </select>
+        </div>
+        
+        <!-- Ses Seçimi -->
+        <div class="setting-item">
+          <label>Ses:</label>
+          <select id="ttsVoice">
+            <option value="tr-TR-AhmetNeural">Ahmet (Erkek)</option>
+            <option value="tr-TR-EmelNeural">Emel (Kadın)</option>
+            <option value="tr-TR-EmelNeural-2">Emel 2 (Kadın)</option>
+            <option value="tr-TR-AhmetNeural-2">Ahmet 2 (Erkek)</option>
+            <option value="en-US-JennyNeural">Jenny (İngilizce)</option>
+            <option value="ar-SA-NaayfNeural">Naayf (Arapça)</option>
+          </select>
+        </div>
+        
+        <!-- Sistem Ses Seviyesi -->
+        <div class="setting-item">
+          <label>Sistem Ses Seviyesi:</label>
+          <input type="number" id="systemVolume" min="1" max="100" value="70" class="number-input">
+          <span class="unit">%</span>
+        </div>
+        
+        <!-- Ses Hızı -->
+        <div class="setting-item">
+          <label>Ses Hızı:</label>
+          <input type="number" id="ttsSpeed" min="0.5" max="2" step="0.1" value="1" class="number-input">
+          <span class="unit">x</span>
+        </div>
+        
+        <!-- Konuşma Kutusu -->
+        <div class="setting-item">
+          <textarea id="testText" placeholder="Test metni yazın..." rows="2">Hoşgeldin Genç Müderris</textarea>
+        </div>
+        
+        <!-- Konuş Butonu -->
+        <div class="setting-item">
+          <label></label>
+          <button id="testTTS" class="test-btn">
+            <i class="fa-solid fa-play"></i>
+          </button>
+        </div>
+        
+      </div>
+      
+      <div class="subsection-content hidden" id="bildirim-content">
+        <div class="subsection-header">
+          <button class="back-btn" data-back-to="ayarlar-menu">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Bildirimler</span>
+          </button>
+        </div>
+        <div class="setting-item">
+          <label>Bildirimleri Göster:</label>
+          <input type="checkbox" id="showNotifications" checked>
+        </div>
+        <div class="setting-item">
+          <label>Ses Bildirimleri:</label>
+          <input type="checkbox" id="soundNotifications" checked>
+        </div>
+        <div class="setting-item">
+          <label>E-posta Bildirimleri:</label>
+          <input type="checkbox" id="emailNotifications" checked>
+        </div>
+        <div class="setting-item">
+          <label>Push Bildirimleri:</label>
+          <input type="checkbox" id="pushNotifications" checked>
+        </div>
+      </div>
+      
+      <!-- Güvenlik İçeriği - DÜZELTİLMİŞ -->
+      <div class="subsection-content hidden" id="guvenlik-content">
+        <div class="subsection-header">
+          <button class="back-btn" data-back-to="ayarlar-menu">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Güvenlik</span>
+          </button>
+        </div>
+        
+        <!-- İki Faktörlü Doğrulama -->
+        <div class="setting-item">
+          <label for="twoFactorAuth">İki Faktörlü Doğrulama</label>
+          <input type="checkbox" id="twoFactorAuth">
+        </div>
+        
+        <!-- Oturum Süresi -->
+        <div class="setting-item">
+          <label for="sessionDuration">Oturum Süresi</label>
+          <select id="sessionDuration">
+            <option value="1">1 Saat</option>
+            <option value="4">4 Saat</option>
+            <option value="8" selected>8 Saat</option>
+            <option value="24">24 Saat</option>
+            <option value="168">1 Hafta</option>
+            <option value="0">Süresiz</option>
+          </select>
+        </div>
+        
+        <!-- Şüpheli Aktivite Bildirimleri -->
+        <div class="setting-item">
+          <label for="suspiciousActivity">Şüpheli Aktivite Bildirimleri</label>
+          <input type="checkbox" id="suspiciousActivity" checked>
+        </div>
+        
+        <!-- Giriş Geçmişi -->
+        <div class="setting-item">
+          <label>Giriş Geçmişi</label>
+          <button id="viewLoginHistory" class="action-btn">
+            Görüntüle
+          </button>
+        </div>
+        
+        <!-- Hesabımı Sil - YENİ EKLENEN -->
+        <div class="setting-item">
+          <label>Hesabımı Sil:</label>
+          <button id="deleteAccount" class="action-btn danger" style="background: var(--error-color) !important; color: white !important; border-color: var(--error-color) !important;">
+            Hesabımı Sil
+          </button>
+        </div>
+      </div>
+      
+      <!-- Cihazlarım sekmesi güncellendi -->
+      <div class="subsection-content hidden" id="cihaz-content">
+        <div class="subsection-header">
+          <button class="back-btn" data-back-to="ayarlar-menu">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Cihazlarım</span>
+          </button>
+        </div>
+        <!-- Cihaz Senkronizasyonu en üste alındı -->
+        <div class="setting-item">
+          <label>Cihaz Senkronizasyonu:</label>
+          <input type="checkbox" checked>
+        </div>
+        
+        <!-- Cihaz Listesi - Kompakt Tasarım -->
+        <div class="device-list-compact">
+          <div class="device-item-compact">
+            <div class="device-icon-compact">
+              <i class="fa-solid fa-laptop"></i>
+            </div>
+            <div class="device-info-compact">
+              <div class="device-name-compact">Windows 11 - Chrome</div>
+              <div class="device-details-compact">Ankara, Türkiye • Son aktivite: 5 dakika önce</div>
+            </div>
+            <button class="device-close-btn-compact" title="Oturumu Kapat">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+          
+          <div class="device-item-compact">
+            <div class="device-icon-compact">
+              <i class="fa-solid fa-mobile-screen"></i>
+            </div>
+            <div class="device-info-compact">
+              <div class="device-name-compact">iPhone 14 - Safari</div>
+              <div class="device-details-compact">İstanbul, Türkiye • Son aktivite: 2 saat önce</div>
+            </div>
+            <button class="device-close-btn-compact" title="Oturumu Kapat">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+          
+          <div class="device-item-compact">
+            <div class="device-icon-compact">
+              <i class="fa-solid fa-laptop"></i>
+            </div>
+            <div class="device-info-compact">
+              <div class="device-name-compact">MacBook - Firefox</div>
+              <div class="device-details-compact">İzmir, Türkiye • Son aktivite: 1 gün önce</div>
+            </div>
+            <button class="device-close-btn-compact" title="Oturumu Kapat">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="subsection-content hidden" id="gizlilik-content">
+        <div class="subsection-header">
+          <button class="back-btn" data-back-to="ayarlar-menu">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Veri & Gizlilik</span>
+          </button>
+        </div>
+        
+        <!-- Gizlilik Ayarları Bölümü -->
+        <div class="settings-section">
+          <div class="section-title">
+            <i class="fa-solid fa-shield-halved"></i>
+            Gizlilik Ayarları
+          </div>
+          
+          <!-- 1. KVKK ve Gizlilik Politikası (İşaretli, değiştirilemez) -->
+          <div class="setting-item required-setting">
+            <label>
+              <a href="#" class="policy-link" data-policy="kvkk">KVKK ve Gizlilik Politikası</a>
+            </label>
+            <input type="checkbox" id="kvkkPolicy" checked disabled>
+          </div>
+          
+          <!-- 2. Üyelik ve Kullanım Koşulları (İşaretli, değiştirilemez) -->
+          <div class="setting-item required-setting">
+            <label>
+              <a href="#" class="terms-link">Üyelik ve Kullanım Koşulları</a>
+            </label>
+            <input type="checkbox" id="termsConditions" checked disabled>
+          </div>
+          
+          <!-- 3. Cihaz ve Oturum Bilgileri İzni (İşaretli, değiştirilemez) -->
+          <div class="setting-item required-setting">
+            <label>
+              <a href="#" class="policy-link" data-policy="device-consent">Cihaz ve Oturum Bilgileri İzni</a>
+            </label>
+            <input type="checkbox" id="deviceSessionInfo" checked disabled>
+          </div>
+          
+          <!-- 4. Ticari Elektronik İleti ve Bildirim Onayı (İsteğe bağlı, boş) -->
+          <div class="setting-item optional-setting">
+            <label>
+              <a href="#" class="policy-link" data-policy="commercial">Ticari Elektronik İleti ve Bildirim Onayı</a>
+            </label>
+            <input type="checkbox" id="commercialEmail">
+          </div>
+        </div>
+        
+        <!-- Veri Yönetimi Bölümü -->
+        <div class="settings-section">
+          <div class="section-title">
+            <i class="fa-solid fa-database"></i>
+            Veri Yönetimi
+          </div>
+          
+          <!-- 1. Veri Analizi ve İyileştirme -->
+          <div class="setting-item optional-setting">
+            <label for="dataAnalytics">
+              <a href="#" class="policy-link" data-policy="data-analytics">Veri Analizi ve İyileştirme</a>
+              <span class="setting-description">(Platform iyileştirmesi için anonim veriler)</span>
+            </label>
+            <input type="checkbox" id="dataAnalytics">
+          </div>
+          
+          <!-- 2. Cihaz Bilgilerini Paylaş -->
+          <div class="setting-item optional-setting">
+            <label for="deviceInfoSharing">
+              <a href="#" class="policy-link" data-policy="device-info">Cihaz Bilgilerini Paylaş</a>
+              <span class="setting-description">(Platform uyumluluğu için)</span>
+            </label>
+            <input type="checkbox" id="deviceInfoSharing">
+          </div>
+          
+          <!-- 3. Kullanım İstatistikleri -->
+          <div class="setting-item optional-setting">
+            <label for="usageStats">
+              <a href="#" class="policy-link" data-policy="usage-stats">Kullanım İstatistikleri</a>
+              <span class="setting-description">(Kullanıcı deneyimi iyileştirmesi için)</span>
+            </label>
+            <input type="checkbox" id="usageStats">
+          </div>
+          
+          <!-- 4. Hata Raporlama -->
+          <div class="setting-item optional-setting">
+            <label for="errorReporting">
+              <a href="#" class="policy-link" data-policy="error-reporting">Hata Raporlama</a>
+              <span class="setting-description">(Sistem stabilitesi için)</span>
+            </label>
+            <input type="checkbox" id="errorReporting">
+          </div>
+          
+          <!-- 5. Otomatik Yedekleme -->
+          <div class="setting-item optional-setting">
+            <label for="autoBackup">
+              <a href="#" class="policy-link" data-policy="auto-backup">Otomatik Yedekleme</a>
+              <span class="setting-description">(Veri güvenliği için)</span>
+            </label>
+            <input type="checkbox" id="autoBackup">
+          </div>
+        </div>
+        
+        <!-- Veri İndirme ve Silme Bölümü -->
+        <div class="settings-section">
+          <div class="section-title">
+            <i class="fa-solid fa-download"></i>
+            Veri İndirme ve Silme
+          </div>
+          
+          <div class="setting-item">
+            <label>Hesap Verileri:</label>
+            <button id="downloadData" class="action-btn">
+              <i class="fa-solid fa-download"></i>
+              İndir
+            </button>
+          </div>
+          
+          <div class="setting-item">
+            <label>Hesap Verileri:</label>
+            <button id="deleteAccountData" class="action-btn danger">
+              <i class="fa-solid fa-trash"></i>
+              Sil
+            </button>
+          </div>
+          
+          <div class="setting-item">
+            <label>Sohbet Geçmişi:</label>
+            <button id="clearChatHistory" class="action-btn warning">
+              <i class="fa-solid fa-eraser"></i>
+              Temizle
+            </button>
+          </div>
+        </div>
+        
+        <!-- Gizlilik Politikası Linkleri -->
+        
+      </div>
+      
+      <div class="subsection-content hidden" id="iletisim-content">
+        <div class="subsection-header">
+          <button class="back-btn" data-back-to="ayarlar-menu">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>İletişim</span>
+          </button>
+        </div>
+        <form id="iletisimForm" enctype="multipart/form-data" style="max-width: 500px; margin: 0 auto;">
+          <div class="setting-item" style="margin-bottom: 1px; padding: 2px 0; border: none; border-bottom: none;">
+            <label for="kategori">Kategori:</label>
+            <select id="kategori" name="kategori" required>
+              <option value="oneri">Öneri</option>
+              <option value="sikayet">Şikayet</option>
+              <option value="teknik">Teknik Destek</option>
+            </select>
+          </div>
+          <div class="setting-item" style="margin-bottom: 1px; padding: 2px 0; border: none; border-bottom: none;">
+            <input type="text" id="konuBaslik" name="konuBaslik" maxlength="100" required placeholder="Konu başlığı yazınız" style="width: 100%; box-sizing: border-box;">
+          </div>
+          <div class="setting-item" style="margin-bottom: 1px; padding: 2px 0; border: none; border-bottom: none;">
+            <textarea id="sorunDetay" name="sorunDetay" rows="5" required placeholder="Sorununuzu detaylıca yazınız..." style="width: 100%; box-sizing: border-box; min-height: 120px; resize: vertical;"></textarea>
+          </div>
+          <div class="setting-item" style="margin-bottom: 1px; padding: 2px 0; border: none; border-bottom: none;">
+            <button type="button" id="dosyaEkleBtn" class="action-btn" style="background: var(--bg-input); color: var(--text-main); border: 1px solid var(--border-color); padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 14px;">
+              <i class="fa-solid fa-paperclip"></i> Dosya Ekle
+            </button>
+            <input type="file" id="dosya" name="dosya" accept="image/*,.pdf,.txt,.log" style="display: none;">
+            <div id="dosyaAdi" style="margin-top: 4px; font-size: 12px; color: var(--text-secondary);"></div>
+          </div>
+          <div class="setting-item" style="margin-bottom: 1px; padding: 2px 0; border: none; border-bottom: none; display: block;">
+            <label for="email" style="display: block; margin-bottom: 4px;">E-posta (isteğe bağlı):</label>
+            <input type="email" id="email" name="email" placeholder="E-posta adresiniz" style="width: 100%; box-sizing: border-box;">
+          </div>
+          <div class="setting-item" style="margin-bottom: 1px; padding: 2px 0; border: none; border-bottom: none; display: block;">
+            <label for="telefon" style="display: block; margin-bottom: 4px;">Telefon (isteğe bağlı):</label>
+            <input type="tel" id="telefon" name="telefon" placeholder="Telefon numaranız" style="width: 100%; box-sizing: border-box;">
+          </div>
+          <div class="setting-item" style="margin-bottom: 1px; padding: 2px 0; border: none; border-bottom: none; display: flex; justify-content: flex-end;">
+            <button type="submit" class="action-btn">Gönder</button>
+          </div>
+          <div id="iletisimSuccess" class="success-message" style="display: none; color: #28a745; text-align: center; margin-top: 6px; font-weight: bold;">
+            Mesajınız başarıyla gönderildi!
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- YENİ KULLANICILAR İÇERİĞİ - DÜZELTİLMİŞ -->
+<div class="sidebar-content hidden" id="kullanıcılar-content">
+  <div class="sidebar-menu" id="kullanıcılar-menu">
+    <button class="sidebar-menu-btn" data-subsection="kullanici-profil">
+      <span>Kullanıcı Bilgileri</span>
+    </button>
+    <button class="sidebar-menu-btn" data-subsection="muderris1">
+      <span id="muderris1-title">Müderris Ekle</span>
+    </button>
+    <button class="sidebar-menu-btn" data-subsection="muderris2">
+      <span id="muderris2-title">Müderris Ekle</span>
+    </button>
+    <button class="sidebar-menu-btn" data-subsection="muderris3">
+      <span id="muderris3-title">Müderris Ekle</span>
+    </button>
+  </div>
+  
+  <!-- Alt menü içerikleri -->
+  
+  <!-- Kullanıcı Bilgileri - Profil Çerçevesi -->
+  <div class="subsection-content hidden" id="kullanici-profil-content">
+    <div class="subsection-header">
+      <button class="back-btn" data-back-to="kullanıcılar-menu">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span>Kullanıcı Bilgileri</span>
+      </button>
+    </div>
+    
+    <!-- Profil Çerçevesi -->
+    <div class="sidebar-profile-wrapper">
+      <div class="sidebar-profile-photo" onclick="triggerFileInput(this)">
+        <div class="profile-icon">
+          <i class="fa-solid fa-camera"></i>
+        </div>
+        <input type="file" accept="image/*" style="display: none;" onchange="handleProfileImage(this)">
+      </div>
+    </div>
+    
+    <!-- Ad ve Soyad yan yana -->
+    <div class="form-row">
+      <div class="setting-item">
+        <label>Ad:</label>
+        <input type="text" placeholder="Adınız" readonly>
+      </div>
+      <div class="setting-item">
+        <label>Soyad:</label>
+        <input type="text" placeholder="Soyadınız" readonly>
+      </div>
+    </div>
+    
+    <!-- E-posta -->
+    <div class="setting-item">
+      <label>E-posta:</label>
+      <input type="email" placeholder="E-posta adresiniz" readonly>
+    </div>
+    
+    <!-- Telefon -->
+    <div class="setting-item">
+      <label>Telefon:</label>
+      <input type="tel" placeholder="Telefon numaranız">
+    </div>
+    
+    <!-- Şifre Güncelle -->
+    <div class="setting-item">
+      <button onclick="window.location.href='/reset-password.html'" style="background: var(--bg-input); color: var(--text-main); border: 1px solid var(--border-color); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Şifreyi Güncelle</button>
+    </div>
+  </div>
+  
+  <!-- Müderris 1 - Profil Çerçevesi -->
+  <div class="subsection-content hidden" id="muderris1-content">
+    <div class="subsection-header">
+      <button class="back-btn" data-back-to="kullanıcılar-menu">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span id="muderris1-header-title">Müderris Ekle</span>
+      </button>
+    </div>
+    
+    <!-- Profil Çerçevesi (mevcut, kalacak) -->
+    <div class="sidebar-profile-wrapper">
+      <div class="sidebar-profile-photo" onclick="triggerFileInput(this)">
+        <div class="profile-icon">
+          <i class="fa-solid fa-camera"></i>
+        </div>
+        <input type="file" accept="image/*" style="display: none;" onchange="handleProfileImage(this)">
+      </div>
+    </div>
+    
+    <!-- YENİ MÜDERRİS FORMU -->
+    <div class="muderris-form-container">
+      <form id="muderris1-form" class="muderris-form">
+        <!-- Adı ve Soyadı yan yana -->
+        <div class="form-row">
+          <div class="setting-item">
+            <label for="muderris1-ad">Adı</label>
+            <input type="text" id="muderris1-ad" name="ad" placeholder="Müderris adı" required>
+          </div>
+          <div class="setting-item">
+            <label for="muderris1-secondname">İkinci Ad</label>
+            <input type="text" id="muderris1-secondname" name="secondname" placeholder="İkinci ad (varsa)">
+          </div>
+          <div class="setting-item">
+            <label for="muderris1-soyad">Soyadı</label>
+            <input type="text" id="muderris1-soyad" name="soyad" placeholder="Müderris soyadı" required>
+          </div>
+        </div>
+        
+        <!-- CİNSİYET COMBOBOX - BURAYA EKLENİR -->
+        <div class="setting-item">
+          <label for="muderris1-cinsiyet">Cinsiyet</label>
+          <select id="muderris1-cinsiyet" name="cinsiyet" required>
+            <option value="">Cinsiyet seçiniz</option>
+            <option value="erkek">Erkek</option>
+            <option value="kadin">Kadın</option>
+          </select>
+        </div>
+
+        <!-- Doğum Tarihi -->
+        <div class="setting-item">
+          <label for="muderris1-birthdate">Doğum Tarihi</label>
+          <input type="date" id="muderris1-birthdate" name="birthdate" required>
+        </div>
+
+        <!-- Kullanıcı Adı -->
+        <div class="setting-item">
+          <label for="muderris1-username">Kullanıcı Adı</label>
+          <input type="text" id="muderris1-username" name="username" placeholder="Kullanıcı adı" required>
+        </div>
+        
+        <!-- Şifre ve Şifre Tekrar -->
+        <div class="form-row">
+          <div class="setting-item">
+            <label for="muderris1-password">Şifre</label>
+            <div class="password-input-container">
+              <input type="password" id="muderris1-password" name="password" placeholder="Güçlü şifre" required>
+              <button type="button" class="password-toggle" onclick="togglePassword('muderris1-password')">
+                <i class="fa-solid fa-lock"></i>
+              </button>
+            </div>
+          </div>
+          <div class="setting-item">
+            <label for="muderris1-password-confirm">Şifre Tekrar</label>
+            <div class="password-input-container">
+              <input type="password" id="muderris1-password-confirm" name="password_confirm" placeholder="Şifreyi tekrar girin" required>
+              <button type="button" class="password-toggle" onclick="togglePassword('muderris1-password-confirm')">
+                <i class="fa-solid fa-lock"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Yeni uyarı kutusu -->
+        <div class="password-warning" id="muderris1-password-warning" style="display: none;">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <span class="warning-text">Zayıf şifre</span>
+        </div>
+
+        <!-- Okul -->
+        <div class="setting-item">
+          <label for="muderris1-school">Okul</label>
+          <input type="text" id="muderris1-school" name="school" placeholder="Okul adı (opsiyonel)">
+        </div>
+        
+        <!-- İlgi Alanları -->
+        <div class="setting-item">
+          <label for="muderris1-interests">İlgi Alanları</label>
+          <textarea id="muderris1-interests" name="interests" placeholder="Hayvanlar, Namaz, Oyun, Sureler... (virgülle ayırın)" rows="3"></textarea>
+        </div>
+        
+        <!-- Butonlar -->
+        <div class="form-buttons">
+          <button type="submit" class="save-muderris-btn" id="muderris1-save-btn">
+            <i class="fa-solid fa-save"></i>
+            Kaydet
+          </button>
+          <button type="button" class="delete-muderris-btn" id="muderris1-delete-btn" style="display: none;">
+            <i class="fa-solid fa-trash"></i>
+            Sil
+          </button>
+        </div>
+      </form>
+      
+      <!-- Mesaj Alanı -->
+      <div id="muderris1-message" class="message-area" style="display: none;"></div>
+    </div>
+  </div>
+  
+  <!-- Müderris 2 -->
+  <div class="subsection-content hidden" id="muderris2-content">
+    <div class="subsection-header">
+      <button class="back-btn" data-back-to="kullanıcılar-menu">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span id="muderris2-header-title">Müderris Ekle</span>
+      </button>
+    </div>
+    
+    <!-- Profil Çerçevesi (mevcut, kalacak) -->
+    <div class="sidebar-profile-wrapper">
+      <div class="sidebar-profile-photo" onclick="triggerFileInput(this)">
+        <div class="profile-icon">
+          <i class="fa-solid fa-camera"></i>
+        </div>
+        <input type="file" accept="image/*" style="display: none;" onchange="handleProfileImage(this)">
+      </div>
+    </div>
+    
+    <!-- YENİ MÜDERRİS FORMU -->
+    <div class="muderris-form-container">
+      <form id="muderris2-form" class="muderris-form">
+        <!-- Adı ve Soyadı yan yana -->
+        <div class="form-row">
+          <div class="setting-item">
+            <label for="muderris2-ad">Adı</label>
+            <input type="text" id="muderris2-ad" name="ad" placeholder="Müderris adı" required>
+          </div>
+          <div class="setting-item">
+            <label for="muderris2-soyad">Soyadı</label>
+            <input type="text" id="muderris2-soyad" name="soyad" placeholder="Müderris soyadı" required>
+          </div>
+        </div>
+        
+        <!-- CİNSİYET COMBOBOX -->
+        <div class="setting-item">
+          <label for="muderris2-cinsiyet">Cinsiyet</label>
+          <select id="muderris2-cinsiyet" name="cinsiyet" required>
+            <option value="">Cinsiyet seçiniz</option>
+            <option value="erkek">Erkek</option>
+            <option value="kadin">Kadın</option>
+          </select>
+        </div>
+        
+        <!-- Kullanıcı Adı -->
+        <div class="setting-item">
+          <label for="muderris2-username">Kullanıcı Adı</label>
+          <input type="text" id="muderris2-username" name="username" placeholder="Kullanıcı adı" required>
+        </div>
+        
+        <!-- Şifre ve Şifre Tekrar -->
+        <div class="form-row">
+          <div class="setting-item">
+            <label for="muderris2-password">Şifre</label>
+            <div class="password-input-container">
+              <input type="password" id="muderris2-password" name="password" placeholder="Güçlü şifre" required>
+              <button type="button" class="password-toggle" onclick="togglePassword('muderris2-password')">
+                <i class="fa-solid fa-lock"></i>
+              </button>
+            </div>
+          </div>
+          <div class="setting-item">
+            <label for="muderris2-password-confirm">Şifre Tekrar</label>
+            <div class="password-input-container">
+              <input type="password" id="muderris2-password-confirm" name="password_confirm" placeholder="Şifreyi tekrar girin" required>
+              <button type="button" class="password-toggle" onclick="togglePassword('muderris2-password-confirm')">
+                <i class="fa-solid fa-lock"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Yeni uyarı kutusu buraya EKLE -->
+        <div class="password-warning" id="muderris2-password-warning" style="display: none;">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <span class="warning-text">Zayıf şifre</span>
+        </div>
+
+        <!-- Okul -->
+        <div class="setting-item">
+          <label for="muderris2-school">Okul</label>
+          <input type="text" id="muderris2-school" name="school" placeholder="Okul adı (opsiyonel)">
+        </div>
+        
+        <!-- İlgi Alanları -->
+        <div class="setting-item">
+          <label for="muderris2-interests">İlgi Alanları</label>
+          <textarea id="muderris2-interests" name="interests" placeholder="Hayvanlar, Namaz, Oyun, Sureler... (virgülle ayırın)" rows="3"></textarea>
+        </div>
+        
+        <!-- Butonlar -->
+        <div class="form-buttons">
+          <button type="submit" class="save-muderris-btn" id="muderris2-save-btn">
+            <i class="fa-solid fa-save"></i>
+            Kaydet
+          </button>
+          <button type="button" class="delete-muderris-btn" id="muderris2-delete-btn" style="display: none;">
+            <i class="fa-solid fa-trash"></i>
+            Sil
+          </button>
+        </div>
+      </form>
+      
+      <!-- Mesaj Alanı -->
+      <div id="muderris2-message" class="message-area" style="display: none;"></div>
+    </div>
+  </div>
+  
+  <!-- Müderris 3 -->
+  <div class="subsection-content hidden" id="muderris3-content">
+    <div class="subsection-header">
+      <button class="back-btn" data-back-to="kullanıcılar-menu">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span id="muderris3-header-title">Müderris Ekle</span>
+      </button>
+    </div>
+    
+    <!-- Profil Çerçevesi (mevcut, kalacak) -->
+    <div class="sidebar-profile-wrapper">
+      <div class="sidebar-profile-photo" onclick="triggerFileInput(this)">
+        <div class="profile-icon">
+          <i class="fa-solid fa-camera"></i>
+        </div>
+        <input type="file" accept="image/*" style="display: none;" onchange="handleProfileImage(this)">
+      </div>
+    </div>
+    
+    <!-- YENİ MÜDERRİS FORMU -->
+    <div class="muderris-form-container">
+      <form id="muderris3-form" class="muderris-form">
+        <!-- Adı ve Soyadı yan yana -->
+        <div class="form-row">
+          <div class="setting-item">
+            <label for="muderris3-ad">Adı</label>
+            <input type="text" id="muderris3-ad" name="ad" placeholder="Müderris adı" required>
+          </div>
+          <div class="setting-item">
+            <label for="muderris3-soyad">Soyadı</label>
+            <input type="text" id="muderris3-soyad" name="soyad" placeholder="Müderris soyadı" required>
+          </div>
+        </div>
+        
+        <!-- CİNSİYET COMBOBOX -->
+        <div class="setting-item">
+          <label for="muderris3-cinsiyet">Cinsiyet</label>
+          <select id="muderris3-cinsiyet" name="cinsiyet" required>
+            <option value="">Cinsiyet seçiniz</option>
+            <option value="erkek">Erkek</option>
+            <option value="kadin">Kadın</option>
+          </select>
+        </div>
+        
+        <!-- Kullanıcı Adı -->
+        <div class="setting-item">
+          <label for="muderris3-username">Kullanıcı Adı</label>
+          <input type="text" id="muderris3-username" name="username" placeholder="Kullanıcı adı" required>
+        </div>
+        
+        <!-- Şifre ve Şifre Tekrar -->
+        <div class="form-row">
+          <div class="setting-item">
+            <label for="muderris3-password">Şifre</label>
+            <div class="password-input-container">
+              <input type="password" id="muderris3-password" name="password" placeholder="Güçlü şifre" required>
+              <button type="button" class="password-toggle" onclick="togglePassword('muderris3-password')">
+                <i class="fa-solid fa-lock"></i>
+              </button>
+            </div>
+          </div>
+          <div class="setting-item">
+            <label for="muderris3-password-confirm">Şifre Tekrar</label>
+            <div class="password-input-container">
+              <input type="password" id="muderris3-password-confirm" name="password_confirm" placeholder="Şifreyi tekrar girin" required>
+              <button type="button" class="password-toggle" onclick="togglePassword('muderris3-password-confirm')">
+                <i class="fa-solid fa-lock"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Yeni uyarı kutusu buraya EKLE -->
+        <div class="password-warning" id="muderris3-password-warning" style="display: none;">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <span class="warning-text">Zayıf şifre</span>
+        </div>
+
+        <!-- Okul -->
+        <div class="setting-item">
+          <label for="muderris3-school">Okul</label>
+          <input type="text" id="muderris3-school" name="school" placeholder="Okul adı (opsiyonel)">
+        </div>
+        
+        <!-- İlgi Alanları -->
+        <div class="setting-item">
+          <label for="muderris3-interests">İlgi Alanları</label>
+          <textarea id="muderris3-interests" name="interests" placeholder="Hayvanlar, Namaz, Oyun, Sureler... (virgülle ayırın)" rows="3"></textarea>
+        </div>
+        
+        <!-- Butonlar -->
+        <div class="form-buttons">
+          <button type="submit" class="save-muderris-btn" id="muderris3-save-btn">
+            <i class="fa-solid fa-save"></i>
+            Kaydet
+          </button>
+          <button type="button" class="delete-muderris-btn" id="muderris3-delete-btn" style="display: none;">
+            <i class="fa-solid fa-trash"></i>
+            Sil
+          </button>
+        </div>
+      </form>
+      
+      <!-- Mesaj Alanı -->
+      <div id="muderris3-message" class="message-area" style="display: none;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Alt Menü -->
+    <div class="sidebar-footer">
+      <div id="userBox" class="sidebar-user-menu">
+        {% if user_fullname %}
+          <button id="userBtn" class="sidebar-user-btn">
+            <span id="userFullName">{{ user_fullname }}</span>
+            <i class="fa-solid fa-chevron-up"></i>
+          </button>
+          <div id="userDropdown" class="sidebar-dropdown-menu">
+            <button id="logoutBtn">Çıkış Yap</button>
+          </div>
+        {% else %}
+          <button id="loginBtn" class="login-btn" onclick="window.location.href='/login'">GİRİŞ YAP</button>
+        {% endif %}
+      </div>
+    </div>
+  </aside>
+
+  <!-- Chat Panel -->
+  <main class="chat-panel">
+    <div class="chat-header">
+      <h1>Nasıl yardımcı olabilirim?</h1>
+    </div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <form id="chatForm" class="chat-input-row" autocomplete="off">
+      <button type="button" class="icon-btn attach-btn" title="Dosya Ekle">
+        <i class="fa-solid fa-paperclip"></i>
+      </button>
+      <input type="text" id="messageInput" class="message-input" placeholder="Bir mesaj yazın..." autocomplete="off">
+      <button type="button" class="icon-btn mic-btn" title="Sesle Mesaj">
+        <i class="fa-solid fa-microphone"></i>
+      </button>
+      <button type="submit" class="icon-btn send-btn" title="Gönder">
+        <i class="fa-solid fa-paper-plane"></i>
+      </button>
+    </form>
+  </main>
+</div>
+
+<!-- Policy Modal - ANA EKRANDA AÇILMASI İÇİN main-container DIŞINDA -->
+<div id="policyModal" class="policy-modal">
+  <div class="policy-modal-content">
+    <div class="policy-modal-header">
+      <h3 class="policy-modal-title" id="policyModalTitle">KVKK ve Gizlilik Politikası</h3>
+      <button class="policy-modal-close" id="policyModalClose">
+        <i class="fa-solid fa-times"></i>
+      </button>
+    </div>
+    <div class="policy-modal-body" id="policyModalBody">
+      <!-- İçerik JavaScript ile doldurulacak -->
+    </div>
+    <div class="policy-modal-actions">
+      <button id="pdfDownloadBtn">
+        <i class="fa-solid fa-download"></i>
+        PDF İndir
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Terms Modal -->
+<div id="termsModal" class="policy-modal">
+  <div class="policy-modal-content">
+    <div class="policy-modal-header">
+      <h3 class="policy-modal-title" id="termsModalTitle">Üyelik ve Kullanım Koşulları</h3>
+      <button class="policy-modal-close" id="termsModalClose">
+        <i class="fa-solid fa-times"></i>
+      </button>
+    </div>
+    <div class="policy-modal-body" id="termsModalBody">
+      <!-- İçerik JavaScript ile doldurulacak -->
+    </div>
+    <div class="terms-modal-actions">
+      <button id="termsPdfDownloadBtn">
+        <i class="fa-solid fa-download"></i>
+        PDF İndir
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="/static/js/sidebar.js"></script>
+<!-- <script src="/static/js/settings-manager.js"></script> --> <!-- TAMAMEN DEVRE DIŞI -->
+<script src="/static/js/settings.js"></script>
+<script src="/static/js/index.js"></script>
+<script src="/static/js/policy-modal.js"></script>
+<script src="/static/js/terms-modal.js"></script>
+
+<!-- Basit kullanıcılar CSS -->
+<link rel="stylesheet" href="/static/css/simple-users.css">
+
+<!-- Basit kullanıcılar JavaScript -->
+<script src="/static/js/simple-users.js"></script>
+
+</body>
+</html>

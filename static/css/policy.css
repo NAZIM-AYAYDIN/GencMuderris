@@ -1,0 +1,67 @@
+body {
+    background: #19191d;
+    color: #fff;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    min-height: 100vh;
+}
+.policy-container {
+    max-width: 740px;
+    margin: 42px auto 22px auto;
+    background: #232323;
+    border-radius: 14px;
+    box-shadow: 0 4px 32px #0008;
+    padding: 32px 30px 24px 30px;
+}
+.policy-container h1 {
+    margin-top: 0;
+    margin-bottom: 24px;
+    font-size: 2rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-align: center;
+}
+.policy-content {
+    line-height: 1.72;
+    font-size: 1.09rem;
+    color: #ededed;
+    margin-bottom: 34px;
+    white-space: pre-line;
+}
+.policy-back-link {
+    display: inline-block;
+    margin-top: 10px;
+    color: #8fc5ff;
+    text-decoration: underline;
+    font-size: 1rem;
+}
+.policy-back-link:hover {
+    color: #b3e0ff;
+}
+
+@media (max-width: 600px) {
+    .policy-container {
+        max-width: 98vw;
+        padding: 17px 7vw 14px 7vw;
+    }
+    .policy-container h1 {
+        font-size: 1.18rem;
+    }
+    .policy-content {
+        font-size: 1rem;
+    }
+}
+
+.footer-links {
+    margin: 22px 0 11px 0;
+    text-align: center;
+    font-size: 0.99rem;
+}
+.footer-links a {
+    color: #8fc5ff;
+    margin: 0 7px;
+    text-decoration: underline;
+}
+.footer-links a:hover {
+    color: #b3e0ff;
+}

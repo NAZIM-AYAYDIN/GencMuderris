@@ -1,0 +1,56 @@
+✅ BU CHAT GPT OTURUMU “GENÇ MÜDERRİS” PROJESİNE AİTTİR.  
+Aşağıdaki kurallar ve proje bilgileri her zaman geçerlidir:
+
+📁 PROJE BİLGİLERİ:
+- Proje Adı: Genç Müderris
+- Klasör: C:\Users\NAZIM\GencMuderris
+- Backend: FastAPI + SQLAlchemy + Alembic + JWT
+- Frontend: HTML / CSS / JS (vanilla, Tailwind kullanılmıyor)
+- Arayüz: ChatGPT tarzı, koyu tema, sade, responsive.
+- Dosya Yapısı: `main.py`, `app/`, `templates/`, `static/` klasörleri aktif.
+- Tüm kodlar eksiksiz tam dosya halinde hazırlanır, parça kod gönderilmez.
+- Cursor IDE veya ChatGPT üzerinden kopyala-yapıştır yöntemiyle ilerlenmektedir.
+
+🔒 **ÇALIŞMA KURALLARI**
+Mevcut Dosyayı Bozma, Üzerine Güncellemeler yaptıktan sonra dosya içeriğini tam olarak yaz.
+
+- Kod yazarken, mevcut dosyayı **bozma**.
+- Yeni özellik ekleyeceksen, önce mevcut dosyamı veya kodumu **benden iste**, incele.
+- Sadece **gerekli değişikliği** yaparak TAM dosya halinde döndür.
+
+Her Zaman Tam Dosya Ver! 
+Karakter sınırı var ise parçalar halinde ver.
+
+- Asla **paragraf kod gönderme**.
+- HTML, CSS, JS veya Python ne istersem **her defasında tamamını eksiksiz ver.**
+
+Arayüz veya Mevcut Yapıyı Değiştirme!
+
+- Arayüz bir kez kurulduysa, **ben istemedikçe değiştirme**.
+- Sadece yeni ek veya düzeltme talep ettiğimde arayüze dokun.
+
+Yazılımı Sıfırdan Baştan Başlatma!
+
+- Hiçbir kodu veya arayüzü **gerekçesiz baştan yazma**.
+- Mevcut dosyada **yalnızca gerekli güncellemeyi** yap.
+
+Koddan Önce Beni Anla!
+
+- "Ne anladın, anlat" dediğimde, **önce konuyu özetle ve gerekirse çizim yap**, sonra kodu gönder.
+
+Koddan Önce Dosya Sorabilirsin
+
+- Eğer yeni kod bir şeyi bozacaksa, "**dosyanı gönder**" de ki ben sana yükleyeyim, sonra değişiklik yap.
+
+Kritik: Her Zaman Kararlı ve Stabil Kod Ver!
+
+- Kodlarında **bug/eksik bırakma**.
+- Özellikle ** login, modal** gibi sistemlerde bozulmaya yol açma.
+
+📌 ÖZET
+- Tam dosya
+- Eskiyi bozmadan
+- Üzerine ekle
+- Asla sıfırdan başlama
+- Koddan önce konu özeti yap
+- Koddan önce benden dosya isteyebilirsin

@@ -1,0 +1,1092 @@
+FRAMEWORK ve ALTYAPI
+Bileşen	Kullanılan Teknoloji
+Web Framework		FastAPI						Asenkron destekli, hızlı, OpenAPI/Swagger otomatik
+ORM			SQLAlchemy					Pythonic veri modelleme
+Migration Sistemi	Alembic						Versiyonlu veritabanı şeması yönetimi
+Veritabanı		SQLite (geliştirme) / PostgreSQL (prod)		Hafif & kararlı veri yapısı
+Mail Servisi		SMTP (örn: Gmail, Yandex)			Doğrulama ve bildirim için
+TTS Servisi		GPT-4o TTS, Google TTS, Local TTS		Çoklu sesli yanıt sistemi
+Background Tasks	FastAPI BackgroundTasks				Görevleri eşzamansız çalıştırma
+Rate Limiter		Middleware tabanlı				IP bazlı istek limitleme
+
+Müderris için ayrı ayarlar güncelleme endpoint'i:
+
+  VERİTABANI YAPISI (ŞEMA)
+a. users (ebeveyn kullanıcılar)
+•	id, email, password_hash, first_name, last_name, birth_date, phone
+•	theme_preference, tts_engine, voice_speed, voice_volume
+•	email_verified, 2FA, profile_image, night_mode, created_at, last_login
+•	kvkk_accepted, gizlilik_accepted, uyelik_accepted, is_active
+•	calendar_notify_enabled, chat_notify_enabled, email_notify_enabled
+•	camera_permission_enabled, auto_update_enabled, update_notification_shown
+b. muderris (çocuk kullanıcılar)
+•	id, parent_id, first_name, last_name, username, password_hash
+•	birth_date, gender, school, interests, profile_image
+•	created_at, is_archived
+c. chat_sessions
+•	id, user_id, tts_type, created_at, is_active
+d. messages
+•	id, chat_id, sender (user/ai), role, text, timestamp
+e. calendar_events
+•	id, title, type, hijri_date, miladi_date, description, is_religious
+f. calendar_notes
+•	id, user_id, event_date, note, is_tts_enabled, created_at
+g. verification_codes
+•	id, user_id, email, code, expires_at, used
+h. device_logs
+•	id, user_id, device, browser, ip_address, location, last_login
+i. deleted_users_log
+•	Silinen kullanıcı arşivi (KVKK uyumlu)
+________________________________________
+  KİMLİK DOĞRULAMA ve GÜVENLİK
+a. Kimlik Doğrulama (Auth)
+•	JWT tabanlı token üretimi (login)
+•	access_token, refresh_token sistemi (isteğe bağlı)
+•	2FA (e-posta kodu ile giriş)
+•	Şifreler bcrypt ile hashlenir
+b. Güvenlik Önlemleri
+•	 Rate Limit (IP başına saniyede max 3 istek)
+•	 2FA zorunluluğu opsiyoneldir
+•	 IP loglama (device_logs)
+•	 CAPTCHA sistemi (çoklu hatalı girişte devreye girer)
+•	KVKK Açık Rıza Onayı ✅ (Zorunlu)   Backend alan: kvkk_accepted: BOOLEAN
+•	Gizlilik Politikası Onayı ✅ (Zorunlu)   Backend alan: gizlilik_accepted: BOOLEAN
+•	Üyelik Sözleşmesi Onayı ✅ (Zorunlu)  Backend alan: uyelik_accepted: BOOLEAN
+•	Bildirim (Ticari Elektronik İleti) İzni ✅ (Zorunlu) Backend alan bildirim_izni: BOOLEAN
+•	Çocuk Verisi İşleme İzni ✅ (Zorunlu / Sadece ebeveyn için) Backend alan: muderris_verisi_izni: BOOLEAN
+•	AI Etkileşim Onayı ✅ (Opsiyonel) Backend alan: ai_etkilesim_izni: BOOLEAN (isteğe bağlı ama açık şekilde sorulmalı)
+•	Veri İşleme Sınırlandırma Tercihi (Varsayılan açık olabilir, kullanıcı kapatabilir) Backend alan: veri_dis_kullanim_kisit: BOOLEAN (opsiyonel olarak sunulmalı)
+•	Kamera/Mikrofon İzni (TTS ve Dinleme için) ✅ (Zorunlu değil, ancak sistemde kullanım öncesi alınmalı) Backend alan: camera_permission_enabled: BOOLEAN
+•	Veri Silme ve İndirme Hakkı Bilgilendirmesi (Kutulu değil, ama görünür yerde olmalı) Backend tarafında:
+o	GET /account/export
+o	DELETE /account/delete
+
+
+ GENEL YAPI (BİLEŞENLER)
+
+HTML5 / CSS3		Temiz, semantik yapı + Flex/Grid yerleşim
+Vanilla JS		Sekme kontrolü, modal, mikrofon, 3 nokta menüsü
+%100 Responsive		Mobilde sidebar gizlenir, inputlar büyütülür
+Tema Sistemi		Koyu, Açık, Pembe, Gökyüzü, Mavi, Şafak – dinamik geçişli
+Erişilebilirlik (a11y)	aria-label, tabindex tüm interaktif ögelere eklenir
+TTS & Mikrofon	Dinamik konuşma, animasyonlu mikrofon
+Simge Yağmuru / Efektler	Doğru cevaplarda animasyonlu geri bildirim
+________________________________________
+
+TEMALAR
+
+KOYU TEMA
+
+| Kullanım Alanı              | HEX Kodu  | CSS'de Kullanımı                                                                  | Açıklama                                        |
+| --------------------------- | --------- | --------------------------------------------------------------------------------- | ----------------------------------------------- |
+| **Genel Arka Plan**         | `#212121` | `body, .main-container, .chat-panel`                                              | Sayfa ana arka planı ve chat panel background   |
+| **Sidebar (arka plan)**     | `#181818` | `.sidebar`                                                                        | Sol menü arka plan                              |
+| **Sidebar (alt gradyan)**   | `#181818` | (sidebar sabit, gradyan yoksa aynı kod)                                           | Gradyan istenirse iki farklı ton kullanılabilir |
+| **Sidebar hover**           | `#2a2b32` | `.chat-item:hover, .icon-btn:hover`                                               | Sidebar buton ve chat item hover arka planı     |
+| **Sidebar border/çizgi**    | `#232323` | `.sidebar, .sidebar-header, .sidebar-footer`                                      | Sidebar'ın sağ kenarı, alt çizgiler             |
+| **Sohbet panel arka planı** | `#212121` | `.chat-panel`                                                                     | Sağ ana panel arka planı                        |
+| **Chat kutusu (balon)**     | `#343541` | `.chat-message`                                                                   | Mesaj balonları arka planı                      |
+| **Input alanları**          | `#40414f` | `.sidebar-search input, .message-input`                                           | Mesaj ve arama inputu                           |
+| **Input hover/focus**       | `#343541` | `.message-input:focus, .sidebar-search input:focus`                               | Input focus/aktif arka planı                    |
+| **Yazı rengi (ana)**        | `#ececf1` | `body, .sidebar-header, .sidebar, .message-input, .chat-message, .chat-header h1` | Tüm ana yazılar                                 |
+| **Yazı rengi (chat)**       | `#ececf1` | `.chat-message, .chat-header h1`                                                  | Sohbet mesajı ve başlık yazısı                  |
+| **Pasif/soluk yazı**        | `#8e8ea0` | `input::placeholder, .sidebar-search .search-icon`                                | Soluk, pasif metin ve ikonlar                   |
+| **İkincil yazı sidebar**    | `#acacbe` | `.user-name, #userFullName`                                                       | Kullanıcı adı, ek bilgi, zaman vs.              |
+| **Divider çizgi (chat)**    | `#2a2b32` | `.chat-header, .chat-input-row` border,                                           | Chat bölücü alt çizgiler                        |
+|                             |           | `.sidebar-footer, .sidebar-header` border                                         |                                                 |
+
+
+| Kullanım              | HEX Kodu  | CSS'de Kullanımı                      | Açıklama                             |
+| --------------------- | --------- | ------------------------------------- | ------------------------------------ |
+| **Chat send hover**   | `#2a2b32` | `.send-btn:hover`                     | Mesaj gönder butonu hover arka planı |
+| **Yeni sohbet hover** | `#2a2b32` | `.new-chat-btn:hover`                 | Yeni sohbet butonu hover rengi       |
+| **Aktif ikon rengi**  | `#fff`    | `.icon-btn:hover, .chat-item:hover i` | Hover/aktif ikon rengi               |
+| **Pasif ikon rengi**  | `#d9d9e3` | `.icon-btn, .sidebar .fa-*`           | Pasif ikon rengi                     |
+
+
+Açıklamalar ve Kullanım Alanları
+#212121: Ana arka plan (body, chat panel)
+
+#181818: Sidebar ana arka planı
+
+#232323: Sidebar border’ı ve alt çizgiler
+
+#2a2b32: Hover arka planı ve alt çizgiler
+
+#343541: Chat balonu ve input aktif arka planı
+
+#40414f: Input default arka planı
+
+#ececf1: Tüm ana yazılar ve başlıklar
+
+#8e8ea0: Placeholder, pasif ikon/metin
+
+#acacbe: Kullanıcı adı ve ikincil yazılar
+
+#d9d9e3: Pasif ikon rengi
+
+#fff: Aktif ikon ve hover ikon rengi
+
+Bir Alan Nerede Kullanılıyor?
+Sidebar arka planı:
+.sidebar { background: #181818; }
+
+Chat bubble (mesaj kutusu):
+.chat-message { background: #343541; }
+
+Input:
+.message-input, .sidebar-search input { background: #40414f; }
+
+Input hover/focus:
+.message-input:focus { background: #343541; }
+
+Ana yazı:
+body, .sidebar-header, .chat-header h1 { color: #ececf1; }
+
+Pasif yazı:
+.sidebar-search input::placeholder { color: #8e8ea0; }
+
+Sidebar-hover:
+.chat-item:hover, .icon-btn:hover { background: #2a2b32; }
+
+Border/çizgi:
+.sidebar, .sidebar-header { border-right: 1.5px solid #232323; }
+
+AÇIK TEMA
+
+
+Kullanım Alanı	HEX Kodu	CSS'de Kullanımı	Açıklama
+Genel Arka Plan	#f4f4f4	body, .main-container, .chat-panel	Açık arka plan rengi
+Sidebar (arka plan)	#ffffff	.sidebar	Sidebar arka planı
+Sidebar hover	#eeeeee	.chat-item:hover, .icon-btn:hover	Hover rengi
+Sidebar border/çizgi	#cccccc	.sidebar, .sidebar-header	Alt/sınır çizgiler
+Chat panel arka planı	#f4f4f4	.chat-panel	Sağ chat panel rengi
+Chat kutusu (balon)	#e8e8e8	.chat-message	Açık balon rengi
+Input alanları	#ffffff	.sidebar-search input, .message-input	Arama ve mesaj input alanları
+Input focus	#eeeeee	.message-input:focus	Input odak rengi
+Yazı rengi (ana)	#1e1e1e	body, .chat-header h1	Tüm ana yazılar
+Pasif/soluk yazı	#777777	input::placeholder	Placeholder ve soluk metin
+İkincil yazı	#555555	.user-name, .chat-time	Kullanıcı adı ve zaman
+Divider çizgi	#cccccc	.chat-header, .chat-input-row	Chat içi alt çizgiler
+Aktif ikon	#000000	.icon-btn:hover, .chat-item:hover i	Aktif ikon rengi
+Pasif ikon	#777777	.icon-btn, .sidebar .fa-*	Pasif ikon
+
+PEMBE TEMA
+			
+Kullanım Alanı	HEX Kodu	CSS'de Kullanımı	Açıklama
+Genel Arka Plan	#ffe4e6	body, .main-container	Pembe tonlu açık arka plan
+Sidebar (arka plan)	#fff0f3	.sidebar	Sidebar pembe tonu
+Sidebar hover	#ffccd5	.chat-item:hover	Hover arka plan rengi
+Sidebar border/çizgi	#ffc2cc	.sidebar, .sidebar-header	Border çizgisi
+Chat panel arka planı	#ffe4e6	.chat-panel	Sağ alan
+Chat kutusu (balon)	#ffcad4	.chat-message	Mesaj balonu
+Input alanları	#ffe5ec	.message-input, .sidebar-search input	Pembe inputlar
+Input focus	#ffc2cc	.message-input:focus	Focus rengi
+Yazı rengi (ana)	#2c1a1a	body, .chat-header h1	Kontrast yazı rengi
+Pasif yazı	#b87787	input::placeholder	Soluk metin
+İkincil yazı	#8f4f5a	.user-name	Kullanıcı alt metni
+Divider çizgi	#ffc2cc	.chat-header, .sidebar-header	Divider çizgi
+Aktif ikon	#7e1e34	.icon-btn:hover	Derin pembe
+Pasif ikon	#c97c94	.fa-*	Pastel ikon rengi
+			
+
+MAVİ TEMA
+
+Kullanım Alanı	HEX Kodu	CSS'de Kullanımı	Açıklama
+Genel Arka Plan	#dbeafe	body	Hafif mavi zemin
+Sidebar (arka plan)	#e0f2fe	.sidebar	Sidebar açık mavi
+Sidebar hover	#bae6fd	.chat-item:hover	Hover rengi
+Sidebar border	#93c5fd	.sidebar	Border çizgisi
+Chat panel arka planı	#dbeafe	.chat-panel	Sohbet paneli
+Chat kutusu (balon)	#bfdbfe	.chat-message	Mavi balon
+Input alanları	#e0f2fe	.message-input	Açık input
+Input focus	#bae6fd	.message-input:focus	Fokus
+Yazı rengi	#1e3a8a	body, h1	Koyu mavi yazılar
+Pasif yazı	#475569	::placeholder	Soluk mavi-gri yazı
+İkincil yazı	#334155	.user-name	İkincil açıklamalar
+Divider çizgi	#a5b4fc	.chat-header	Divider border
+Aktif ikon	#1e3a8a	.icon-btn:hover	Koyu mavi
+Pasif ikon	#60a5fa	.fa-*	Açık mavi ikonlar
+
+
+GÖKYÜZÜ TEMASI
+
+Kullanım Alanı	HEX Kodu	CSS'de Kullanımı	Açıklama
+Genel Arka Plan	#e0f7fa	body	Sky-blue arka plan
+Sidebar (arka plan)	#b2ebf2	.sidebar	Sidebar soft sky
+Sidebar hover	#a7ffeb	.chat-item:hover	Hover light cyan
+Border/çizgi	#80deea	.sidebar, .chat-header	Alt çizgi
+Chat panel arka planı	#e0f7fa	.chat-panel	Sağ panel
+Chat balonu	#b2ebf2	.chat-message	Mesaj balonları
+Input alanı	#d0f0f5	.message-input	Yazı alanı
+Input focus	#a7ffeb	.message-input:focus	Fokus rengi
+Yazı rengi	#004d40	body, .chat-header	Koyu yeşilimsi yazı
+Pasif yazı	#4db6ac	::placeholder	Soluk mavi-yeşil yazı
+İkincil yazı	#00796b	.user-name	İkincil metin
+Aktif ikon	#004d40	.icon-btn:hover	Aktif yeşilimsi ikon
+Pasif ikon	#80cbc4	.fa-*	Soluk cyan ikon
+
+
+ŞAFAK TEMASI
+
+Kullanım Alanı	HEX Kodu	CSS'de Kullanımı	Açıklama
+Genel Arka Plan	#3b0a32	body	Derin koyu pembe zemin
+Sidebar (arka plan)	#4b113c	.sidebar	Sidebar koyu vişne tonu
+Sidebar hover	#702963	.chat-item:hover	Hover bordo tonu
+Sidebar border	#cc6699	.sidebar	Bordo çizgi
+Chat panel arka planı	#3b0a32	.chat-panel	Sağ alan
+Chat kutusu (balon)	#702963	.chat-message	Koyu pembe
+Input alanları	#5a205a	.message-input	Yoğun bordo
+Input focus	#702963	.message-input:focus	Fokus
+Yazı rengi	#ffe4f2	body, h1	Pembe beyaz yazı
+Pasif yazı	#d6a4c4	::placeholder	Soluk şeker pembesi
+İkincil yazı	#a65c89	.user-name	Açıklama yazısı
+Aktif ikon	#ffe4f2	.icon-btn:hover	Açık pembe
+Pasif ikon	#dda0dd	.fa-*	Hafif lila
+
+ İNDEX.HTML sayfası aşağıdaki gibi olacak.
+
+ ÜST PANEL ve SIDEBAR
+╔═════════════════════════════════════════════════════════════╗
+║ ☰ Genç Müderris                                                               ║
+║ 🔍 [Sohbet Ara...]   [+ Yeni Sohbet]                                           ║ ← Yanyana, ikonlar sadece beyaz (#fff)
+║──────────────────────────────────────────────────────────────║
+║ Kur'an Soruları                 ⋮                                                ║
+║ Namaz Bilgisi                   ⋮                                                ║
+║ Regaip Kandili Sohbeti         ⋮                                                 ║
+║                                                                                 ║
+║ ⚙ Ayarlar(sadece ikon)                                 Nazım Kaya ▼            ║  giriş yapılmadı ise butonda "Giriş Yap" yazar
+║                                                     ↥ Açılır Menü: [Çıkış Yap]   ║ --yukarı açılır menü
+╚═══════════════════════════════════════════════════════════════╝
+ Sidebar Özellikleri
+Özellik	Açıklama
+☰ Üç Çizgi	Sidebar aç/kapat: toggleSidebar()
+Sohbet Ara & Yeni Sohbet	Aynı satırda flex, aralarında gap
+İkon Renkleri	Sadece beyaz simgeler
+Girişli Kullanıcı	“Nazım Kaya ▼” → Açılır Menü (Yukarı doğru)
+Ayarlar	Sağ altta yan yana
+Scroll Destekli	.sidebar-content { overflow-y: auto; }
+________________________________________
+ CHAT PANEL
+
+╔════════════════════════════════════════════════════════════════════════╗
+║ Asistan: “Bugün Regaip Kandili, ne biliyorsun?”                      ║
+║    [ 🔈 ][ 📋 ][14:03]  ← Hover ile görünür                      ║
+║                                                                      ║
+║ Kullanıcı: “Ne zaman oruç tutmalıyız?”                               ║
+║    [ 🔈 ][ 📋 ][14:04 ]                                           ║
+╠════════════════════════════════════════════════════════════════════════╣
+║ 📎  [ Buraya yazın...             ]   🎤   ➤                           ║ ← Alt Chat Input
+╚════════════════════════════════════════════════════════════════════════╝
+ Chat Özellikleri
+Özellik	Açıklama
+📎 Ataç	Sadece sade simge (ağız/göz içermez)
+🎤 Mikrofon	Tıklandığında animasyonla yanar (dinleme aktif)
+➤ Gönder Butonu	aria-label="Mesajı Gönder" ile erişilebilir
+Hover Üzerinde:	🔈 (Yeniden dinle), 📋 (Kopyala), (Saat)
+Scroll	Uzun sohbetlerde otomatik scroll en alta iner
+________________________________________
+ DOĞRU CEVAP ANİMASYONLARI
+ Simge Yağmuru
+•	Simgeler:
+💖 🌙 🕌 ⭐️ 🕋 📿 🌈 ✨ 📖 🕊️  🌟 🧭 🌠 🧩 🧼  🌸 🪔 🪷 🖤💙  🪶  📜  🧼 🌺 🌸 🌿 🪷  🌈 ✨ 💫 🌟 🌠 ⛅ 🌌  🩵 🖤 💙 
+•	Her simgeden 25–30 adet çıkar, position: absolute; top: 100%; ile yukarı kayar
+ Havai Fişek
+•	SVG/canvas ile renkli patlamalar
+•	Dini günlerde tetiklenebilir
+•	Doğru cevapta tetiklenebilir.
+•	simgelerden de havai fişek tarzı oluşur.
+
+❤️ Kalp Şekli & İsimle Yazı
+•	Simgelerle kalp oluşturma
+•	"TEBRİKLER NAZIM" gibi simgelerle yazı animasyonu
+•	Kullanıcı adı/müderris adı simgelerle yazı animasyonu
+
+________________________________________
+ ESKİ SOHBETLER ⋮ ÜÇ NOKTA MENÜSÜ
+Menü Açılımı:
+
+ ⋮
+┌─────────────────────────────┐
+│ Başlık Değiştir         │
+│ Dışa Aktar (.txt/.json) │
+│ TTS ile Dinle           │
+│ Yazdır                  │
+│ AI ile Devam Et         │
+│ Favorilere Ekle         │
+│ Sil                     │
+└─────────────────────────────┘
+
+Özellik	Açıklama
+ tarih bazlı sıralanır
+ Favori	Sık sohbetler listede en üstte sabitlenebilir
+ Etiket	“Namaz”, “Oruç” gibi konusal etiket
+Favori	Sidebar’da her zaman üstte görünür
+ 
+ SESLİ SİSTEMLER (TTS / KONUŞMA) – TEKNİK ve İŞLEVSEL
+TTS Motorları
+TTS Motoru	Kullanım Amaçları
+GPT-4o TTS	Varsayılan akıllı, doğal sesli TTS
+Google TTS	Doğal kadın/erkek sesi (daha net, canlı)
+Yerel TTS (çocuk sesi)
+	Daha eğlenceli, sevimli, çocuk dostu
+Sevimli Ses, Sakin Ses, İlahiyat Sesi gibi etiketli motorlar da ileride eklenebilir.	
+ Kullanıcı seçimleri, veritabanında users.tts_engine ve chat_sessions.tts_type alanlarında saklanır.
+________________________________________
+ Sohbet-TTS Eşleşmesi
+•	Her sohbetin kendi TTS motoru vardır.
+•	TTS değiştirildiğinde yeni sohbet (yeni chat_id) başlatılır.
+•	Örnek:
+chat_sessions
+├── id: 122
+├── user_id: 1
+├── tts_type: "google_child"
+├── created_at: "2025-07-21"
+________________________________________
+ TTS İşleyiş Akışı
+
+ Kullanıcı Konuşur
+↓
+ Speech-to-Text → yazıya dönüştürülür
+↓
+ Yapay Zeka yanıt oluşturur
+↓
+ TTS: AI cevabı sese dönüştürülür
+↓
+ Ses çalarken, kullanıcı konuşamaz (kilitli)
+↓
+ TTS bitince, mikrofon tekrar açılır (aktif olur)
+________________________________________
+ Ses Hızı ve Yüksekliği (ayarlar penceresinde ses sekmesinde)
+Ayar	Açıklama
+voice_speed	0.5 – 2.0 arası (yavaş → hızlı)
+voice_volume	0.0 – 1.0 arası (sessiz → yüksek)
+ Ayarlar Paneli	Ses sekmesinde slider ile ayarlanır
+ Önizleme	“Örnek Dinle” butonu ile seçilen ayar test edilir
+________________________________________
+ Dinleme Sıralaması
+•	Mikrofon, sadece TTS cevabı bittikten sonra aktif olur.
+•	TTS devam ederken tekrar konuşmak isterse animasyonlu mikrofon butonuna basar ve TTS durur
+________________________________________
+ Mikrofon Dinleme Animasyonu
+Görsel	Anlamı
+🔘 Yanıp sönen nokta	Dinliyor
+🔄 Dönen çember	Aktif dinleme başlatıldı
+⛔ Mikrofon çizili	Dinleme kapalı veya TTS aktif
+CSS Örneği:
+.listening {
+  animation: pulse 1.5s infinite ease-in-out;
+}
+________________________________________
+ YAPAY ZEKA KONUŞMA MOTORU — EĞİTİCİ VE YAŞA UYUMLU
+________________________________________
+ Yaşa Göre Hitap Mantığı
+Yaş Aralığı	Davranış / Konuşma Şekli
+7–9 Yaş	Basit cümleler, oyun dili, emoji kullanımı, çok soru
+10–11 Yaş	Anlamlı açıklamalar, örneklerle öğretim
+12+ Yaş	Kavramsal anlatımlar, karşılıklı soru-cevap
+ Yaş, muderris.birth_date üzerinden otomatik hesaplanır.
+________________________________________
+ Eğitimsel Davranış Modeli
+Rol	Davranış
+Kullanıcı (Müderris)	Sanki AI’ya öğretmenlik yapıyor gibi yönlendirilir
+Yapay Zeka (Asistan)	Öğrenmek isteyen, soru soran, ama gerektiğinde cevap veren bir model
+Örnek Diyalog:
+Asistan: "Ramazan ayı ne zaman başlıyor biliyor musun, Hümeyra hocam? 😊"
+Kullanıcı: "Bilmiyorum."
+Asistan: "Hiç sorun değil! Ramazan ayı "
+________________________________________
+ Doğru ve Yanlış Cevap Tepkileri
+Durum	Tepki
+✅ Doğru Cevap	“Bravo Nazım hocam! 💖” → Simge yağmuru başlatılır
+❌ Yanlış	“Harika bir deneme oldu, bir daha bakalım mı?”
+________________________________________
+ Konuşma Hafızası & İlgi Alanı
+•	muderris.interests → örn: "hayvanlar", "oyun", "namaz"
+•	AI prompt’una dahil edilir:
+“Konu ilgi alanları: oyun, sureler, hayvanlar. Ona göre konuş.”
+________________________________________
+ Teknik Entegrasyon Akışı
+1. Kullanıcı mikrofonla konuşur
+2. Web Speech API → yazıya çevir
+3. Backend → GPT4o + yaş + ilgi + AI prompt → yanıt
+4. Yanıt metni:
+   a. TTS motoruna gönderilir → ses oluşturulur
+   b. `chat_sessions` & `messages` tablosuna kaydedilir
+5. Ses oynatılır → kullanıcı konuşamaz
+6. TTS biter → mikrofon tekrar aktif
+	
+	
+📊 TTS Analitiği	En çok kullanılan ses, ayar, yaş grubu raporları
+📚 AI İçerik Üretimi	AI, çocuk için günlük hedef ve içerik oluşturur
+GENÇ MÜDERRİS — TAKVİM PANELİ (GÜNCELLENMİŞ TASARIM)
+________________________________________
+________________________________________
+GENÇ MÜDERRİS — AYARLAR PENCERESİ (TAM ve DETAYLI YAPI)
+
+
+
+ 1. MODAL YAPI (GENEL)
+Özellik	Açıklama
+Açılma tipi	Fullscreen Modal (id: settingsModal)
+Açma/Kapama	X butonu ve ESC tuşu ile
+Responsive	Mobil uyumlu, sütunlar dikey yığılır
+Tema uyumu	Seçilen temaya göre renkli sınıf (data-theme)
+Sekme geçişi	JS ile sağ içerik değiştirerek yapılır
+
+ ÜST SEKME YAPISI (1. SEVİYE)
+Sekme	Simge	Görünürlük	Açıklama
+ AYARLAR	fa-gear	Herkes	Sistem ayarları, TTS, bildirim vb. içerir
+ KULLANICI BİLGİLERİ	fa-user	Sadece ebeveynler	Kendi bilgilerini ve müderrisleri yönetir
+________________________________________
+
+AYARLAR SEKME ALT MENÜLERİ (Solda Dikey Menü – data-sub-tab)
+Bu menü sol dikey panelde yer alır. Her sekme tıklandıkça sağ panelde içerik değişir.
+Simge	Sekme Adı	Açıklama
+⚙️	Genel	Tema, gece modu, animasyon, dil
+🔈	Ses	TTS seçimi, ses önizleme, ses hızı/seviyesi
+✉️	Bildirimler	TTS popup, sabah hatırlatıcı, saat ayarı
+🔐	Güvenlik	2FA, cihaz izni, KVKK kutuları
+📱	Cihazlarım	Son girişler, tarayıcı/IP geçmişi
+📃	Veri & Gizlilik	KVKK metinleri, veri silme/indirme
+İçerikler:
+•	🎨 Tema Seçimi: Koyu, Açık, Pembe, Gökyüzü, Mavi, Şafak
+o	Combobox şeklinde
+o	Seçili tema vurgulanır
+•	🌍 Dil Seçimi: (Şimdilik sadece Türkçe, ileride İngilizce opsiyon)
+•	🌙 Gece Modu:
+o	Otomatik geçiş
+o	Başlangıç ve bitiş saati seçilebilir (örn: 22:00 – 07:00)
+•	🌀 Animasyonları Kapat: Toggle switch (açık/kapalı)
+•	🗣️ Asistan Hep Sesli Konuşsun: Toggle switch
+
+ Görsel Çizim:
+
+╔══════════════════════════════════════╗
+║ GENEL AYARLAR                        ║
+╠══════════════════════════════════════╣
+║ 🎨 Tema Seçimi:      [combobox}                ║
+║                                      ║
+║ 🌍 Dil: [ TR ▼ ]                     ║
+║                                      ║
+║ 🌙 Gece Modu Aktif mi?   [✔️]        ║
+║ Başlangıç: [22:00]  Bitiş: [07:00]   ║
+║                                      ║
+║ 🌀 Animasyonları Kapat     [ ]       ║
+║ 🗣️ Asistan Sesli Konuşsun  [✔️]      ║
+SES SEKME (GÜNCELLENMİŞ)
+Önceden bildirim sekmesinde yer alan sesli hatırlatma ayarları bu sekmeye taşındı. Yeni haliyle:
+🔈 İçerikler:
+Ayar	Açıklama
+TTS Motoru Seçimi	GPT-4o, Google, Çocuk Sesi
+Ses Hızı (Slider)	0.5–2.0
+Ses Yüksekliği (Slider)	0.0–1.0
+Örnek Dinle Butonu	Mevcut ayarlarla TTS örneği çalar
+TTS ile Hatırlatma ✅	Dini günlerde TTS ile sabah uyarı
+Sabah 09:00 Hatırlatması ✅	Zamanlı sesli hatırlatma
+Sessiz Saat Aralığı (Slider)	Örn: 22:00 – 07:00
+🔊 "Test Et" Butonu	Örnek sesli bildirim çalar
+
+
+İçerikler:
+•	🔈 TTS Motoru Seçimi: combobox
+o	GPT-4o
+o	Google
+o	Yerel TTS (Çocuk Sesi)
+o	Değişiklik → yeni sohbet başlatır
+•	🎚️ Ses Hızı (Slider): 0.5 – 2.0
+•	🔊 Ses Seviyesi (Slider): 0.0 – 1.0
+•	Örnek metin
+•	▶️ Örnek Dinle Butonu
+
+ Görsel Çizim:
+╔══════════════════════════════════════╗
+║ SES AYARLARI                         ║
+╠══════════════════════════════════════╣
+║ 🔈 TTS Motoru:    [combobox]                  ║
+║                                      ║
+║ 🎚️ Ses Hızı:     [====|----]  1.2x   ║
+║ 🔊 Ses Yüksekliği: [===|-----]  0.6   ║
+
+    Örnek metin kutusu
+║                                      ║
+║ ▶️ [ Örnek Dinle ]                   ║
+╚══════════════════════════════════════╝
+
+BİLDİRİMLER SEKME (YENİDEN YAPILANDIRILDI)
+📬 Amaç:
+Kullanıcı bildirim almak isteyip istemediğini buradan belirtir. Her biri chatbox (kutu) şeklinde olacak.
+📢 İçerikler:
+Bildirim Tipi	Açıklama	Backend Alanı
+ Chat Bildirimleri	AI yanıt verdiğinde sesli/popup uyarı	chat_notify_enabled
+ E-Posta Bildirimleri	Aktivite, güvenlik, sistem bildirimleri	email_notify_enabled
+ Konum/IP Bilgilendirme	Yeni cihazdan girişte bildirim	location_logging_accepted
+ Ticari Bildirimler (İleti)	İçerik önerisi, güncelleme vs.	bildirim_izni
+
+ Örnek Chatbox Görünümü:
+
+║ 💬 Chat Popup Uyarıları      [Açık / Kapalı]  ║
+║ 📧 E-Posta Bildirimleri      [Açık / Kapalı]  ║
+║ 📍 Konum/IP Bilgisi Kaydı    [Açık / Kapalı]  ║
+║ 🔔 Ticari Bildirim İzni      [Açık / Kapalı]  ║
+╚════════════════════════════════════╝
+
+
+4. GÜVENLİK SEKME
+🛡️ İçerikler:
+•	🔒 2FA (İki Aşamalı Giriş): Açık / Kapalı
+•	🌐 Son Giriş IP Adresi: Gösterilir
+•	🧩 CAPTCHA Ayarları: Otomatik / Manuel
+•	🎤 Mikrofon & Kamera İzni: Checkbox (öncesinde alınır)
+•	✏️ Şifre Güncelle: Butonla /sifre-guncelle.html sayfasına yönlenir
+🖼️ Görsel Çizim:
+less
+KopyalaDüzenle
+╔═════════════════════════════╗
+║ GÜVENLİK AYARLARI                    ║
+╠═════════════════════════════╣
+║ 🔐 2FA Etkin       [✔️]              ║
+║ 🌐 Son Giriş IP:  192.168.1.100      ║
+║ 🧩 CAPTCHA Ayarı:  Otomatik [✔️]     ║
+║ 🎤 Kamera/Mikrofon İzni:  [✔️]       ║
+║                                      ║
+║ 🔄 [ Şifreyi Güncelle ]              ║
+
+
+
+ ALT SEKMELER — KULLANICI BİLGİLERİ SEKME ALTINDAKİ DÜZEN
+ Alt Sekmeler
+1.	 Kullanıcı Bilgileri
+2.	 Müderris 1 (başta "Müderris Ekle" yazacak, kayıt yapılınca "Ad Soyad" olarak görünür)
+3.	 Müderris 2 (aynı şekilde dinamik ad değişimi)
+4.	 Müderris 3 (aynı şekilde dinamik ad değişimi)
+Bu sekmeler yanda dikey liste şeklinde görünür ve tıklandığında sağ içeriği değiştirir (data-sub-tab kullanılır).
+________________________________________
+ KULLANICI BİLGİLERİ (SAĞ PANEL İÇERİĞİ)
+Alan	Veri Türü	HTML Tipi	Açıklama
+ E-posta	VARCHAR(255)	<input type="email" readonly>	Sadece gösterilir, değiştirilemez
+ Ad	VARCHAR(100)	<input type="text">	Kullanıcı adı
+ Soyad	VARCHAR(100)	<input type="text">	Kullanıcı soyadı
+ Telefon	VARCHAR(40)	<input type="tel">	Opsiyonel
+ Doğum Tarihi	DATE	<input type="date">	Kullanıcının yaşı
+ Profil Resmi	VARCHAR(255)	<input type="file"> + <img>	JPG/PNG, önizleme gösterilir
+🔒 Şifre Güncelle	-	<button onclick="window.location='/sifre-guncelle.html'">Şifreyi Güncelle</button>	
+📌 Kaydet Butonu	-	<button class="save-btn">Kaydet</button>	
+ Backend: /api/update-profile gibi bir PATCH isteğiyle güncelleme yapılır.
+________________________________________
+ MÜDERRİS 1 / 2 / 3 (SAĞ PANEL ORTAK FORM YAPISI)
+Bu form, her bir müderris için ayrı olarak gösterilir. Kayıt yoksa “Müderris Ekle” formu olarak başlar. Kayıt yapılınca sekme başlığı “Ad Soyad” olur, form ise düzenleme formuna dönüşür.
+Alan	Veri Türü	HTML Tipi	Açıklama
+ Adı	VARCHAR(100)	<input type="text">	Müderris adı
+ Soyadı	VARCHAR(100)	<input type="text">	Müderris soyadı
+ Kullanıcı Adı	VARCHAR(50)	<input type="text">	Giriş için kullanılacak
+ Şifre	VARCHAR(255)	<input type="password">	Güçlü şifre zorunlu kutu içinde kilit /kilit açık simgesi
+ Şifre tekrar	VARCHAR(255)	<input type="password">	Güçlü şifre zorunlu kutu içinde kilit /kilit açık simgesi
+ Okul	VARCHAR(150)	<input type="text">	Opsiyonel
+ İlgi Alanları	TEXT	<textarea placeholder="Hayvanlar, Namaz, Oyun...">	Virgül ile ayrılır
+ Profil Resmi	VARCHAR(255)	<input type="file"> + <img>	Önizleme gösterilir
+ Kaydet Butonu	-	<button class="save-muderris">Kaydet</button>	
+ Sil Butonu	-	<button class="delete-muderris">Sil</button>	
+ Backend:
+•	Yeni kayıt: POST /api/muderris
+•	Güncelleme: PATCH /api/muderris/{id}
+•	Silme: DELETE /api/muderris/{id}
+________________________________________
+ GÖRSEL DAVRANIŞ
+•	Sekme geçişlerinde içerik animasyonlu fade-in ile gelir
+•	Müderris sekmeleri default: Müderris Ekle, sonra Ad Soyad şeklinde dinamik adlandırılır
+•	Her sekme geçişi JS ile sağ paneli günceller (data-sub-tab)
+•	Profil resmi seçilince önizleme anında görünür
+
+ÜYELİK SİSTEMİ & VERİ MODELİ (DETAYLANDIRILMIŞ)
+________________________________________
+ 1. EBEVEYN ÜYELİĞİ (Ana Kullanıcı)
+🔐 Kimlik ve İletişim
+Alan Adı	Veri Tipi	Açıklama
+Email	VARCHAR(255)	Eşsiz, doğrulama zorunlu
+password_hash	VARCHAR(255)	bcrypt ile hashlenir
+first_name	VARCHAR(100)	Adı
+last_name	VARCHAR(100)	Soyadı
+Phone	VARCHAR(40)	Opsiyonel, doğrulama destekli
+birth_date	DATE	Kullanıcı yaşı hesaplanır
+profile_image	VARCHAR(255)	Opsiyonel avatar resmi
+________________________________________
+⚙️ Ayarlar ve Kişiselleştirme
+Alan Adı	Veri Tipi	Açıklama
+theme_preference	VARCHAR(50)	Koyu, Açık, Pembe, Mavi, vs.
+tts_engine	VARCHAR(50)	GPT-4o, Google, Çocuk sesi
+voice_speed	FLOAT	0.5 – 2.0 arasında
+voice_volume	FLOAT	0.0 – 1.0 arası
+chat_notify_enabled	BOOLEAN	Chat popup bildirimi
+email_notify_enabled	BOOLEAN	E-posta bildirimi tercihi
+________________________________________
+🔐 Güvenlik ve Onaylar
+Alan Adı	Veri Tipi	Açıklama
+email_verified	BOOLEAN	Kayıt sonrası zorunlu
+two_factor_enabled	BOOLEAN	İsteğe bağlı 2FA
+kvkk_accepted	BOOLEAN	KVKK onayı zorunlu
+gizlilik_accepted	BOOLEAN	Gizlilik onayı zorunlu
+uyelik_accepted	BOOLEAN	Üyelik sözleşmesi onayı
+bildirim_izni	BOOLEAN	Ticari ileti izni
+muderris_verisi_izni	BOOLEAN	Çocuk verisi işleme izni
+ai_etkilesim_izni	BOOLEAN	AI ile içerik üretme/öğrenme izni
+night_mode_enabled	BOOLEAN	Gece modu otomatik geçiş
+night_start, night_end	TIME	Sessiz saat aralığı
+last_login	DATETIME	Son başarılı giriş zamanı
+________________________________________
+ 2. MÜDERRİS (Alt Kullanıcı)
+ Temel Kimlik
+Alan Adı	Veri Tipi	Açıklama
+first_name	VARCHAR(100)	Çocuğun adı
+last_name	VARCHAR(100)	Soyadı
+Username	VARCHAR(50)	Giriş için kullanıcı adı
+password_hash	VARCHAR(255)	Basit ama güvenli şifre
+birth_date	DATE	Yaş → AI seviyesini etkiler
+parent_id	FOREIGN KEY	users.id → ebeveynle ilişkilidir
+________________________________________
+ Eğitsel ve İlgi Verileri
+Alan Adı	Veri Tipi	Açıklama
+School	VARCHAR(150)	Opsiyonel olarak sınıf bilgisi
+interests	TEXT	“namaz, hayvanlar, oruç” gibi AI’ya aktarılır
+Gender	VARCHAR(20)	Kız, erkek, belirtmek istemiyor
+profile_image	VARCHAR(255)	Profil resmi, avatar
+________________________________________
+🔒 Davranış Kuralları
+Özellik	Açıklama
+Müderris kendi başına kayıt olamaz	Yalnızca ebeveyn oluşturur
+Ebeveyn tüm verileri görebilir	Panelde çocuk verilerine erişim yetkisi vardır
+Yaş bazlı AI kontrolü yapılır	7–9, 10–11, 12+ davranış değişimi gerçekleşir
+________________________________________
+ VERİTABANI TABLOLARI (GENEL)
+Tablo	İçerik
+Users	Ebeveynler
+Müderris	Çocuklar
+chat_sessions	Her sohbet (müderris + TTS eşleşmesi)
+calendar_notes	Kullanıcı ve çocuk notları
+Messages	Tüm yazışma geçmişi
+device_logs	Giriş yapan cihaz bilgileri
+________________________________________
+ TAVSİYELER (İYİLEŞTİRME + GELİŞTİRME)
+________________________________________
+ AI’ya Hazırlık
+•	interests, birth_date, school, last_login, gizlilik_accepted gibi alanlar AI prompt’una entegre edilecek şekilde saklanmalı
+•	Örnek Prompt:
+"Hümeyra 8 yaşında, ilgi alanları namaz ve hayvanlar. 2. sınıfa gidiyor. Bugün Miraç Kandili hakkında ona nazikçe bilgi vermeye çalış."
+________________________________________
+ Güvenlik Geliştirmeleri
+•	Tüm form alanlarında frontend + backend validasyon olmalı
+•	muderris.password için minimum uzunluk, harf/sayı kontrolü
+•	users.last_login_ip, login_attempts gibi alanlar eklenebilir
+________________________________________
+ Kullanım Kolaylığı ve UX
+•	Müderris seçimi sekmeli olmalı (Ayarlar > Kullanıcı Bilgileri)
+•	Her müderris için:
+o	Kendi tema/TTS/ayar paneli
+________________________________________
+ Esneklik İçin Backend Tasarımı
+•	Her müderris’e özel settings tablosu ayrıştırılabilir
+•	deleted_muderris_log ile silinen çocuk kayıtları arşivlenebilir
+•	chat_sessions.tts_type, tts_speed, voice_volume çocuk bazında tutulabilir
+________________________________________
+ Geliştirici Belgeleri ve Panel
+•	Geliştirici için:
+o	api/users/{id}/muderris → alt kullanıcıları listeleme
+o	api/users/{id}/export → tüm kullanıcı + müderris JSON export
+•	Admin için:
+o	Müderris listesi, yaşlarına göre gruplama
+o	Giriş yapmayan kullanıcı raporu
+________________________________________
+ Eğitim / Seviye Mantığı (İleri Seviye Tavsiye)
+Alan Adı	Tür	Açıklama
+level	INTEGER	AI seviyesini belirler
+score	INTEGER	Doğru cevap, görev tamamlama ile artar
+completed_topics	JSON	Tamamladığı konular (örneğin: namaz, abdest)
+
+
+ÜYE GİRİŞİ ARAYÜZÜ (DETAYLANDIRILMIŞ)
+________________________________________
+ GENEL YAPI
+Özellik	Açıklama
+Tema	Koyu tema, siyah zemin, beyaz ikon
+Yapı	Modal değil, tam sayfa merkezli giriş
+Sekmeler	“Üye Girişi” – “Müderris Girişi” sekme butonları üstte
+Geçiş	JS ile içerik kutuları zıplamadan değişir
+Giriş sonrası	Sidebar’da buton yerine “Ad Soyad ▼” yazısı görünür
+________________________________________
+ SEKME 1: ÜYE GİRİŞİ
+Giriş bilgileri:
+•	E-Posta
+•	Şifre
+Alt seçenekler:
+•	🔑 Şifremi unuttum?
+•	🆕 Hesabınız yok mu? Üye Ol
+
+CAPTCHA 2. DENEMEDEN SONRA ÇIKAR MATEMATİK SORUSU SORAR
+________________________________________
+ SEKME 2: MÜDERRİS GİRİŞİ
+Giriş bilgileri:
+•	Kullanıcı Adı
+•	Şifre
+🔒 Kayıt olamaz. Sadece giriş yapabilir.
+CAPTCHA 2. DENEMEDEN SONRA ÇIKAR MATEMATİK SORUSU SORAR
+________________________________________
+ ÇİZİM – GİRİŞ ARAYÜZÜ (TAM YAPI)
+╔══════════════════════════════════════════════╗
+║ 🔐 ÜYE GİRİŞİ   |   🧒 MÜDERRİS GİRİŞİ        ║ ← Sekmeler (yanyana, beyaz ikon)
+╠══════════════════════════════════════════════╣
+║                                              ║
+║   📧  [ E-posta adresinizi girin...    ]     ║ ← Üye Girişi
+║   🔒  [ Şifrenizi girin...             ]     ║
+║                                              ║
+║   [ GİRİŞ YAP ]     [ Vazgeç ]               ║
+║                                              ║
+║   🔑 Şifremi unuttum?                        ║
+║   🆕 Hesabınız yok mu?  Üye Ol               ║ ← mavi & altı çizili
+╚══════════════════════════════════════════════╝
+
+╔══════════════════════════════════════════════╗
+║  MÜDERRİS GİRİŞİ                            ║ ← Sekme değişince görünür
+╠══════════════════════════════════════════════╣
+║                                              ║
+║   🧾  [ Kullanıcı adı girin...        ]      ║ ← Müderris Girişi
+║   🔒  [ Şifre girin...                ]      ║
+║                                              ║
+║   [ GİRİŞ YAP ]     [ Vazgeç ]               ║
+╚══════════════════════════════════════════════╝
+________________________________________
+ TASARIM ÖZELLİKLERİ
+Alan	Özellik
+Simge rengi	Seçilen Temaya uyumlu olur
+Yazı rengi	Seçilen temaya uyumlu olur
+Buton yapısı	GİRİŞ YAP: uzun ve kalın, Vazgeç: daha kısa, sade
+Sekme geçişi	JS ile animasyonsuz, sabit kutular
+Input içi simgeler	position: absolute; left: 10px olacak, içeri girmez
+________________________________________
+ EKSTRA UX ÖNERİLERİ
+Özellik	Açıklama
+Autofill kapatma	autocomplete="off" eklenmeli
+Input focus	Arka plan koyulaşır #343541
+Hatalı giriş	Altında kırmızı küçük hata yazısı görünür
+Sekmeler a11y	role="tablist", aria-selected gibi etiketlerle erişilebilir olmalı
+________________________________________
+ BONUS: RESPONSIVE GÖRÜNÜM
+Mobil görünümde:
+•	Sekmeler üst üste (üst üye, alt müderris)
+•	Input ve butonlar %100 genişlikte
+•	“GİRİŞ YAP” butonu tüm satırı kaplar
+
+ÜYE OL PENCERESİ (TAM ANLATIM + ÇİZİM)
+________________________________________
+ GENEL BİLGİLER
+Özellik	Açıklama
+Hedef kullanıcı	Ebeveyn (müderris kayıt olamaz)
+Tema	Seçili Tema’ya uygun olacak
+Konum	/register.html ya da modal değil, tam sayfa
+Giriş ayrımı	“Giriş Yap” sayfasında sekmeli ayrım yapılır
+________________________________________
+ KAYIT FORMU ALANLARI
+Alan	HTML Tipi	Gerekli mi?	Açıklama
+Ad	<input type="text">	✅	Kullanıcının adı
+Soyad	<input type="text">	✅	Soyadı
+E-posta	<input type="email">	✅	Doğrulama yapılır
+Doğum Tarihi	<input type="date">	✅	Yaş bilgisi alınır
+Telefon	<input type="tel">	⛔ (isteğe bağlı)	SMS doğrulama için opsiyonel
+Şifre	<input type="password">	✅	En az 8 karakter
+Şifre Tekrar	<input type="password">	✅	Eşleşme kontrolü
+			
+________________________________________
+ GÖRSEL ÇİZİM – FORM YAPISI
+╔══════════════════════════════════════════════════════════╗
+║                    ÜYE OL                                ║
+╠══════════════════════════════════════════════════════════╣
+║  Ad:                 [__________]                       ║
+║  Soyad:              [__________]                       ║
+║  E-posta:            [__________]                       ║
+║  Doğum Tarihi:       [__ / __ / ____]                  ║
+║  Telefon (isteğe bağlı): [__________]                  ║
+║  Şifre:              [********]   kutuların içinde kilit/kilit açık simgesi                      ║
+║  Şifre Tekrar:       [********]    kutuların içinde kilit/kilit açık simgesi                                          ║
+║ ╠══════════════════════════════════════════════════════════╣
+║ ☑️ KVKK Açık Rıza Onayı                                   ║
+║ ☑️ Gizlilik Politikası Onayı                              ║
+║ ☑️ Üyelik Sözleşmesi Onayı                                ║
+║ ☑️ Bildirim İzni                                          ║
+║ ☑️ Çocuk Verisi İşleme İzni                               ║
+║ 
+╠══════════════════════════════════════════════════════════╣
+║       [ ÜYE OL ]            [ VAZGEÇ ]                    ║
+╚══════════════════════════════════════════════════════════╝
+Not zorunlu alanlar doldurulmamış ise üye ol butonu pasif olur.
+CAPTCHA 2. DENEMEDEN SONRA ÇIKAR MATEMATİK SORUSU SORAR
+ GÜVENLİK VE VALIDASYON
+Özellik	Açıklama
+Şifre kontrolü	En az 6 karakter, harf + sayı olmalı
+E-posta kontrolü	Benzersiz olmalı, doğrulama yapılmalı
+Şifre tekrar kontrolü	Aynı değilse uyarı mesajı çıkar
+KVKK & gizlilik onaysızsa	Form gönderilemez (zorunlu)
+Onay kutuları	checkbox → boolean olarak backend'e gönderilir
+________________________________________
+ TASARIM seçili temaya uygundur________________________________________
+ VERİTABANI ALANLARI (users tablosu)
+Alan	Tip
+first_name	String
+last_name	String
+email	String
+password_hash	String
+birth_date	Date
+phone	String
+profile_image	String
+kvkk_accepted	Boolean
+gizlilik_accepted	Boolean
+uyelik_accepted	Boolean
+bildirim_izni	Boolean
+muderris_verisi_izni	Boolean
+ai_etkilesim_izni	Boolean
+veri_dis_kullanim_kisit	Boolean
+camera_permission_enabled	Boolean
+location_logging_accepted	Boolean
+last_login	DateTime
+________________________________________
+ MOBİL GÖRÜNÜM
+•	Input ve kutular alt alta gelir
+•	Tüm butonlar %100 genişlikte görünür
+•	Simge/placeholder sabit kalır
+ŞİFREMİ UNUTTUM — /forgot-password.html
+________________________________________
+ AMAÇ:
+Kayıtlı e-posta adresine şifre sıfırlama bağlantısı gönderilir.
+________________________________________
+ FORM ALANLARI
+Alan	Tip	Gereklilik
+📧 E-Posta	<input type="email">	✅ zorunlu
+________________________________________
+ ÇALIŞMA MANTIĞI
+1.	Kullanıcı e-postasını girer
+2.	Sistemde e-posta varsa bir token oluşturulur
+3.	Bu token içeren link kullanıcıya e-posta ile gönderilir
+Örn: https://gencmuderris.com/reset-password?token=XYZ
+________________________________________
+ GÖRSEL ÇİZİM
+╔════════════════════════════════════════════╗
+║           ŞİFREMİ UNUTTUM                 ║
+╠════════════════════════════════════════════╣
+║ 📧 E-posta adresiniz:  [ _______________ ] ║
+║                                            ║
+║  [ ŞİFRE SIFIRLAMA LİNKİ GÖNDER ]          ║
+║                                            ║
+║ 🔙 [ Giriş Ekranına Dön ]                  ║
+╚════════════════════════════════════════════╝
+________________________________________
+ GÜVENLİK ÖNLEMLERİ
+•	Yanıttan "bu e-posta sistemde kayıtlı değil" gibi bilgi verilmez
+•	Rate limit uygulanmalı (örn. 5/dk IP başına)
+•	Token süresi: 15–30 dakika geçerli olmalı
+•	Token JWT olarak veya UUID + veritabanı ile takip edilir
+ ŞİFRE DEĞİŞTİR — /reset-password.html
+________________________________________
+ AMAÇ:
+Token doğrulandıktan sonra yeni şifre girilerek sistemde güncellenir.
+________________________________________
+ FORM ALANLARI
+Alan	Tip	Gereklilik
+🔒 Yeni Şifre	<input type="password">	✅ zorunlu
+🔒 Şifre Tekrarı	<input type="password">	✅ zorunlu
+________________________________________
+ ÇALIŞMA MANTIĞI
+1.	Sayfa URL’sinde token parametresi bulunur
+Örn: /reset-password.html?token=XYZ
+2.	Backend bu token'ı doğrular
+3.	Şifreler eşleşirse güncelleme yapılır
+4.	Kullanıcı yönlendirilir: “Şifreniz başarıyla güncellendi. Giriş yapabilirsiniz.”
+________________________________________
+ GÖRSEL ÇİZİM
+╔════════════════════════════════════════════╗
+║          YENİ ŞİFRE OLUŞTUR               ║
+╠════════════════════════════════════════════╣
+║ 🔒 Yeni Şifre:       [ ********** ]        ║
+║ 🔒 Şifre Tekrarı:    [ ********** ]        ║
+║                                            ║
+║  [ ŞİFREMİ GÜNCELLE ]                      ║
+║                                            ║
+║ 🔙 [ Giriş Ekranına Dön ]                  ║
+╚════════════════════════════════════════════╝
+________________________________________
+ GÜVENLİK & VALIDASYON
+•	Şifre eşleşme kontrolü yapılmalı
+•	Minimum şifre uzunluğu (6 karakter)
+•	Harf + sayı zorunlu 
+•	Token sadece bir kez kullanılabilir olmalı
+•	Başarılı işlem sonrası token iptal edilir
+________________________________________
+ BACKEND MANTIK
+Endpoint	Yöntem	Açıklama
+/api/password/forgot	POST	E-posta alır, token gönderir
+/api/password/reset	POST	Token + yeni şifre ile günceller
+________________________________________
+ EKSTRA UX ÖNERİLERİ
+•	E-posta gönderildi bildirimi sade şekilde ekranda görünmeli
+•	Hatalı token → “Bu bağlantı geçersiz veya süresi dolmuş.”
+•	Başarılı işlem sonrası → Giriş ekranına yönlendirme + bilgilendirme mesajı
+________________________________________
+ MOBİL GÖRÜNÜM
+•	Inputlar dikey sıralanır
+•	Tüm butonlar ekran genişliğine göre %100 olur
+•	Yazılar sade ve büyük puntoludur
+________________________________________
+Kullanıcı Aktivite Logları
+•	Sistemde kullanıcı giriş, çıkış, ayar değiştirme gibi aktiviteleri kaydeden ek bir user_activity_logs tablosu ekle
+
+Müderris İçin Ayarlar Tablosu 
+•	Her müderrisin farklı tema, ses tercihleri olabilir. Hangi kullanıcı/ müderris giriş yaptı ise onun ayarları açılır ve değişiklikler giriş yapan kullanıcı/müderris’e kayıt edilir
+
+CAPTCHA TÜRÜ ÖNERİLERİ
+🧪 1. Basit Yerel CAPTCHA (Başlangıç İçin)
+•	Kodla üretilen bir resim: 4–5 harf/rakam içerir
+•	Kullanıcıya sorulur: “Görünen kodu giriniz”
+•	Doğrulama backend’de yapılır
+
+
+YASAL METİNLER
+
+1. KVKK Açık Rıza Onayı ✅ (Zorunlu)
+“Kişisel verilerimin 6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında, Genç Müderris platformunun hizmetlerini sunabilmesi ve kişiselleştirilmiş içerik sunması amacıyla işlenmesine rıza gösteriyorum.”
+•	Backend alan: kvkk_accepted: BOOLEAN
+________________________________________
+2. Gizlilik Politikası Onayı ✅ (Zorunlu)
+“Gizlilik Politikası’nı okudum ve anladım. Verilerimin nasıl işlendiğine dair bilgilendirildim.”
+•	Backend alan: gizlilik_accepted: BOOLEAN
+________________________________________
+3. Üyelik Sözleşmesi Onayı ✅ (Zorunlu)
+“Genç Müderris Kullanıcı Sözleşmesi’ni okudum, tüm şartları kabul ediyorum.”
+•	Backend alan: uyelik_accepted: BOOLEAN
+________________________________________
+4. Bildirim (Ticari Elektronik İleti) İzni ✅ (Zorunlu)
+“Ticari ileti ve bildirim almak istiyorum (e-posta, sesli hatırlatma, ).”
+•	Backend alan: bildirim_izni: BOOLEAN
+________________________________________
+5. Çocuk Verisi İşleme İzni ✅ (Zorunlu / Sadece ebeveyn için)
+“7–14 yaş arası çocuğumun verilerinin sadece öğretim amaçlı kullanılmasına açık rıza veriyorum.”
+•	Backend alan: muderris_verisi_izni: BOOLEAN (yeni eklenmeli)
+________________________________________
+6. AI Etkileşim Onayı ✅ (Opsiyonel ama önerilir)
+“Yapay zeka destekli sohbet sistemini kullanırken verdiğim bilgilerin AI modeli tarafından analiz edilmesine izin veriyorum.”
+•	Backend alan: ai_etkilesim_izni: BOOLEAN (isteğe bağlı ama açık şekilde sorulmalı)
+________________________________________
+7. Veri İşleme Sınırlandırma Tercihi (Varsayılan açık olabilir, kullanıcı kapatabilir)
+“Verilerimin sadece sistem içinde kullanılması, üçüncü taraflarla paylaşılmaması konusunda sınırlama istiyorum.”
+•	Backend alan: veri_dis_kullanim_kisit: BOOLEAN (opsiyonel olarak sunulmalı)
+________________________________________
+8. Kamera/Mikrofon İzni (TTS ve Dinleme için) ✅ (Zorunlu değil, ancak sistemde kullanım öncesi alınmalı)
+“Cihazımın mikrofonunu ve/veya kamerasını sadece TTS/dinleme amacıyla kullanmasına izin veriyorum.”
+•	Backend alan: camera_permission_enabled: BOOLEAN
+________________________________________
+9. Oturum/Konum Kayıt İzni (KVKK kapsamında bilgilendirme yeterli olabilir)
+“Güvenlik amacıyla IP adresim, tarayıcı ve konum bilgilerimin oturum loglarında saklanmasına onay veriyorum.”
+•	Backend alan: location_logging_accepted: BOOLEAN (isteğe bağlı kutu olabilir)
+________________________________________
+10. Veri Silme ve İndirme Hakkı Bilgilendirmesi (Kutulu değil, ama görünür yerde olmalı)
+“Verilerimi istediğim zaman sistemden silebilir veya tamamını indirebilirim.”
+•	Backend tarafında:
+o	GET /account/export
+o	DELETE /account/delete
+
+
+TEKNİK ALTYAPI EKLEMELERİ
+1. Veritabanı İndeksleri ve Optimizasyon
+  Veritabanında arama yaparken hızı artırmak için özel yapılar oluşturmak
+  Kullanıcı sayısı arttıkça sistem yavaşlar, indeksler hızı artırır
+  Örnek: E-posta ile kullanıcı arama yaparken, indeks olmadan tüm kullanıcıları tarar, indeks ile direkt bulur
+2. API Rate Limiting Detayları
+  Bir kullanıcının belirli sürede kaç istek yapabileceğini sınırlamak
+  Sistemi kötüye kullanımı önler, sunucu yükünü azaltır
+  Örnek: Giriş sayfasında 1 dakikada 5 kez yanlış şifre denemesi yapılırsa 15 dakika bekletir
+3. Error Handling ve Logging
+  Hataları yakalayıp kaydetmek ve kullanıcıya anlamlı mesajlar göstermek
+  Sistem çöktüğünde nedenini anlayabilmek için
+  Örnek: "Şifre yanlış" yerine "E-posta veya şifre hatalı" gibi güvenli mesajlar
+ GÜVENLİK EKLEMELERİ
+4. Session Yönetimi
+  Kullanıcının giriş yaptıktan sonra ne kadar süre aktif kalacağını yönetmek
+  Güvenlik için oturum süresini sınırlamak
+  Örnek: 30 dakika işlem yapmazsa otomatik çıkış yapar
+5. Input Validation ve Sanitization
+  Kullanıcıdan gelen verileri temizlemek ve kontrol etmek
+  Kötü kodların sisteme girmesini önlemek
+  Örnek: Mesaj yazarken <script> gibi tehlikeli kodları temizler
+6. Backup ve Recovery Sistemi
+  Verilerin düzenli yedeklenmesi ve kayıp durumunda geri yükleme
+  Veri kaybını önlemek için
+  Örnek: Her gece 02:00'de otomatik yedek alır
+ ANALİTİK VE RAPORLAMA
+7. Kullanım Analitikleri
+  Kullanıcıların nasıl kullandığını takip etmek
+  Sistemi iyileştirmek için veri toplamak
+  Örnek: Hangi yaş grubu en çok hangi konuyu soruyor
+8. Performans Metrikleri
+  Sistemin ne kadar hızlı çalıştığını ölçmek
+  Yavaşlık sorunlarını tespit etmek
+  Örnek: Sayfa açılma süresi ortalama 2 saniye
+9. Günlük Görevler
+  Her gün yapılacak küçük hedefler
+  Düzenli kullanımı teşvik etmek
+  Örnek: "Bugün 3 dini soru sor" görevi
+MOBİL UYGULAMA HAZIRLIĞI
+10. PWA (Progressive Web App) Desteği
+  Web sitesini telefon uygulaması gibi kullanabilmek
+  Mobil deneyimi iyileştirmek
+  Örnek: Telefona "Genç Müderris" uygulaması olarak eklenebilir
+KULLANICI DENEYİMİ İYİLEŞTİRMELERİ
+11. Tutorial ve Onboarding
+  İlk kullanımda rehberlik etmek
+  Kullanıcının sistemi kolayca öğrenmesi
+  Örnek: "Buraya tıklayarak AI ile sohbet edebilirsin" gibi ipuçları
+SİSTEM ENTEGRASYONLARI
+12. E-posta Servisi
+  Otomatik e-posta gönderme sistemi
+  Kullanıcıları bilgilendirmek
+  Örnek: Şifre sıfırlama e-postası göndermek
+13. Push Notification Sistemi
+  Telefona anlık bildirim gönderme
+  Kullanıcıyı haberdar etmek
+  Örnek: "Bugün Mevlid Kandili" bildirimi
+İÇERİK YÖNETİMİ
+14. Admin Panel
+  Yöneticiler için kontrol paneli
+  Sistemi yönetmek için
+  Örnek: Kullanıcıları görüntüleme, içerik ekleme
+15. İçerik Moderasyonu
+  Uygunsuz içerikleri filtrelemek
+  Güvenli ortam sağlamak
+  Örnek: Kötü kelimeleri otomatik temizleme
+ DEVOPS VE DEPLOYMENT
+ VERİ ANALİTİĞİ
+16. Kullanıcı Davranış Analizi
+  Kullanıcıların ne yaptığını takip etmek
+  Sistemi iyileştirmek için
+  Örnek: Hangi sayfada en çok zaman geçiriyorlar
+17. AI Performans Metrikleri
+  Yapay zekanın ne kadar iyi çalıştığını ölçmek
+  AI'yı iyileştirmek için
+  Örnek: Yanıt süresi ortalama 1.5 saniye
+
+18. Kişiselleştirilmiş Öğrenme Yolu
+  Her çocuğun seviyesine göre özel içerik
+  Daha etkili öğrenme için
+  Örnek: 8 yaşındaki çocuk için basit, 12 yaşındaki için detaylı açıklama
+19. AI Hafıza Sistemi
+  AI'nın önceki konuşmaları hatırlaması
+  Sürekli aynı şeyi sormaması için
+  Örnek: "Geçen hafta namaz konusunu konuşmuştuk, hatırlıyor musun?"
+20. Duygu Analizi
+  Çocuğun ruh halini anlayıp ona göre konuşma
+  Daha empatik iletişim için
+  Örnek: Üzgünse teselli edici, mutluysa kutlama yapma
+EĞİTİM İÇERİĞİ GELİŞTİRMELERİ
+21. İçerik Filtreleme Sistemi
+  Yaşa uygun olmayan içerikleri engelleme
+  Çocuk güvenliği için
+  Örnek: 7 yaş için basit, 12 yaş için detaylı içerik
+22. Ses Efektleri
+  Doğru cevap verince alkış sesi VEYA BAŞKA DİNİ SELER
+  Motivasyon için
+  Örnek: "Bravo!" sesi + simge yağmuru

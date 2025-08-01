@@ -1,0 +1,243 @@
+/* Sidebar ana container - !important ile öncelik */
+.settings-panel-sidebar {
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  width: 500px !important;
+  height: 100vh !important;
+  background: var(--bg-sidebar) !important;
+  border-left: 1px solid var(--border-color) !important;
+  transition: right 0.3s ease !important;
+  z-index: 1000 !important;
+  overflow-y: auto !important;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3) !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.settings-panel-sidebar.sidebar-hidden {
+  right: -500px !important;
+}
+
+.settings-panel-sidebar.open,
+.settings-panel-sidebar:not(.sidebar-hidden) {
+  right: 0 !important;
+}
+
+/* Sidebar header */
+.sidebar-header {
+  padding: 1rem;
+  border-bottom: none !important; /* çizgiyi kaldır */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--bg-main);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.sidebar-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.sidebar-title i {
+  color: var(--accent-color);
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: none !important; /* all 0.2s ease yerine none */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+}
+
+.close-btn:hover {
+  background: var(--bg-hover);
+  color: var(--text-main);
+  transform: none !important; /* scale(1.1) yerine none */
+}
+
+/* Sidebar içerik */
+.settings-panel-content {
+  padding: 1rem !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  min-height: 0 !important;
+}
+
+/* Profil sayfasında tüm çizgileri kaldır - sidebar içinde */
+.settings-panel-content #settings-profil-content,
+.settings-panel-content #settings-profil-content * {
+  border-bottom: none !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* Sidebar içindeki profil content sağa hizalama */
+.settings-panel-content #settings-profil-content {
+  align-items: flex-end !important;
+  justify-content: flex-start !important;
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+  right: 0 !important;
+  float: right !important;
+}
+
+.settings-subsection-content {
+  display: none;
+}
+
+.settings-subsection-content.active {
+  display: block;
+}
+
+/* Subsection header */
+.settings-subsection-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem; /* 1.5rem'den 0.5rem'e düşürüldü */
+  padding-bottom: 0.5rem; /* 1rem'den 0.5rem'e düşürüldü */
+  border-bottom: none !important; /* çizgiyi kaldır */
+}
+
+.settings-back-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: none !important; /* all 0.2s ease yerine none */
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.settings-back-btn:hover {
+  background: var(--bg-hover);
+  color: var(--text-main);
+  transform: none !important; /* translateX(-2px) yerine none */
+}
+
+.settings-back-btn i {
+  font-size: 0.8rem;
+}
+
+/* Responsive sidebar */
+@media (max-width: 768px) {
+  .settings-panel-sidebar {
+    width: 100%;
+    right: -100%;
+  }
+  
+  .settings-panel-content {
+    padding: 0.5rem;
+  }
+  
+  #settings-profil-content {
+    max-width: 100% !important;
+    width: 100% !important;
+    min-width: 100% !important;
+    padding: 1rem 0.5rem;
+  }
+  
+  #settings-profil-content .setting-item {
+    max-width: 100%;
+  }
+}
+
+/* Profil içeriği için sabit genişlik - masaüstü */
+@media (min-width: 769px) {
+  #settings-profil-content {
+    width: 500px !important;
+    max-width: 500px !important;
+    min-width: 500px !important;
+    flex-shrink: 0 !important;
+    flex-grow: 0 !important;
+  }
+}
+
+/* Sidebar profil resmi sağa hizalı ve yuvarlak */
+.sidebar-profile-wrapper {
+  width: 100% !important;
+  display: flex !important;
+  justify-content: flex-end !important; /* sağa hizalama - !important eklendi */
+  align-items: center !important;
+  margin: 2rem 0 !important;
+  padding: 0 1rem !important; /* 2rem'den 1rem'e düşürüldü - daha sağa */
+  position: relative !important;
+  text-align: right !important;
+}
+
+/* Sidebar'ın kendisini de sağa hizala */
+.settings-panel-sidebar .sidebar-profile-wrapper {
+  justify-content: flex-end !important;
+  align-items: flex-end !important;
+  padding-right: 0 !important;
+  margin-right: 0 !important;
+}
+
+.sidebar-profile-photo {
+  width: 125px !important;
+  height: 125px !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  border: 3px solid #444 !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4) !important;
+  background-color: #2a2a2a !important;
+  transition: none !important; /* all 0.3s ease-in-out yerine none */
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  position: relative !important;
+}
+
+.sidebar-profile-photo:hover {
+  transform: none !important; /* scale(1.05) yerine none */
+  box-shadow: none !important; /* 0 6px 20px rgba(0,0,0,0.5) yerine none */
+}
+
+.sidebar-profile-photo img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+  border-radius: 12px !important; /* 50% yerine 12px - daha az yuvarlak */
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+}
+
+.sidebar-profile-img-fix {
+  width: 125px !important;
+  height: 125px !important;
+  object-fit: cover !important;
+  display: block !important;
+  border-radius: 12px !important; /* 50% yerine 12px - daha az yuvarlak */
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+} 

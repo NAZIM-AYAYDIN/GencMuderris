@@ -1,0 +1,35 @@
+/* Koyu tema değişkenleri - DÜZELTİLMİŞ */
+[data-theme="koyu"] {
+  /* Asistan sohbet arka planı - Daha koyu */
+  --bg-main: #555555; /* Çok koyu gri/siyah */
+  
+  /* Sidebar arka planı */
+  --bg-sidebar: #2d2d2d;
+  
+  /* Hover efekti için daha da açık */
+  --bg-hover: #3a3a3a;
+  
+  /* Input alanları için orta ton */
+  --bg-input: #333333;
+  
+  /* Border için görünür ton */
+  --border-color: #444444;
+  
+  /* Yazı renkleri */
+  --text-main: #ffffff;
+  --text-muted: #cccccc;
+  
+  /* Link yazıları için daha açık renk */
+  --accent-color: #8a8a8a; /* Daha açık gri - linkler için */
+  --accent-hover: #a0a0a0; /* Daha açık hover */
+  
+  /* Diğer renkler */
+  --error-color: #dc3545;
+  --success-color: #28a745;
+  --warning-color: #ffc107;
+  --divider-color: #444444;
+  --secondary-text: #aaaaaa;
+  --text-primary: #ffffff;
+  --text-secondary: #cccccc;
+  --input-hover: #404040;
+} 
