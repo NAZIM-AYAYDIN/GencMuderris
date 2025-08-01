@@ -1,0 +1,23 @@
+/* Açık tema değişkenleri - DÜZELTİLMİŞ */
+[data-theme="acik"] {
+  --bg-main: #f5f5f5;
+  --bg-sidebar: #dee2e6;
+  --bg-hover: #ffffff;
+  --bg-input: #e0e0e0;
+  --bg-chat-bubble: #eaeaea;
+  --text-main: #222222;
+  --text-muted: #777777;
+  --border-color: #dddddd;
+  --icon-color: #999999;
+  --icon-active: #000000;
+  --accent-color: #555555; /* Koyu gri */
+  --accent-hover: #333333; /* Daha koyu gri */
+  --error-color: #dc3545;
+  --success-color: #28a745;
+  --warning-color: #ffc107;
+  --divider-color: #dddddd;
+  --secondary-text: #555555;
+  --text-primary: #222222;
+  --text-secondary: #777777;
+  --input-hover: #f0f0f0;
+} 

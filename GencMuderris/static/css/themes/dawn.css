@@ -1,0 +1,50 @@
+/* ŞAFAK TEMA - DÜZELTİLMİŞ */
+[data-theme="safak"] {
+  /* Genel Arka Plan - Ana zemin açık uçuk şeker pembesi */
+  --bg-main: #ecced9;
+  
+  /* Sidebar Arka Plan - Yumuşak, homojen şeker pembesi */
+  --bg-sidebar: #fcd9e4;
+  
+  /* Sidebar Hover - Hafif fuşya karışımı (pastel pembe) */
+  --bg-hover: #ffd4e2;
+  
+  /* Sidebar Border/Çizgi - Doygun ama parlak pembe */
+  --border-color: #f6b5cb;
+  
+  /* Chat Kutusu (Balon) - Açık, sade ve sıcak pembe */
+  --bg-chat-bubble: #f9bfd6;
+  
+  /* Input Alanları - Parlak uçuk pembe */
+  --bg-input: #f8c3d7;
+  
+  /* Input Hover/Focus - Yumuşak neon olmayan pembe */
+  --input-hover: #ffcde0;
+  
+  /* Yazı Rengi (Ana) - Gül kurusu, pembe kontrastı */
+  --text-main: #853d56;
+  --text-primary: #853d56;
+  
+  /* Pasif Yazılar - Koyu pembe-menekşe arası ama soluk */
+  --text-muted: #a8647c;
+  --text-secondary: #a8647c;
+  
+  /* İkincil Yazılar - Açık gül kurusu */
+  --secondary-text: #c48098;
+  
+  /* Aktif İkon Rengi - Yazı rengiyle aynı */
+  --icon-active: #853d56;
+  
+  /* Pasif İkon Rengi - Açık gül rengi */
+  --icon-color: #b76a89;
+  
+  /* Accent renkler - Link yazıları için daha koyu */
+  --accent-color: #853d56; /* Daha koyu gül kurusu */
+  --accent-hover: #6a2f45; /* Daha koyu hover */
+  
+  /* Diğer renkler */
+  --error-color: #dc3545;
+  --success-color: #28a745;
+  --warning-color: #ffc107;
+  --divider-color: #f6b5cb;
+} 

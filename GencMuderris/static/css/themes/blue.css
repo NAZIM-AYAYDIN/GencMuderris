@@ -1,0 +1,23 @@
+/* Mavi tema değişkenleri */
+[data-theme="mavi"] {
+  --bg-main: #e6f2ff;
+  --bg-sidebar: #d9eafc;
+  --bg-hover: #c1def9;
+  --bg-input: #e8f3fc;
+  --bg-chat-bubble: #ccdef4;
+  --text-main: #1e2f49;
+  --text-muted: #6688aa;
+  --border-color: #a6cbed;
+  --icon-color: #90aacc;
+  --icon-active: #103d70;
+  --accent-color: #103d70;
+  --accent-hover: #1e2f49;
+  --error-color: #dc3545;
+  --success-color: #28a745;
+  --warning-color: #ffc107;
+  --divider-color: #a6cbed;
+  --secondary-text: #3a5a8a;
+  --text-primary: #1e2f49;
+  --text-secondary: #6688aa;
+  --input-hover: #d2e5f7;
+} 

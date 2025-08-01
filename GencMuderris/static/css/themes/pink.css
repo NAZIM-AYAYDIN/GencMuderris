@@ -1,0 +1,23 @@
+/* Pembe tema değişkenleri - ESKİ HALİNE GERİ ALINDI */
+[data-theme="pembe"] {
+  --bg-main: #fff0f5;
+  --bg-sidebar: #ffe4ec;
+  --bg-hover: #f8c8d8;
+  --bg-input: #fff0f7;
+  --bg-chat-bubble: #ffd6e8;
+  --text-main: #5b2245;
+  --text-muted: #ad6789;
+  --border-color: #f2b6c8;
+  --icon-color: #c5839f;
+  --icon-active: #7a003c;
+  --accent-color: #7a003c;
+  --accent-hover: #5b2245;
+  --error-color: #dc3545;
+  --success-color: #28a745;
+  --warning-color: #ffc107;
+  --divider-color: #f2b6c8;
+  --secondary-text: #913d67;
+  --text-primary: #5b2245;
+  --text-secondary: #ad6789;
+  --input-hover: #ffe5f1;
+} 

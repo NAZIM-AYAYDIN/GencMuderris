@@ -1,0 +1,592 @@
+/* Profil Sidebar - Ana sidebar ile çakışmaması için ayrı sınıf */
+
+.profile-sidebar {
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  width: 500px !important;
+  height: 100vh !important;
+  background: var(--bg-sidebar) !important;
+  border-left: 1px solid var(--border-color) !important;
+  transition: right 0.3s ease !important;
+  z-index: 1000 !important;
+  overflow-y: auto !important;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3) !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.profile-sidebar.sidebar-hidden {
+  right: -500px !important;
+}
+
+.profile-sidebar.open,
+.profile-sidebar:not(.sidebar-hidden) {
+  right: 0 !important;
+}
+
+/* Profil sidebar header */
+.profile-sidebar .sidebar-header {
+  padding: 1rem;
+  border-bottom: none !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--bg-main);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.profile-sidebar .sidebar-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.profile-sidebar .sidebar-title i {
+  color: var(--accent-color);
+}
+
+.profile-sidebar .close-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: none !important; /* all 0.2s ease yerine none */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+}
+
+.profile-sidebar .close-btn:hover {
+  background: var(--bg-hover);
+  color: var(--text-main);
+  transform: none !important; /* scale(1.1) yerine none */
+}
+
+/* Profil sidebar içerik */
+.profile-sidebar .sidebar-content {
+  padding: 1rem !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  min-height: 0 !important;
+}
+
+/* Profil sayfasında tüm çizgileri kaldır */
+.profile-sidebar .sidebar-content #profil-content,
+.profile-sidebar .sidebar-content #profil-content * {
+  border-bottom: none !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* Profil content sağa hizalama */
+.profile-sidebar .sidebar-content #profil-content {
+  align-items: flex-end !important;
+  justify-content: flex-start !important;
+}
+
+/* SIDEBAR USER MENU STİLLERİ */
+.sidebar-user-menu {
+  position: relative;
+}
+
+.sidebar-user-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: transparent;
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: none !important; /* all 0.2s ease yerine none */
+  font-size: 0.9rem;
+}
+
+.sidebar-user-btn:hover {
+  background: var(--bg-hover);
+  border-color: var(--text-muted);
+}
+
+.sidebar-dropdown-menu {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+  background: var(--bg-sidebar);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: none !important; /* all 0.2s ease yerine none */
+}
+
+.sidebar-dropdown-menu.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.sidebar-dropdown-menu button {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: transparent;
+  color: var(--text-main);
+  border: none;
+  cursor: pointer;
+  transition: none !important; /* all 0.2s ease yerine none */
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+.sidebar-dropdown-menu button:hover {
+  background: var(--bg-hover);
+  color: var(--error-color);
+}
+
+/* PROFİL SAYFASI STİLLERİ */
+#profil-content {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  min-height: 100% !important;
+  padding: 2rem 1rem !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* PROFİL RESMİ ÇERÇEVE VE DÜZENLEME */
+#profil-content .sidebar-profile-wrapper {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  margin-bottom: 2rem !important;
+  width: 100% !important;
+  text-align: center !important;
+  padding: 0 1rem !important;
+  flex-direction: column !important;
+  flex-shrink: 0 !important;
+  flex-grow: 0 !important;
+  box-sizing: border-box !important;
+  /* Ortaya hizalama */
+  margin-right: auto !important;
+  margin-left: auto !important;
+}
+
+#profil-content .sidebar-profile-photo {
+  position: relative !important;
+  display: block !important;
+  cursor: pointer !important;
+  border-radius: 16px !important; /* Daha yumuşak köşeler */
+  overflow: hidden !important;
+  width: 120px !important;
+  height: 120px !important;
+  min-width: 120px !important;
+  min-height: 120px !important;
+  max-width: 120px !important;
+  max-height: 120px !important;
+  border: 4px solid var(--border-color) !important; /* Daha kalın çerçeve */
+  transition: none !important; /* all 0.3s ease yerine none */
+  margin: 0 auto !important; /* Ortaya hizala */
+  text-align: center !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3) !important; /* Daha belirgin gölge */
+  flex-shrink: 0 !important;
+  flex-grow: 0 !important;
+  box-sizing: border-box !important;
+  background: var(--bg-input) !important; /* Arka plan rengi */
+}
+
+/* PROFİL PHOTO HOVER - TAMAMEN KALDIRILDI */
+#profil-content .sidebar-profile-photo:hover {
+  border-color: var(--accent-color) !important;
+  transform: none !important; /* scale(1.05) yerine none */
+  box-shadow: none !important; /* 0 8px 25px rgba(0, 0, 0, 0.4) yerine none */
+}
+
+#profil-content .sidebar-profile-img-fix {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 12px !important;
+  display: block !important;
+  transition: none !important; /* all 0.3s ease yerine none */
+}
+
+/* PROFİL FORMU DÜZENLEME */
+#profil-content form {
+  width: 100% !important;
+  max-width: 500px !important;
+  margin: 0 auto !important; /* Ortaya hizala */
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1.5rem !important;
+}
+
+#profil-content .form-row {
+  display: flex !important;
+  gap: 1rem !important;
+  margin-bottom: 0 !important; /* Gap kullanıyoruz */
+  width: 100% !important;
+  justify-content: center !important; /* Ortaya hizala */
+  align-items: flex-start !important;
+}
+
+#profil-content .form-row .setting-item {
+  flex: 1 !important;
+  margin-bottom: 0 !important;
+  min-width: 0 !important;
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important; /* Sola hizala */
+  text-align: left !important;
+}
+
+/* PROFİL FORMU LABEL'LARINI KÜÇÜLT */
+#profil-content .form-row .setting-item label {
+  align-self: flex-start !important;
+  margin-bottom: 0.3rem !important; /* 0.5rem'den 0.3rem'e düşürüldü */
+  font-weight: 500 !important; /* 600'den 500'e düşürüldü */
+  color: var(--text-main) !important;
+  font-size: 0.7rem !important; /* 0.85rem'den 0.7rem'e küçültüldü */
+  text-transform: uppercase !important;
+  letter-spacing: 0.3px !important; /* 0.5px'den 0.3px'e düşürüldü */
+  margin-right: 0 !important;
+}
+
+/* PROFİL FORMU INPUT'LARINI İNCELT */
+#profil-content .form-row .setting-item input {
+  width: 100% !important;
+  max-width: none !important;
+  align-self: stretch !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 6px !important;
+  padding: 0.5rem 0.75rem !important;
+  background: var(--bg-input) !important;
+  font-size: 0.8rem !important;
+  transition: none !important; /* all 0.2s ease yerine none */
+  margin-right: 0 !important;
+  box-sizing: border-box !important;
+  height: 36px !important;
+}
+
+#profil-content .form-row .setting-item input:focus {
+  border-color: var(--accent-color) !important;
+  outline: none !important;
+}
+
+/* TEK SATIR INPUT'LAR */
+#profil-content .setting-item:not(.form-row .setting-item) {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important; /* Sola hizala */
+  text-align: left !important;
+  width: 100% !important;
+  max-width: 500px !important;
+  margin: 0 auto 1.5rem auto !important; /* Ortaya hizala */
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+
+/* TEK SATIR INPUT'LAR İÇİN DE AYNI DEĞİŞİKLİKLER */
+#profil-content .setting-item:not(.form-row .setting-item) label {
+  align-self: flex-start !important;
+  margin-bottom: 0.3rem !important; /* 0.5rem'den 0.3rem'e düşürüldü */
+  font-weight: 500 !important; /* 600'den 500'e düşürüldü */
+  color: var(--text-main) !important;
+  font-size: 0.7rem !important; /* 0.85rem'den 0.7rem'e küçültüldü */
+  text-transform: uppercase !important;
+  letter-spacing: 0.3px !important; /* 0.5px'den 0.3px'e düşürüldü */
+  margin-right: 0 !important;
+}
+
+#profil-content .setting-item:not(.form-row .setting-item) input,
+#profil-content .setting-item:not(.form-row .setting-item) select {
+  width: 100% !important;
+  max-width: none !important;
+  align-self: stretch !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 6px !important;
+  padding: 0.5rem 0.75rem !important;
+  background: var(--bg-input) !important;
+  font-size: 0.8rem !important;
+  transition: none !important; /* all 0.2s ease yerine none */
+  margin-right: 0 !important;
+  box-sizing: border-box !important;
+  height: 36px !important;
+}
+
+#profil-content .setting-item:not(.form-row .setting-item) input:focus,
+#profil-content .setting-item:not(.form-row .setting-item) select:focus {
+  border-color: var(--accent-color) !important;
+  outline: none !important;
+}
+
+/* BUTONLAR */
+#profil-content .setting-item button {
+  width: auto !important;
+  max-width: none !important;
+  align-self: flex-start !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 8px !important;
+  padding: 0.75rem 1.5rem !important;
+  background: var(--bg-input) !important;
+  font-size: 0.9rem !important;
+  transition: none !important; /* all 0.2s ease yerine none */
+  cursor: pointer !important;
+  font-weight: 500 !important;
+  margin-right: 0 !important;
+  box-sizing: border-box !important;
+}
+
+#profil-content .setting-item button[type="submit"] {
+  background: var(--accent-color) !important;
+  color: white !important;
+  border-color: var(--accent-color) !important;
+  font-weight: 600 !important;
+  padding: 0.75rem 2rem !important;
+}
+
+#profil-content .setting-item button:hover {
+  background: var(--accent-hover) !important;
+  color: white !important;
+  border-color: var(--accent-hover) !important;
+  transform: none !important; /* translateY(-2px) yerine none */
+  box-shadow: none !important; /* 0 4px 12px rgba(0, 0, 0, 0.3) yerine none */
+}
+
+/* MESAJ ALANI */
+#profileMessage {
+  width: 100% !important;
+  max-width: 500px !important;
+  margin: 1rem auto !important; /* Ortaya hizala */
+  padding: 1rem !important;
+  border-radius: 8px !important; /* Daha yumuşak köşeler */
+  text-align: center !important;
+  font-weight: 500 !important;
+  box-sizing: border-box !important;
+}
+
+/* READONLY INPUT'LAR */
+#profil-content .setting-item input[readonly] {
+  background-color: var(--bg-sidebar) !important;
+  color: var(--text-muted) !important;
+  cursor: not-allowed !important;
+  opacity: 0.7 !important;
+  border-color: var(--border-color) !important;
+}
+
+#profil-content .setting-item input[readonly]:focus {
+  border-color: var(--border-color) !important;
+  box-shadow: none !important;
+}
+
+/* RESPONSIVE TASARIM */
+@media (max-width: 768px) {
+  .profile-sidebar {
+    width: 100% !important;
+    right: -100% !important;
+  }
+  
+  .profile-sidebar.sidebar-hidden {
+    right: -100% !important;
+  }
+  
+  #profil-content {
+    padding: 1rem !important;
+  }
+  
+  #profil-content .form-row {
+    flex-direction: column !important;
+    gap: 1rem !important;
+  }
+  
+  #profil-content .sidebar-profile-photo {
+    width: 100px !important;
+    height: 100px !important;
+    min-width: 100px !important;
+    min-height: 100px !important;
+    max-width: 100px !important;
+    max-height: 100px !important;
+  }
+} 
+
+/* KULLANICILAR MENÜSÜ İÇİN ÖZEL STİLLER - DÜZELTİLMİŞ */
+#kullanıcılar-menu {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.5rem !important;
+  width: 100% !important;
+  min-width: auto !important;
+  max-width: none !important;
+  flex-shrink: 1 !important;
+  padding: 1rem !important;
+  background: transparent !important;
+  border-right: none !important;
+  height: auto !important;
+}
+
+/* Kullanıcılar menüsü butonları için özel stiller */
+#kullanıcılar-menu .sidebar-menu-btn {
+  width: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 0.75rem 1rem !important;
+  background: transparent !important;
+  border: none !important;
+  color: var(--text-main) !important;
+  cursor: pointer !important;
+  transition: none !important; /* all 0.2s ease yerine none */
+  font-size: 0.9rem !important;
+  font-weight: 400 !important;
+  border-radius: 6px !important;
+  transform: none !important; /* translateX(0) yerine none */
+}
+
+#kullanıcılar-menu .sidebar-menu-btn:hover {
+  background: var(--bg-hover) !important;
+  transform: none !important; /* translateX(5px) yerine none */
+}
+
+#kullanıcılar-menu .sidebar-menu-btn.active {
+  background: var(--bg-hover) !important;
+  color: var(--icon-active) !important;
+  transform: none !important; /* translateX(0) yerine none */
+}
+
+/* Profil içeriği için özel stiller - sadece kullanıcılar sekmesi içinde */
+#kullanıcılar-content #profil-content {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  min-height: 100% !important;
+  padding: 2rem 1rem !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Profil içeriğinin diğer sekmelerde kesinlikle görünmemesi */
+.sidebar-content:not(#kullanıcılar-content) #profil-content,
+#sohbetler-content #profil-content,
+#ayarlar-content #profil-content {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Profil resmi elementlerinin diğer sekmelerde kesinlikle görünmemesi */
+.sidebar-content:not(#kullanıcılar-content) .sidebar-profile-photo,
+.sidebar-content:not(#kullanıcılar-content) .sidebar-profile-wrapper,
+.sidebar-content:not(#kullanıcılar-content) #profileImageInput {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Responsive tasarım */
+@media (max-width: 768px) {
+  #kullanıcılar-content .subsection-content {
+    padding: 0.5rem !important;
+  }
+  
+  #kullanıcılar-content #profil-content {
+    padding: 1rem !important;
+  }
+} 
+
+/* Ad ve Soyad kutularını alt alta getir - İlk iki setting-item'ı seç */
+#profil-content .form-row .setting-item:nth-child(1),
+#profil-content .form-row .setting-item:nth-child(2) {
+  flex: 1 1 100% !important; /* Tam genişlik al */
+  margin-bottom: 0.5rem !important;
+}
+
+/* Form row'u dikey hizala */
+#profil-content .form-row {
+  flex-direction: column !important;
+  gap: 0.5rem !important;
+}
+
+/* Şifreyi Güncelle butonunu incelt - Text içeriğine göre seç */
+#profil-content .setting-item button:contains("Şifreyi Güncelle"),
+#profil-content .setting-item button[type="button"],
+#profil-content .setting-item button:not([type="submit"]) {
+  padding: 0.3rem 0.8rem !important;
+  font-size: 0.75rem !important;
+  border-radius: 4px !important;
+  min-width: 100px !important;
+  height: 32px !important;
+  line-height: 1.2 !important;
+}
+
+/* Alternatif: Butonun text'ine göre daha spesifik seçici */
+#profil-content .setting-item button {
+  padding: 0.3rem 0.8rem !important;
+  font-size: 0.75rem !important;
+  border-radius: 4px !important;
+  min-width: 100px !important;
+  height: 32px !important;
+  line-height: 1.2 !important;
+}
+
+/* Submit butonları hariç tut (kaydet butonu gibi) */
+#profil-content .setting-item button[type="submit"] {
+  padding: 0.75rem 1.5rem !important; /* Orijinal boyut */
+  font-size: 0.9rem !important;
+  border-radius: 8px !important;
+  height: auto !important;
+} 
+
+/* AYARLAR SEKMELERİ İÇİN DÜZELTME */
+#ayarlar-content .subsection-content {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1rem !important;
+  padding: 1rem !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+#ayarlar-content .subsection-content.hidden {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+#ayarlar-content .subsection-content.active {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+} 

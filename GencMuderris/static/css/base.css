@@ -1,0 +1,78 @@
+/* CSS Değişkenleri */
+:root {
+  --bg-main: #212121;
+  --bg-sidebar: #181818;
+  --bg-hover: #2a2b32;
+  --bg-input: #40414f;
+  --bg-chat-bubble: #343541;
+  --text-main: #ececf1;
+  --text-muted: #8e8ea0;
+  --border-color: #232323;
+  --icon-color: #d9d9e3;
+  --icon-active: #fff;
+  --accent-color: #8e8ea0;
+  --accent-hover: #a0a0b0;
+  --error-color: #ff6b6b;
+  --success-color: #51cf66;
+  --warning-color: #ffd43b;
+  --divider-color: #2a2b32;
+  --secondary-text: #acacbe;
+  --text-primary: #ececf1;
+  --text-secondary: #8e8ea0;
+}
+
+/* Genel reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Genel tipografi */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-main);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+p {
+  margin-bottom: 1rem;
+  color: var(--text-secondary);
+}
+
+a {
+  color: var(--accent-color);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--accent-hover);
+}
+
+/* Scrollbar stilleri */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-sidebar);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-color);
+} 
